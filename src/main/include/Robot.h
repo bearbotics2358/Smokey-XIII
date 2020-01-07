@@ -5,14 +5,14 @@
 
 class Robot : public frc::TimedRobot {
  public:
-  void RobotInit() override;
+  void RobotInit();
 
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
+  void AutonomousInit();
+  void AutonomousPeriodic();
 
-  void TeleopInit() override;
-  void TeleopPeriodic() override;
+  void TeleopInit();
+  void TeleopPeriodic();
 
-  void TestInit() override;
-  void TestPeriodic() override;
+  void TestInit();
+  void TestPeriodic();
 };
