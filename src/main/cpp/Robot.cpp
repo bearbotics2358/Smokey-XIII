@@ -1,10 +1,20 @@
 
 #include "Robot.h" 
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() 
+{
 
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {}
+}
+
+void Robot::AutonomousInit() 
+{
+
+}
+
+void Robot::AutonomousPeriodic() 
+{
+    
+}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {}
