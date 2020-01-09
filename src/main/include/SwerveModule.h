@@ -2,10 +2,9 @@
 #pragma once
 
 #include <rev/CANSparkMax.h>
-#include <frc2/PIDController.h>
 #include <frc/AnalogEncoder.h>
 #include <frc/AnalogInput.h>
-
+#include <frc/controller/PIDController.h>
 
 class SwerveModule // Handles steering and driving of the modules
 {
