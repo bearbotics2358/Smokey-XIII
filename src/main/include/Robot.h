@@ -1,9 +1,10 @@
 
 #pragma once
  
-#include <frc/TimedRobot.h>
+#include <frc/TimedRobot.h> // ignore include error
 
-class Robot : public frc::TimedRobot {
+class Robot : public frc::TimedRobot 
+{
  public:
   void RobotInit();
 

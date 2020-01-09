@@ -16,10 +16,24 @@ void Robot::AutonomousPeriodic()
     
 }
 
-void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopInit() 
+{
 
-void Robot::TestInit() {}
-void Robot::TestPeriodic() {}
+}
 
-int main() { return frc::StartRobot<Robot>(); }
+void Robot::TeleopPeriodic() 
+{
+
+}
+
+void Robot::TestInit() 
+{
+
+}
+
+void Robot::TestPeriodic() 
+{
+
+}
+
+int main() { return frc::StartRobot<Robot>(); } // Initiate main program
