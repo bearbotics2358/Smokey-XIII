@@ -8,7 +8,8 @@ rawDriveEnc(driveEncID),
 rawSteerEnc(steerEncID),
 driveEnc(rawDriveEnc),
 steerEnc(rawSteerEnc),
-
+drivePID(0, 0, 0),
+steerPID(0, 0, 0)
 { // WIP
 
 }
