@@ -12,6 +12,7 @@ BR_Module(BR_Ptr)
 
 void SwerveDrive::updateField(float xIn, float yIn, float zIn, float gyroIn)
 {
+	/*
     float xInput = xIn; // Temp variables to avoid corrupting the data
     float yInput = yIn;
     float zInput = zIn;
@@ -140,5 +141,6 @@ void SwerveDrive::updateField(float xIn, float yIn, float zIn, float gyroIn)
 	frc::SmartDashboard::PutNumber("Test Speed (BR): ", BR_SwerveModule.GetVelocity());
 	frc::SmartDashboard::PutNumber("Test Speed (FR): ", FR_SwerveModule.GetVelocity());
 	*/ // 450 is max velocity
-}
+	
+//}
 }
