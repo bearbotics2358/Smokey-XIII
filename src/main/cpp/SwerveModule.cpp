@@ -13,3 +13,13 @@ steerPID(0, 0, 0)
 { // WIP
 
 }
+
+void SwerveModule::setDriveSpeed(float target)
+{
+    driveMotor.Set(target);
+}
+
+void SwerveModule::setSteerSpeed(float target)
+{
+    steerMotor.Set(target);
+}

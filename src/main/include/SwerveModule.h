@@ -10,6 +10,9 @@ class SwerveModule // Handles steering and driving of the modules
 {
     public:
         SwerveModule(int driveID, int steerID, int driveEncID, int steerEncID);
+        
+        void setDriveSpeed(float target);
+        void setSteerSpeed(float target);
     private:
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;
