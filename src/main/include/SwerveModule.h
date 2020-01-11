@@ -9,7 +9,7 @@
 class SwerveModule // Handles steering and driving of the modules
 {
     public:
-        SwerveModule(int driveID, int steerID, int driveEncID, int steerEncID);
+        SwerveModule(int driveID, int steerID, int steerEncID);
         
         void setDriveSpeed(float target);
         void setSteerSpeed(float target);
@@ -17,11 +17,9 @@ class SwerveModule // Handles steering and driving of the modules
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;
 
-        frc::AnalogInput rawDriveEnc;
         frc::AnalogInput rawSteerEnc;
 
-        frc::AnalogEncoder driveEnc; // placeholder, may change wiring
-        frc::AnalogEncoder steerEnc; 
+        frc::AnalogEncoder steerEnc; // placeholder, may change wiring
 
         frc2::PIDController drivePID;
         frc2::PIDController steerPID;

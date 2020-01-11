@@ -1,9 +1,10 @@
 
 #include "Robot.h"
 #include "Prefs.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Robot::Robot():
-testModule(TEST_DRIVE_ID, TEST_STEER_ID, 0, 1), // fix encoders at some point
+testModule(TEST_DRIVE_ID, TEST_STEER_ID, 1), // fix encoders at some point
 joystickOne(JOYSTICK_PORT)
 {
 
@@ -11,7 +12,7 @@ joystickOne(JOYSTICK_PORT)
 
 void Robot::RobotInit() 
 {
-
+    frc::SmartDashboard::init();
 }
 
 void Robot::AutonomousInit() 
@@ -33,8 +34,14 @@ void Robot::TeleopPeriodic()
 {
     float scalar = 0.2;
 
-    testModule.setDriveSpeed(scalar * joystickOne.GetRawAxis(0)); // Drive
-    testModule.setSteerSpeed(scalar * joystickOne.GetRawAxis(1)); // Steer
+    float y = joystickOne.GetRawAxis(0);
+    float x = joystickOne.GetRawAxis(1);
+
+    frc::SmartDashboard::PutNumber("Joystick Y: ", y);
+    frc::SmartDashboard::PutNumber("Joystick X: ", x);
+    
+    // testModule.setDriveSpeed(scalar * joystickOne.GetRawAxis(0)); // Drive
+    // testModule.setSteerSpeed(scalar * joystickOne.GetRawAxis(1)); // Steer
 }
 
 void Robot::TestInit() 
