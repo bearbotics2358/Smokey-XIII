@@ -33,6 +33,17 @@ void SwerveModule::resetDriveEncoder(void)
     driveEnc.SetPosition(0);
 }
 
+float SwerveModule::getAngleRaw(void)
+{
+    float ret = rawSteerEnc.GetValue();
+    return ret;
+}
+
+float SwerveModule::getAngle(void)
+{
+    return 30.0; // must be fixed at some point, taken in through CAN bus
+}
+
 void SwerveModule::driveDistance(float current, float setpoint)
 {
     float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.

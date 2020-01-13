@@ -17,6 +17,9 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         float getDistance(void); // Returns position of the distance encoder
         void resetDriveEncoder(void); // Zeros the distance encoder
 
+        float getAngleRaw(void);
+        float getAngle(void);
+
         void driveDistance(float current, float setpoint);
     private:
         rev::CANSparkMax driveMotor;
