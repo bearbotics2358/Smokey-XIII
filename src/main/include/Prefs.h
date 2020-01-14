@@ -10,6 +10,7 @@
 
 /* ========== Joystick Ports ========= */
 #define JOYSTICK_PORT 1
+#define CONTROLLER_PORT 2
 
 
 

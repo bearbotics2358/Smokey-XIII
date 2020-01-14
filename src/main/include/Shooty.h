@@ -2,21 +2,32 @@
 #pragma once
 
 #include <rev/CANSparkMax.h>
+#include "ctre/Phoenix.h"
 #include <frc/AnalogEncoder.h>
 #include <frc/AnalogInput.h>
 #include <frc/controller/PIDController.h>
 
-class Shooty // Class to handle the kinematics of Swerve Drive
+class Shooty
 {
     public:
-        Shooty(int shootw1, int shootw2, int shootwb);
-        
+        Shooty(int shootw1, int shootw2);
+        void BasicShoot();
+        double GetSpeed();
+        void SetSpeed(double sped);
+        void SetSpeed();
+        void SetShootPID1(float P, float I, float D);
+        void SetShootPID2(float P, float I, float D);
+        void VelocityShoot(float sped);   
+        double GetVelocity1();
+        double GetVelocity2();     
+
        
     private:
-        rev::CANSparkMax a_SWheel1;
-        rev::CANSparkMax a_SWheel2;
-        rev::CANSparkMax a_SWheelb;
+        WPI_TalonSRX a_SWheel1;
+        WPI_TalonSRX a_SWheel2;
 
+
+        double speed;
 
 
         
