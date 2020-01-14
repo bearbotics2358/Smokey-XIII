@@ -46,7 +46,7 @@ void Robot::TeleopPeriodic()
 			
 	}else if(a_conTroller.GetRawButton(2)){
 
-        a_shooter.SetSpeed(-.72);
+        a_shooter.SetSpeed(-.72[]\);
 
     }else{
 
