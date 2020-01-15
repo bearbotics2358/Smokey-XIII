@@ -47,20 +47,20 @@ void Shooty::SetShootPID2(float P, float I, float D)
 
 void Shooty::VelocityShoot(float sped){
 
-    a_SWheel1.Set(ControlMode::Velocity, sped);
-    a_SWheel2.Set(ControlMode::Velocity, -sped);
+    a_SWheel1.Set(ControlMode::Velocity, -sped);
+    a_SWheel2.Set(ControlMode::Velocity, sped);
 
   }
 
 double Shooty::GetVelocity1(){
 
-    return a_SWheel1.GetSelectedSensorPosition();
-
+    // return a_SWheel1.GetSelectedSensorVelocity(0);
+    return a_SWheel1.GetMotorOutputVoltage();
 
 }
 
 double Shooty::GetVelocity2(){
 
-    return a_SWheel2.GetSelectedSensorPosition();
+    return a_SWheel2.GetSelectedSensorVelocity(0);
 
 }

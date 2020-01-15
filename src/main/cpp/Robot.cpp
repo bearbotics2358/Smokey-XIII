@@ -17,8 +17,8 @@ void Robot::RobotInit()
 {
     frc::SmartDashboard::init();
 
-    a_shooter.SetShootPID1(.5, 0, 0);
-    a_shooter.SetShootPID2(.5, 0, 0);
+    a_shooter.SetShootPID1(1, 0, 0);
+    a_shooter.SetShootPID2(1, 0, 0);
 
 }
 
@@ -46,7 +46,7 @@ void Robot::TeleopPeriodic()
 			
 	}else if(a_conTroller.GetRawButton(2)){
 
-        a_shooter.SetSpeed(-.72[]\);
+        a_shooter.SetSpeed(.785);
 
     }else{
 
@@ -73,7 +73,7 @@ void Robot::TestPeriodic()
    
     if(a_conTroller.GetRawButton(3))
 	{
-        a_shooter.VelocityShoot(a_conTroller.GetRawAxis(1));
+        a_shooter.VelocityShoot(100 * a_conTroller.GetRawAxis(1));
 			
 	}else{
 
