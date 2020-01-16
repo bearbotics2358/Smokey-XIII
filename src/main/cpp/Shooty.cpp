@@ -54,13 +54,26 @@ void Shooty::VelocityShoot(float sped){
 
 double Shooty::GetVelocity1(){
 
-    // return a_SWheel1.GetSelectedSensorVelocity(0);
-    return a_SWheel1.GetMotorOutputVoltage();
+    return a_SWheel1.GetSelectedSensorVelocity(0);
+    
 
 }
 
 double Shooty::GetVelocity2(){
 
     return a_SWheel2.GetSelectedSensorVelocity(0);
+
+}
+
+double Shooty::GetVoltage1(){
+
+    return a_SWheel1.GetMotorOutputVoltage();
+
+}
+
+
+double Shooty::GetVoltage2(){
+
+     return a_SWheel12.GetMotorOutputVoltage();
 
 }

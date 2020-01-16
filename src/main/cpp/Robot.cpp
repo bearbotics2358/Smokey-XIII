@@ -56,9 +56,11 @@ void Robot::TeleopPeriodic()
 
     a_shooter.BasicShoot();
 
-    frc::SmartDashboard::PutNumber("Motor speed", a_shooter.GetSpeed());
-    frc::SmartDashboard::PutNumber("Motor speed2", a_shooter.GetVelocity1());
-    frc::SmartDashboard::PutNumber("Motor speed3", a_shooter.GetVelocity2());
+    frc::SmartDashboard::PutNumber("Percent output", a_shooter.GetSpeed());
+    frc::SmartDashboard::PutNumber("Motor speed 1", a_shooter.GetVelocity1());
+    frc::SmartDashboard::PutNumber("Motor speed 2", a_shooter.GetVelocity2());
+    frc::SmartDashboard::PutNumber("Motor voltage 1", a_shooter.GetVoltage1());
+    frc::SmartDashboard::PutNumber("Motor voltage 2", a_shooter.GetVotage2());
 
 }
 
@@ -82,10 +84,12 @@ void Robot::TestPeriodic()
     }
 
  
+    frc::SmartDashboard::PutNumber("Percent output", a_shooter.GetSpeed());
+    frc::SmartDashboard::PutNumber("Motor speed 1", a_shooter.GetVelocity1());
+    frc::SmartDashboard::PutNumber("Motor speed 2", a_shooter.GetVelocity2());
+    frc::SmartDashboard::PutNumber("Motor voltage 1", a_shooter.GetVoltage1());
+    frc::SmartDashboard::PutNumber("Motor voltage 2", a_shooter.GetVotage2());
 
-    frc::SmartDashboard::PutNumber("Motor speed", a_shooter.GetSpeed());
-    frc::SmartDashboard::PutNumber("Motor speed2", a_shooter.GetVelocity1());
-    frc::SmartDashboard::PutNumber("Motor speed3", a_shooter.GetVelocity2());
 
 }
 

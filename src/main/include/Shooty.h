@@ -20,6 +20,8 @@ class Shooty
         void VelocityShoot(float sped);   
         double GetVelocity1();
         double GetVelocity2();     
+        double GetVoltage1();
+        double GetVoltage2();
 
        
     private:
