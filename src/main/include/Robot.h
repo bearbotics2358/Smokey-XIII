@@ -3,7 +3,7 @@
  
 #include <frc/TimedRobot.h> // ignore include error
 #include "SwerveModule.h" // SwerveModule lower level class
-#include <frc/Joystick.h> // Joystick (logitech 3-axis flightstick probably)
+#include <frc/Joystick.h> // Joystick (logitech 2-axis flightstick probably)
 
 class Robot : public frc::TimedRobot 
 {
@@ -22,5 +22,5 @@ class Robot : public frc::TimedRobot
   private: 
     SwerveModule testModule; // Temporary module object
 
-    frc::Joystick joystickOne;
+    frc::Joystick joystickOne; // 2D flightstick (Logitech Attack 3?)
 };

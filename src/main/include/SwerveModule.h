@@ -5,6 +5,8 @@
 #include <frc/AnalogEncoder.h>
 #include <frc/AnalogInput.h>
 #include <frc/controller/PIDController.h>
+#include "Prefs.h"
+#include <math.h>
 
 class SwerveModule // Handles steering and driving of each Swerve Module
 {
@@ -20,12 +22,16 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         float getAngleRaw(void);
         float getAngle(void);
 
-        void driveDistance(float current, float setpoint);
+        void driveDistance(float current, float setpoint); // Position PID control
+        void turnToAng(float target); // Angle PID control
+
+        void setDrivePID(float p, float i, float d);
     private:
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;
 
-        rev::CANEncoder driveEnc;
+        rev::CANEncoder driveEnc; // Built-in NEO Encoders
+        rev::CANEncoder steerEncNEO; 
 
         frc::AnalogInput rawSteerEnc;
         frc::AnalogEncoder steerEnc; // placeholder, may change wiring
