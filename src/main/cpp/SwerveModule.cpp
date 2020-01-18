@@ -5,9 +5,10 @@ SwerveModule::SwerveModule(int driveID, int steerID, int steerEncID):
 driveMotor(driveID, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
 steerMotor(steerID, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
 driveEnc(driveMotor.GetEncoder()),
+steerEncNEO(steerMotor.GetEncoder()),
 rawSteerEnc(steerEncID),
 steerEnc(rawSteerEnc),
-drivePID(0.2, 0, 0),
+drivePID(1, 0, 0),
 steerPID(0, 0, 0)
 { 
     
@@ -35,17 +36,31 @@ void SwerveModule::resetDriveEncoder(void)
 
 float SwerveModule::getAngleRaw(void)
 {
-    float ret = rawSteerEnc.GetValue();
+    float ret = steerEncNEO.GetPosition();
     return ret;
 }
 
 float SwerveModule::getAngle(void)
 {
-    return 30.0; // must be fixed at some point, taken in through CAN bus
+    float temp = getAngleRaw(); // get raw position
+    float angle = (fmod(temp, TICKS_STEERING) / TICKS_STEERING) * 360;
+
+    float adjusted = angle;
+    if(angle < 0)
+    {
+        adjusted += 360; 
+    }
+
+    return adjusted;
 }
 
 void SwerveModule::driveDistance(float current, float setpoint)
 {
     float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
-    driveMotor.Set(speed);
+    driveMotor.Set(0.3 * speed);
+}
+
+void SwerveModule::setDrivePID(float p, float i, float d)
+{
+    // aaaa
 }

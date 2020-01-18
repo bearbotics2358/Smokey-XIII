@@ -24,3 +24,5 @@
 
 // Module 4 Turn - 31
 // Module 4 Drive - 32
+
+#define TICKS_STEERING 18.0 // roughly 18 "position" units per steering rotation
