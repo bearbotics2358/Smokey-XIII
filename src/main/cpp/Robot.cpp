@@ -37,8 +37,11 @@ void Robot::TeleopPeriodic() // main loop
     float y = joystickOne.GetRawAxis(0);
     float x = joystickOne.GetRawAxis(1);
 
+    float floatyGoat = testModule.getDistance();
+
     frc::SmartDashboard::PutNumber("Joystick Y: ", y);
     frc::SmartDashboard::PutNumber("Joystick X: ", x);
+    frc::SmartDashboard::PutNumber("Drive Encoder?????", floatyGoat);
     
     testModule.setDriveSpeed(scalar * joystickOne.GetRawAxis(0)); // Drive
     testModule.setSteerSpeed(scalar * joystickOne.GetRawAxis(1)); // Steer
