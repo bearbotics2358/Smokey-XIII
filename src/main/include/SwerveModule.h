@@ -7,6 +7,7 @@
 #include <frc/controller/PIDController.h>
 #include "Prefs.h"
 #include <math.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class SwerveModule // Handles steering and driving of each Swerve Module
 {
@@ -22,8 +23,8 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         float getAngleRaw(void);
         float getAngle(void);
 
-        void driveDistance(float current, float setpoint); // Position PID control
-        void turnToAng(float target); // Angle PID control
+        void goToPosition(float current, float setpoint); // Position PID control
+        void steerToAng(float current, float setpoint); // Angle PID control
 
         void setDrivePID(float p, float i, float d);
     private:

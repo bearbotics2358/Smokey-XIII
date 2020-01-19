@@ -8,8 +8,8 @@ driveEnc(driveMotor.GetEncoder()),
 steerEncNEO(steerMotor.GetEncoder()),
 rawSteerEnc(steerEncID),
 steerEnc(rawSteerEnc),
-drivePID(1, 0, 0),
-steerPID(0, 0, 0)
+drivePID(0.8, 0, 0),
+steerPID(1.5, 0, 0)
 { 
     
 }
@@ -54,10 +54,18 @@ float SwerveModule::getAngle(void)
     return adjusted;
 }
 
-void SwerveModule::driveDistance(float current, float setpoint)
+void SwerveModule::goToPosition(float current, float setpoint)
 {
     float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
-    driveMotor.Set(0.3 * speed);
+    driveMotor.Set(0.25 * speed);
+}
+
+void SwerveModule::steerToAng(float current, float setpoint)
+{
+    float speed = steerPID.Calculate(current, setpoint);  
+    speed = speed / 270;       
+    frc::SmartDashboard::PutNumber("speeeeeeeed", speed);                                                           
+    steerMotor.Set(speed);
 }
 
 void SwerveModule::setDrivePID(float p, float i, float d)

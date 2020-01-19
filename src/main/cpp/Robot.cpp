@@ -43,28 +43,40 @@ void Robot::TeleopPeriodic() // main loop
 
     bool enablePID = joystickOne.GetRawButton(1);
 
+    float tarf = (atan2(x, y)) * 180 / 3.1415926;
+    if(tarf < 0)
+    {
+        tarf += 360;
+    }
+
     frc::SmartDashboard::PutNumber("Joystick Y: ", y);
     frc::SmartDashboard::PutNumber("Joystick X: ", x);
     frc::SmartDashboard::PutNumber("Drive Encoder: ", floatyGoat);
     frc::SmartDashboard::PutNumber("Angle Encoder: ", followMe);
     frc::SmartDashboard::PutNumber("Calc Angle: ", calculatedAngle);
+    frc::SmartDashboard::PutNumber("Targ Angle: ", tarf);
 
-    if(enablePID)
+    float radius = sqrt(x * x + y * y); 
+
+    if(radius >= 0.15)
     {
-        testModule.driveDistance(floatyGoat, 10.5);
+        if(enablePID)
+        {
+            testModule.steerToAng(calculatedAngle, tarf);
+            testModule.setDriveSpeed(radius * 0.2); 
+        }
+        else
+        { 
+            testModule.setDriveSpeed(scalar * y); // Drive
+            testModule.setSteerSpeed(scalar * x); // Steer    
+        }
     }
     else
     {
-        float radius = sqrt(x * x + y * y); 
-        
-        if(radius < 0.15)
-        {
-            scalar = 0;    
-        }
-        testModule.setDriveSpeed(scalar * y); // Drive
-        testModule.setSteerSpeed(scalar * x); // Steer
-        
+        testModule.setDriveSpeed(0);
+        testModule.setSteerSpeed(0);
     }
+    
     
     
 }
