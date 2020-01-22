@@ -17,11 +17,16 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         void setDriveSpeed(float target); // update drive speed
         void setSteerSpeed(float target); // update steer speed
 
+        float getDriveSpeed(void);
+
+        float getDistanceRaw(void);
         float getDistance(void); // Returns position of the distance encoder
+
         void resetDriveEncoder(void); // Zeros the distance encoder
 
         float getAngleRaw(void);
         float getAngle(void);
+        float getAngleTest(void); // test function; may replace others later
 
         void goToPosition(float current, float setpoint); // Position PID control
         void steerToAng(float current, float setpoint); // Angle PID control

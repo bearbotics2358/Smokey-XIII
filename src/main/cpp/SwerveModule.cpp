@@ -11,7 +11,7 @@ steerEnc(rawSteerEnc),
 drivePID(0.8, 0, 0),
 steerPID(1.5, 0, 0)
 { 
-    
+    steerPID.EnableContinuousInput(0.0, 360.0);
 }
 void SwerveModule::setDriveSpeed(float target)
 {
@@ -21,6 +21,18 @@ void SwerveModule::setDriveSpeed(float target)
 void SwerveModule::setSteerSpeed(float target)
 {
     steerMotor.Set(target);
+}
+
+float SwerveModule::getDriveSpeed(void)
+{
+    float ret = driveEnc.GetVelocity() / driveEnc.GetVelocityConversionFactor();
+    return ret;
+}
+
+float SwerveModule::getDistanceRaw(void)
+{
+    float ret = driveEnc.GetPosition() / driveEnc.GetPositionConversionFactor();
+    return ret;
 }
 
 float SwerveModule::getDistance(void)
@@ -43,15 +55,21 @@ float SwerveModule::getAngleRaw(void)
 float SwerveModule::getAngle(void)
 {
     float temp = getAngleRaw(); // get raw position
-    float angle = (fmod(temp, TICKS_STEERING) / TICKS_STEERING) * 360;
+    float angle = (fmod(temp, TICKS_STEERING) / TICKS_STEERING) * 360; // convert to angle in degrees
 
     float adjusted = angle;
     if(angle < 0)
     {
-        adjusted += 360; 
+        adjusted += 360; // bounds to 0-360
     }
 
     return adjusted;
+}
+
+float SwerveModule::getAngleTest(void)
+{
+    float ret = steerEncNEO.GetPosition() / steerEncNEO.GetPositionConversionFactor();
+    return ret;
 }
 
 void SwerveModule::goToPosition(float current, float setpoint)
