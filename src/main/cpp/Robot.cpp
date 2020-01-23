@@ -5,7 +5,8 @@
 
 Robot::Robot():
 testModule(TEST_DRIVE_ID, TEST_STEER_ID, 1), // fix encoders at some point
-joystickOne(JOYSTICK_PORT)
+joystickOne(JOYSTICK_PORT),
+a_buttonbox(3)
 {
 
 }
@@ -76,6 +77,13 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
+    
+    frc::SmartDashboard::PutBoolean("Switch 1", a_buttonbox.GetRawButton(1));
+    frc::SmartDashboard::PutBoolean("Switch 2", a_buttonbox.GetRawButton(2));
+    frc::SmartDashboard::PutBoolean("Switch 3", a_buttonbox.GetRawButton(3));
+    frc::SmartDashboard::PutBoolean("Switch 4", a_buttonbox.GetRawButton(4));
+    frc::SmartDashboard::PutBoolean("Switch 5", a_buttonbox.GetRawButton(5));
+    frc::SmartDashboard::PutBoolean("Switch 7", a_buttonbox.GetRawButton(7));
 
 }
 

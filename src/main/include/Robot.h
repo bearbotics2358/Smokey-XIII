@@ -23,4 +23,6 @@ class Robot : public frc::TimedRobot
     SwerveModule testModule; // Temporary module object
 
     frc::Joystick joystickOne; // 2D flightstick (Logitech Attack 3?)
+
+    frc::Joystick a_buttonbox;
 };

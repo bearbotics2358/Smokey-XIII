@@ -77,8 +77,8 @@ class Autonomous
 	Autonomous(int ButtonsID);
 	void Init();
 	//void UpdateGameData();
-	//void DecidePath();
-	//void DecidePath(int intent);
+	void DecidePath();
+	void DecidePath(int intent);
 	//int GetCurrentPath();
 	//void StartPathMaster();
 	//void StartPathMaster(int path);
@@ -108,5 +108,8 @@ class Autonomous
 
     frc::Joystick a_buttonBox;
 
+
+
+    int autoPathMaster;
 
 };

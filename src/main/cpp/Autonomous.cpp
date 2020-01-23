@@ -14,13 +14,30 @@ Autonomous::Autonomous(int BoxButtons):
     a_AutoState4(kAutoIdle4)
 {
 
-
+    autoPathMaster = -1;
 
 }
 
 void Autonomous::Init(){
 	// a_Gyro.Zero();
 }
+
+void Autonomous::DecidePath(){
+    
+    
+
+
+
+
+}
+
+
+
+void Autonomous::DecidePath(int intent){
+    autoPathMaster = intent;
+
+}
+
 
 void AutonomousStart0(){
 
