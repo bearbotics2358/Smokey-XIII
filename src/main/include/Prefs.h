@@ -1,5 +1,5 @@
 
-#pragma once
+#pragma once // only add this code once; saves space by removing redundancy
 
 // Declare constants such as CAN IDs here 
 
@@ -7,10 +7,6 @@
 /*====== MOTOR CONTROLLER IDS ======*/
 #define TEST_STEER_ID 21 // Module 3 Turn
 #define TEST_DRIVE_ID 22 // Module 3 Drive
-
-
-/* ========== Joystick Ports ========= */
-#define JOYSTICK_PORT 1
 
 // Module CAN IDs
 // Module 1 Turn - 1
@@ -25,4 +21,14 @@
 // Module 4 Turn - 31
 // Module 4 Drive - 32
 
+
+
+
+/* ========== Joystick Ports ========= */
+#define JOYSTICK_PORT 1
+
+
 #define TICKS_STEERING 18.0 // roughly 18 "position" units per steering rotation
+
+/* ====== ASCII ART ======= */
+//   <====[-<('-'<)

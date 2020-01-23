@@ -7,25 +7,27 @@
 #include <frc/controller/PIDController.h>
 #include "Prefs.h"
 #include <math.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class SwerveModule // Handles steering and driving of each Swerve Module
 {
     public:
         SwerveModule(int driveID, int steerID, int steerEncID); // CAN IDs, analog port for steer encoder
         
-        void setDriveSpeed(float target); // update drive speed
-        void setSteerSpeed(float target); // update steer speed
-
         float getDistance(void); // Returns position of the distance encoder
-        void resetDriveEncoder(void); // Zeros the distance encoder
+        void resetDriveEncoder(void); 
 
-        float getAngleRaw(void);
-        float getAngle(void);
+        float getAngleRaw(void); // position of steering encoder
+        float getAngle(void); // scaled angle between 0 and 360
 
-        void driveDistance(float current, float setpoint); // Position PID control
-        void turnToAng(float target); // Angle PID control
+        void goToPosition(float current, float setpoint); // Position PID control
+        void steerToAng(float current, float setpoint); // Angle PID control
 
-        void setDrivePID(float p, float i, float d);
+        void setDriveSpeed(float target); // update current
+        
+        void setSteerSpeed(float target);
+        void setDriveVelocity(float percent); // Drive Velocity Loop - WIP
+
     private:
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;
