@@ -9,9 +9,9 @@ steerEncNEO(steerMotor.GetEncoder()),
 rawSteerEnc(steerEncID),
 steerEnc(rawSteerEnc),
 drivePID(0.8, 0, 0),
-steerPID(1.5, 0, 0)
+steerPID(1.2, 0, 0.2)
 { 
-    steerPID.EnableContinuousInput(0.0, 360.0);
+    steerPID.EnableContinuousInput(0.0, 360.0); // Fixes wrap-around: SUPER CONVENIENT C:
 }
 void SwerveModule::setDriveSpeed(float target)
 {
@@ -75,18 +75,20 @@ float SwerveModule::getAngleTest(void)
 void SwerveModule::goToPosition(float current, float setpoint)
 {
     float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
+    frc::SmartDashboard::PutNumber("velocity loop setpoint: ", speed);   
+    speed = speed / 68;  // EXTREMELY temporary constant, will need to fix at some point
     driveMotor.Set(0.25 * speed);
 }
 
 void SwerveModule::steerToAng(float current, float setpoint)
 {
     float speed = steerPID.Calculate(current, setpoint);  
-    speed = speed / 270;       
-    frc::SmartDashboard::PutNumber("speeeeeeeed", speed);                                                           
+    speed = speed / 270; // temp solution                                                          
     steerMotor.Set(speed);
 }
 
-void SwerveModule::setDrivePID(float p, float i, float d)
+void SwerveModule::setDriveVelocity(float percent)
 {
-    // aaaa
+    float change = percent * 300;
+    goToPosition(getDistance(), getDistance() + change);
 }

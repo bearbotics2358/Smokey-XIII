@@ -55,6 +55,10 @@ void Robot::TeleopPeriodic() // main loop
     frc::SmartDashboard::PutNumber("Angle Encoder: ", followMe);
     frc::SmartDashboard::PutNumber("Calc Angle: ", calculatedAngle);
     frc::SmartDashboard::PutNumber("Targ Angle: ", tarf);
+    frc::SmartDashboard::PutNumber("Raw Distance: ", testModule.getDistanceRaw());
+    frc::SmartDashboard::PutNumber("Drive Speed: ", testModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("Angle Test: ", testModule.getAngleTest());
+
 
     float radius = sqrt(x * x + y * y); 
 
@@ -63,7 +67,8 @@ void Robot::TeleopPeriodic() // main loop
         if(enablePID)
         {
             testModule.steerToAng(calculatedAngle, tarf);
-            testModule.setDriveSpeed(radius * 0.2); 
+            // testModule.setDriveSpeed(radius * 0.2); 
+            testModule.setDriveVelocity(radius * 0.2);
         }
         else
         { 
