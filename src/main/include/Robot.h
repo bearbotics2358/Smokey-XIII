@@ -6,6 +6,7 @@
 #include <frc/Joystick.h> // Joystick 
 #include "SwerveDrive.h" // Swerve kinematics
 #include "JrimmyGyro.h" // Gyro wrapper class; takes in I2C port
+#include "LimeyLight.h"
 
 class Robot : public frc::TimedRobot 
 {
@@ -34,5 +35,8 @@ class Robot : public frc::TimedRobot
 
     // Swerve Drive object
     SwerveDrive a_swerveyDrive;
+
+    // Lime Light Object
+    LimeyLight a_LimeyLight; 
 
 };
