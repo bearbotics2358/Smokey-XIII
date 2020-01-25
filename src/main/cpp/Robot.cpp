@@ -4,9 +4,13 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Robot::Robot():
-testModule(TEST_DRIVE_ID, TEST_STEER_ID, 1), // fix encoders at some point
+a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
+a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2),
+a_BLModule(BL_DRIVE_ID, BL_STEER_ID, 3),
+a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
 joystickOne(JOYSTICK_PORT),
-a_buttonbox(3)
+a_buttonbox(3),
+a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule)
 {
 
 }
@@ -33,58 +37,25 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
-    float scalar = 0.3;
+   float x = joystickOne.GetRawAxis(0);
+   float y = joystickOne.GetRawAxis(1);
+   float z = joystickOne.GetRawAxis(2);
+   float gyro = 9; // placeholder value
+   bool fieldOreo = false; // field oriented? 
 
-    float y = joystickOne.GetRawAxis(1);
-    float x = joystickOne.GetRawAxis(0);
+   float deadZone = 0.15; 
 
-    float floatyGoat = testModule.getDistance();
-    float followMe = testModule.getAngleRaw();
-    float calculatedAngle = testModule.getAngle();
+   float radius = sqrt(x * x + y * y);
 
-    bool enablePID = joystickOne.GetRawButton(1);
-
-    float tarf = (atan2(x, y)) * 180 / 3.1415926;
-    if(tarf < 0)
-    {
-        tarf += 360;
-    }
-
-    frc::SmartDashboard::PutNumber("Joystick Y: ", y);
-    frc::SmartDashboard::PutNumber("Joystick X: ", x);
-    frc::SmartDashboard::PutNumber("Drive Encoder: ", floatyGoat);
-    frc::SmartDashboard::PutNumber("Angle Encoder: ", followMe);
-    frc::SmartDashboard::PutNumber("Calc Angle: ", calculatedAngle);
-    frc::SmartDashboard::PutNumber("Targ Angle: ", tarf);
-    frc::SmartDashboard::PutNumber("Raw Distance: ", testModule.getDistanceRaw());
-    frc::SmartDashboard::PutNumber("Drive Speed: ", testModule.getDriveSpeed());
-    frc::SmartDashboard::PutNumber("Angle Test: ", testModule.getAngleTest());
-
-
-    float radius = sqrt(x * x + y * y); 
-
-    if(radius >= 0.15)
-    {
-        if(enablePID)
-        {
-            testModule.steerToAng(calculatedAngle, tarf);
-            // testModule.setDriveSpeed(radius * 0.2); 
-            testModule.setDriveVelocity(radius * 0.2);
-        }
-        else
-        { 
-            testModule.setDriveSpeed(scalar * y); // Drive
-            testModule.setSteerSpeed(scalar * x); // Steer    
-        }
-    }
-    else
-    {
-        testModule.setDriveSpeed(0);
-        testModule.setSteerSpeed(0);
-    }
-    
-    
-    
+   if(radius > deadZone) {
+       if(joystickOne.GetRawButton(1)) {
+           a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+       } else {
+           a_swerveyDrive.swerveUpdate(x, y, 0, gyro, fieldOreo);
+       }
+   } else {
+      a_swerveyDrive.swerveUpdate(0, 0, 0, 0, fieldOreo);
+   }
 }
 
 void Robot::TestInit() 

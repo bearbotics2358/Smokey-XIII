@@ -11,28 +11,7 @@ steerEnc(rawSteerEnc),
 drivePID(0.8, 0, 0),
 steerPID(1.2, 0, 0.2)
 { 
-    steerPID.EnableContinuousInput(0.0, 360.0); // Fixes wrap-around: SUPER CONVENIENT C:
-}
-void SwerveModule::setDriveSpeed(float target)
-{
-    driveMotor.Set(target);
-}
-
-void SwerveModule::setSteerSpeed(float target)
-{
-    steerMotor.Set(target);
-}
-
-float SwerveModule::getDriveSpeed(void)
-{
-    float ret = driveEnc.GetVelocity() / driveEnc.GetVelocityConversionFactor();
-    return ret;
-}
-
-float SwerveModule::getDistanceRaw(void)
-{
-    float ret = driveEnc.GetPosition() / driveEnc.GetPositionConversionFactor();
-    return ret;
+steerPID.EnableContinuousInput(0.0, 360.0);
 }
 
 float SwerveModule::getDistance(void)
@@ -66,29 +45,40 @@ float SwerveModule::getAngle(void)
     return adjusted;
 }
 
-float SwerveModule::getAngleTest(void)
-{
-    float ret = steerEncNEO.GetPosition() / steerEncNEO.GetPositionConversionFactor();
-    return ret;
-}
-
 void SwerveModule::goToPosition(float current, float setpoint)
 {
     float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
     frc::SmartDashboard::PutNumber("velocity loop setpoint: ", speed);   
     speed = speed / 68;  // EXTREMELY temporary constant, will need to fix at some point
-    driveMotor.Set(0.25 * speed);
+    driveMotor.Set(0.4 * speed);
 }
 
-void SwerveModule::steerToAng(float current, float setpoint)
+void SwerveModule::steerToAng(float current, float setpoint) // the twO
 {
     float speed = steerPID.Calculate(current, setpoint);  
     speed = speed / 270; // temp solution                                                          
     steerMotor.Set(speed);
 }
 
-void SwerveModule::setDriveVelocity(float percent)
+
+void SwerveModule::setDriveSpeed(float target)
 {
-    float change = percent * 300;
+    driveMotor.Set(target);
+}
+
+void SwerveModule::setSteerSpeed(float target)
+{
+    steerMotor.Set(target);
+}
+
+float SwerveModule::getDriveSpeed(void)
+{
+    float ret = driveEnc.GetVelocity() / driveEnc.GetVelocityConversionFactor();
+    return ret;
+}
+
+void SwerveModule::setDriveVelocity(float percent) // the onE
+{
+    float change = percent * 800;
     goToPosition(getDistance(), getDistance() + change);
 }

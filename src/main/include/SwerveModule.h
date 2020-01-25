@@ -26,6 +26,8 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         void setDriveSpeed(float target); // update current
         
         void setSteerSpeed(float target);
+        float getDriveSpeed(void);
+
         void setDriveVelocity(float percent); // Drive Velocity Loop - WIP
 
     private:
