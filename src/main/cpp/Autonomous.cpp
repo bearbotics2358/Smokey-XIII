@@ -6,12 +6,12 @@
 
 
 Autonomous::Autonomous(int BoxButtons):
-    a_buttonBox(BoxButtons),
     a_AutoState0(kAutoIdle0),
     a_AutoState1(kAutoIdle1),
     a_AutoState2(kAutoIdle2),
     a_AutoState3(kAutoIdle3),
-    a_AutoState4(kAutoIdle4)
+    a_AutoState4(kAutoIdle4),
+    a_buttonBox(BoxButtons)
 {
 
     autoPathMaster = -1;
@@ -82,36 +82,36 @@ void Autonomous::StartPathMaster(){
 		
         case -1:
 			// Error!
-			SmartDashboard::PutBoolean("Auto Started", false);
+			frc::SmartDashboard::PutBoolean("Auto Started", false);
 		
         	break;
 		
         case 0:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart0();
 		
         	break;
 		
         case 1:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart1();
 		
         	break;
 		
         case 2:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart2();
 		
         	break;
 		
         case 3:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart3();
 		
         	break;
 		
         case 4:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart4();
 		
         	break;
@@ -129,36 +129,36 @@ void Autonomous::StartPathMaster(int path){
 		
         case -1:
 			// Error!
-			SmartDashboard::PutBoolean("Auto Started", false);
+			frc::SmartDashboard::PutBoolean("Auto Started", false);
 		
         	break;
 		
         case 0:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart0();
 		
         	break;
 		
         case 1:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart1();
 		
         	break;
 		
         case 2:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart2();
 		
         	break;
 		
         case 3:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart3();
 		
         	break;
 		
         case 4:
-			SmartDashboard::PutBoolean("Auto Started", true);
+			frc::SmartDashboard::PutBoolean("Auto Started", true);
 			AutonomousStart4();
 		
         	break;

@@ -37,25 +37,23 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
-   float x = joystickOne.GetRawAxis(0);
-   float y = joystickOne.GetRawAxis(1);
-   float z = joystickOne.GetRawAxis(2);
-   float gyro = 9; // placeholder value
-   bool fieldOreo = false; // field oriented? 
+    float x = joystickOne.GetRawAxis(0);
+    float y = joystickOne.GetRawAxis(1);
+    float z = joystickOne.GetRawAxis(2);
+    float gyro = 9; // placeholder value
+    bool fieldOreo = false; // field oriented? 
 
-   float deadZone = 0.15; 
+    bool inDeadzone = (sqrt(x * x + y * y) < JOYSTICK_DEADZONE && z < 0.01 ? true : false); // Checks joystick deadzones
 
-   float radius = sqrt(x * x + y * y);
-
-   if(radius > deadZone) {
-       if(joystickOne.GetRawButton(1)) {
-           a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
-       } else {
+    if(inDeadzone) {
+        if(joystickOne.GetRawButton(1)) {
+            a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+        } else {
            a_swerveyDrive.swerveUpdate(x, y, 0, gyro, fieldOreo);
-       }
-   } else {
-      a_swerveyDrive.swerveUpdate(0, 0, 0, 0, fieldOreo);
-   }
+        }
+    } else {
+        a_swerveyDrive.swerveUpdate(0, 0, 0, 0, fieldOreo);
+    }
 }
 
 void Robot::TestInit() 
