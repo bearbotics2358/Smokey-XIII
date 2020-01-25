@@ -79,9 +79,9 @@ class Autonomous
 	//void UpdateGameData();
 	void DecidePath();
 	void DecidePath(int intent);
-	//int GetCurrentPath();
-	//void StartPathMaster();
-	//void StartPathMaster(int path);
+	int GetCurrentPath();
+	void StartPathMaster();
+	void StartPathMaster(int path);
 	//void PeriodicPathMaster();
 	//void PeriodicPathMaster(int path);
 	void AutonomousStart0();
