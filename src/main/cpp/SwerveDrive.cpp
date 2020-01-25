@@ -7,7 +7,7 @@ FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr)
 {
-    fieldOriented = true;
+
 }
 
 void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented) // Swerve Kinematics - Manages each module
