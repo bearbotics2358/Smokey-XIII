@@ -70,7 +70,7 @@ void Robot::TeleopPeriodic() // main loop
         frc::SmartDashboard::PutNumber("Limelight: ", 0);
         // *even bigger gasp* turns led off 
     }
-
+    
     if(joystickOne.GetRawButton(8)) {
         a_LimeyLight.cameraMode(0);
         //  turn on vision
@@ -82,6 +82,7 @@ void Robot::TeleopPeriodic() // main loop
         /*
             cameraMode 0: Vision processing
             cameraMode 1: Remote viewing 
+            :)
         */
 
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
