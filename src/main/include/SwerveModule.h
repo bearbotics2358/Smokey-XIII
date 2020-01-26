@@ -30,6 +30,9 @@ class SwerveModule // Handles steering and driving of each Swerve Module
 
         void setDriveVelocity(float percent); // Drive Velocity Loop - WIP
 
+        void updateDrivePID(double pNew, double iNew, double dNew);
+        void updateSteerPID(double pNew, double iNew, double dNew);
+
     private:
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;

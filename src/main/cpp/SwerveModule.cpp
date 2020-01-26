@@ -8,10 +8,10 @@ driveEnc(driveMotor.GetEncoder()),
 steerEncNEO(steerMotor.GetEncoder()),
 rawSteerEnc(steerEncID),
 steerEnc(rawSteerEnc),
-drivePID(0.8, 0, 0),
-steerPID(1.2, 0, 0.2)
+drivePID(0, 0, 0),
+steerPID(0, 0, 0)
 { 
-steerPID.EnableContinuousInput(0.0, 360.0);
+    steerPID.EnableContinuousInput(0.0, 360.0);
 }
 
 float SwerveModule::getDistance(void)
@@ -81,4 +81,18 @@ void SwerveModule::setDriveVelocity(float percent) // the onE
 {
     float change = percent * 800;
     goToPosition(getDistance(), getDistance() + change);
+}
+
+void SwerveModule::updateDrivePID(double pNew, double iNew, double dNew)
+{   
+    drivePID.SetP(pNew);
+    drivePID.SetI(iNew);
+    drivePID.SetD(dNew);
+}
+
+void SwerveModule::updateSteerPID(double pNew, double iNew, double dNew)
+{
+    steerPID.SetP(pNew);
+    steerPID.SetI(iNew);
+    steerPID.SetD(dNew);
 }
