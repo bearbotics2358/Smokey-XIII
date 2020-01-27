@@ -17,7 +17,7 @@
 #define BR_STEER_ID 31
 #define BR_DRIVE_ID 32
 
-
+#define PI 3.14159265
 
 
 /*
@@ -44,9 +44,22 @@ BR:
 
 /* ========== Joystick Ports ========= */
 #define JOYSTICK_PORT 1
-
+#define JOYSTICK_DEADZONE 0.15
 
 #define TICKS_STEERING 18.0 // roughly 18 "position" units per steering rotation
 
 /* ====== ASCII ART ======= */
 //   <====[-<('-'<)
+
+
+/* ============ GEAR RATIOS ======== */
+// drive motor -> wheel = 10:1 (10 drive rotations for one wheel rotation)
+// radius of wheel = 2 inches
+// circumfrence = 4 Pi inches
+// 10 ticks = 4 Pi inches
+#define INCHES_PER_TICK (2.0 / 5) * PI // inches
+
+/* ============= AUTO VALUES 4 Jason yoyoyo =========== */
+
+#define TOF_TO_WALL 27.0 // inches
+#define LINE_TO_BALL_FAR 192.66 // inches

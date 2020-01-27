@@ -7,7 +7,7 @@ FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr)
 {
-    fieldOriented = true;
+
 }
 
 void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented) // Swerve Kinematics - Manages each module
@@ -24,7 +24,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 		yInput = temp;
 	}
 	
-	bool inDeadzone = (sqrt(xIn * xIn + yIn * yIn) < DEADZONE ? true : false); // Checks joystick deadzones
+	
 
 	float r =  sqrt((DRIVE_LENGTH * DRIVE_LENGTH) + (DRIVE_WIDTH * DRIVE_WIDTH)); // radius of the drive base
 
@@ -83,19 +83,6 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	float currentFR = FR_Module->getAngle();
 	float currentBR = BR_Module->getAngle(); 
 	float currentBL = BL_Module->getAngle();
-
-	if(inDeadzone && zIn < 0.01) // 
-	{
-		FL_Speed = 0;
-		FR_Speed = 0;
-		BL_Speed = 0;
-		BR_Speed = 0;
-
-		FL_Angle = FL_Module->getAngle();
-		FR_Angle = FR_Module->getAngle();
-		BL_Angle = BL_Module->getAngle();
-		BR_Angle = BR_Module->getAngle();
-	}
 	
 	// update speeds and angles
 
