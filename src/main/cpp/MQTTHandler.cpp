@@ -1,6 +1,16 @@
 #include "MQTTHandler.h"
 
+void publish_callback(void** unused, struct mqtt_response_publish *published) 
+{
+    /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
+    char* topic_name = (char*) malloc(published->topic_name_size + 1);
+    memcpy(topic_name, published->topic_name, published->topic_name_size);
+    topic_name[published->topic_name_size] = '\0';
 
+    printf("Received publish('%s'): %s\n", topic_name, (const char*) published->application_message);
+
+    free(topic_name);
+}
 
 MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
 {
@@ -83,18 +93,6 @@ int MQTTHandler::open_nb_socket(char* addr, char* port) {
 std::string MQTTHandler::getMessage ()
 {
     
-}
-
-void publish_callback(void** unused, struct mqtt_response_publish *published) 
-{
-    /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
-    char* topic_name = (char*) malloc(published->topic_name_size + 1);
-    memcpy(topic_name, published->topic_name, published->topic_name_size);
-    topic_name[published->topic_name_size] = '\0';
-
-    printf("Received publish('%s'): %s\n", topic_name, (const char*) published->application_message);
-
-    free(topic_name);
 }
 
 void MQTTHandler::exit_example(int status, int sockfd, pthread_t *client_daemon)
