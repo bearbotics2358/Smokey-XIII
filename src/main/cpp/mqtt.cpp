@@ -57,7 +57,7 @@ enum MQTTErrors mqtt_sync(struct mqtt_client *client) {
     if (err != MQTT_OK) return err;
 
     /* Call send */
-    err =  (MQTTErrors) __mqtt_send(client);
+    err = (MQTTErrors) __mqtt_send(client);
     return err;
 }
 
@@ -182,7 +182,7 @@ void mqtt_reinit(struct mqtt_client* client,
  *          b) if mq buffer is too small, cleans it and tries again
  *      3) Upon successful pack, registers the new message.
  */
-#define __MQTT_CLIENT_TRY_PACK(tmp, msg, client, pack_call, release)  \
+/*#define __MQTT_CLIENT_TRY_PACK(tmp, msg, client, pack_call, release)  \
     if (client->error < 0) {                                        \
         if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);         \
         return client->error;                                       \
@@ -205,25 +205,25 @@ void mqtt_reinit(struct mqtt_client* client,
             return MQTT_ERROR_SEND_BUFFER_IS_FULL;                  \
         }                                                           \
     }                                                               \
-    msg = mqtt_mq_register(&client->mq, tmp);                       \
+    msg = mqtt_mq_register(&client->mq, tmp);                       \*/
 
-#define EMQTT_CLIENT_TRY_PACK(tmp, msg, client, pack_call, release)  \
+#define EMQTT_CLIENT_TRY_PACK(tmp, msg, client, pack_call, release) \
     if (client->error < 0) {                                        \
         if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);         \
         return client->error;                                       \
     }                                                               \
     tmp = pack_call;                                                \
     if (tmp < 0) {                                                  \
-        client->error =(MQTTErrors) tmp;                                        \
+        client->error = (MQTTErrors) tmp;                           \
         if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);         \
-        return (MQTTErrors)tmp;                                                 \
+        return (MQTTErrors) tmp;                                    \
     } else if (tmp == 0) {                                          \
         mqtt_mq_clean(&client->mq);                                 \
         tmp = pack_call;                                            \
         if (tmp < 0) {                                              \
-            client->error = (MQTTErrors) tmp;                                    \
+            client->error = (MQTTErrors) tmp;                       \
             if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);     \
-            return (MQTTErrors)tmp;                                             \
+            return (MQTTErrors) tmp;                                \
         } else if(tmp == 0) {                                       \
             client->error = MQTT_ERROR_SEND_BUFFER_IS_FULL;         \
             if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);     \
@@ -235,24 +235,24 @@ void mqtt_reinit(struct mqtt_client* client,
 #define MQTT_CLIENT_TRY_PACK(tmp, msg, client, pack_call, release)  \
     if (client->error < 0) {                                        \
         if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);         \
-        return (ssize_t) client->error;                                       \
+        return (ssize_t) client->error;                             \
     }                                                               \
     tmp = pack_call;                                                \
     if (tmp < 0) {                                                  \
-        client->error =(MQTTErrors) tmp;                                        \
+        client->error = (MQTTErrors) tmp;                           \
         if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);         \
         return tmp;                                                 \
     } else if (tmp == 0) {                                          \
         mqtt_mq_clean(&client->mq);                                 \
         tmp = pack_call;                                            \
         if (tmp < 0) {                                              \
-            client->error = (MQTTErrors) tmp;                                    \
+            client->error = (MQTTErrors) tmp;                       \
             if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);     \
             return tmp;                                             \
         } else if(tmp == 0) {                                       \
             client->error = MQTT_ERROR_SEND_BUFFER_IS_FULL;         \
             if (release) MQTT_PAL_MUTEX_UNLOCK(&client->mutex);     \
-            return (MQTTErrors) MQTT_ERROR_SEND_BUFFER_IS_FULL;                  \
+            return (MQTTErrors) MQTT_ERROR_SEND_BUFFER_IS_FULL;     \
         }                                                           \
     }                                                               \
     msg = mqtt_mq_register(&client->mq, tmp);                       \
@@ -650,7 +650,7 @@ ssize_t __mqtt_send(struct mqtt_client *client)
         if (MQTT_PAL_TIME() > keep_alive_timeout) {
           ssize_t rv = __mqtt_ping(client);
           if (rv != MQTT_OK) {
-            client->error =(MQTTErrors) rv;
+            client->error = (MQTTErrors) rv;
             MQTT_PAL_MUTEX_UNLOCK(&client->mutex);
             return rv;
           }
@@ -676,7 +676,7 @@ ssize_t __mqtt_recv(struct mqtt_client *client)
         rv = mqtt_pal_recvall(client->socketfd, client->recv_buffer.curr, client->recv_buffer.curr_sz, 0);
         if (rv < 0) {
             /* an error occurred */
-            client->error =(MQTTErrors) rv;
+            client->error = (MQTTErrors) rv;
             MQTT_PAL_MUTEX_UNLOCK(&client->mutex);
             return rv;
         } else {
@@ -688,7 +688,7 @@ ssize_t __mqtt_recv(struct mqtt_client *client)
         consumed = mqtt_unpack_response(&response, client->recv_buffer.mem_start, client->recv_buffer.curr - client->recv_buffer.mem_start);
 
         if (consumed < 0) {
-            client->error =(MQTTErrors) consumed;
+            client->error = (MQTTErrors) consumed;
             MQTT_PAL_MUTEX_UNLOCK(&client->mutex);
             return consumed;
         } else if (consumed == 0) {
@@ -775,7 +775,7 @@ ssize_t __mqtt_recv(struct mqtt_client *client)
 
                     rv = __mqtt_pubrec(client, response.decoded.publish.packet_id);
                     if (rv != MQTT_OK) {
-                        client->error =(MQTTErrors) rv;
+                        client->error = (MQTTErrors) rv;
                         mqtt_recv_ret = rv;
                         break;
                     }
@@ -832,7 +832,7 @@ ssize_t __mqtt_recv(struct mqtt_client *client)
                 /* stage PUBCOMP */
                 rv = __mqtt_pubcomp(client, response.decoded.pubrec.packet_id);
                 if (rv != MQTT_OK) {
-                    client->error =(MQTTErrors) rv;
+                    client->error = (MQTTErrors) rv;
                     mqtt_recv_ret = rv;
                     break;
                 }
