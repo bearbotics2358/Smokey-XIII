@@ -33,6 +33,8 @@ class SwerveModule // Handles steering and driving of each Swerve Module
         void updateDrivePID(double pNew, double iNew, double dNew);
         void updateSteerPID(double pNew, double iNew, double dNew);
 
+        float adjustAngle(float currentAngle, float targetAngle);
+
     private:
         rev::CANSparkMax driveMotor;
         rev::CANSparkMax steerMotor;

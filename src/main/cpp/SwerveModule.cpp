@@ -1,5 +1,6 @@
 
 #include "SwerveModule.h"
+#include "Math.h"
 
 SwerveModule::SwerveModule(int driveID, int steerID, int steerEncID):
 driveMotor(driveID, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
@@ -95,4 +96,22 @@ void SwerveModule::updateSteerPID(double pNew, double iNew, double dNew)
     steerPID.SetP(pNew);
     steerPID.SetI(iNew);
     steerPID.SetD(dNew);
+}
+
+float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
+    double kappa = currentAngle - targetAngle; 
+    if(kappa > 180) {
+        currentAngle -= 360;  
+    } else if(kappa < -180) {
+        currentAngle += 360; 
+    }
+    float distOfAngle = targetAngle - currentAngle;
+
+    if(distOfAngle > 90) {
+        distOfAngle -= 180; 
+    }
+
+    float ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH = 0; 
+
+    return ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH; 
 }
