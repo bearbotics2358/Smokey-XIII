@@ -8,16 +8,18 @@
 #include <netdb.h>
 #endif
 #include <fcntl.h>
-#include <string.h>
+#include <stdlib.h>
+#include <string>
 
 class MQTTHandler
 {
     public:
-        MQTTHandler (const std::string addrin, const std::string portin, const std::string topicin);
+        MQTTHandler (std::string addrin, std::string portin, std::string topicin);
         std::string getMessage ();
     private:
-        int open_nb_socket (const char *addr, const char *port);
+        int open_nb_socket (char *addr, char *port);
         void exit_example(int status, int sockfd, pthread_t *client_daemon);
+        static void publish_callback(void** unused, struct mqtt_response_publish *published);
         struct mqtt_client client;
         uint8_t sendbuf[2048];
         uint8_t recvbuf[1024];
