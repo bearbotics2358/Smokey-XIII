@@ -9,6 +9,8 @@ void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *
 
     printf("Received publish('%s'): %s\n", topic_name, (const char*) published->application_message);
 
+    frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
+
     free(topic_name);
 }
 
@@ -97,4 +99,9 @@ std::string MQTTHandler::getMessage ()
 
 void MQTTHandler::exit_example(int status, int sockfd, pthread_t *client_daemon)
 {
+}
+
+void MQTTHandler::update ()
+{
+    mqtt_sync (&client);
 }

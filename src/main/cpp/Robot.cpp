@@ -2,10 +2,12 @@
 #include "Robot.h"
 #include "Prefs.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <stdio.h>
 
 Robot::Robot():
 testModule(TEST_DRIVE_ID, TEST_STEER_ID, 1), // fix encoders at some point
-joystickOne(JOYSTICK_PORT)
+joystickOne(JOYSTICK_PORT),
+handler("169.254.179.144", "1185", "data")
 {
 
 }
@@ -13,6 +15,8 @@ joystickOne(JOYSTICK_PORT)
 void Robot::RobotInit() 
 {
     frc::SmartDashboard::init();
+    
+    
 }
 
 void Robot::AutonomousInit() 
@@ -84,6 +88,12 @@ void Robot::TeleopPeriodic() // main loop
 void Robot::TestInit() 
 {
 
+}
+
+void Robot::RobotPeriodic() 
+{
+    //frc::SmartDashboard::PutNumber("MQTT CONNECT", 1);
+    handler.update ();
 }
 
 void Robot::TestPeriodic() 

@@ -10,12 +10,14 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string>
+#include <frc/SmartDashboard/SmartDashboard.h>
 
 class MQTTHandler
 {
     public:
         MQTTHandler (std::string addrin, std::string portin, std::string topicin);
         std::string getMessage ();
+        void update ();
     private:
         int open_nb_socket (char *addr, char *port);
         void exit_example(int status, int sockfd, pthread_t *client_daemon);
