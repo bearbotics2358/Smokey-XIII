@@ -16,17 +16,20 @@
 
 enum AutoState0 { // Encoders
 	kAutoIdle0 = 0,
+	kArmMove0,
 	kDriveAway0
 };
 
 enum AutoState1 { // Encoders
 	kAutoIdle1 = 0,
+	kArmMove1,
 	kShoot1,
     kDriveAway1
 };
 
 enum AutoState2 { // T.O.F and Encoders
 	kAutoIdle2 = 0,
+	kArmMove2,
 	kShoot2,
     kTurnToParallel2,
     kDriveToWall2,
@@ -36,6 +39,7 @@ enum AutoState2 { // T.O.F and Encoders
 
 enum AutoState3 { // T.O.F and Encoders
 	kAutoIdle3 = 0,
+	kArmMove3,
 	kShoot3,
     kTurnToParallel3,
     kDriveToWall3,
@@ -60,6 +64,7 @@ enum AutoState3 {
 
 enum AutoState4 { // Uses vision
 	kAutoIdle4 = 0,
+	kArmMove4,
 	kShoot4,
     kTurnToTruss4,
     kDrivetoBalls4,
@@ -74,7 +79,7 @@ enum AutoState4 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(int ButtonsID);
+	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, Shooty &Shooter);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -100,14 +105,16 @@ class Autonomous
 
 	// JrimmyGyro a_Gyro;
 
+	frc::Joystick &a_ButtonBox;
+	SwerveDrive &a_SwerveDrive;
+	Shooty &a_Shooty;
+
+
 	AutoState0 a_AutoState0;
 	AutoState1 a_AutoState1;
 	AutoState2 a_AutoState2;
     AutoState3 a_AutoState3;
     AutoState4 a_AutoState4;
-
-    frc::Joystick a_buttonBox;
-
 
 
     int autoPathMaster;
