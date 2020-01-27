@@ -1,6 +1,6 @@
 #include "MQTTHandler.h"
 
-void publish_callback(void** unused, struct mqtt_response_publish *published) 
+void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *published) 
 {
     /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
     char* topic_name = (char*) malloc(published->topic_name_size + 1);
