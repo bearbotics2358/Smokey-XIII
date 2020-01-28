@@ -3,10 +3,9 @@
 #pragma once
 
 #include <frc/WPILib.h>
-#include <Shooty.h>
 #include <SwerveDrive.h>
 #include <Climby.h>
-#include <Collecty.h>
+#include <CFS.h>
 #include <frc/Joystick.h> 
 #include <Prefs.h>
 // #include <JrimmyGyro.h>
@@ -79,7 +78,7 @@ enum AutoState4 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, Shooty &Shooter);
+	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -107,7 +106,7 @@ class Autonomous
 
 	frc::Joystick &a_ButtonBox;
 	SwerveDrive &a_SwerveDrive;
-	Shooty &a_Shooty;
+	CFS &a_CFS;
 
 
 	AutoState0 a_AutoState0;

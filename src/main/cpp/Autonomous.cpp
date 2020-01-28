@@ -1,14 +1,13 @@
-#include <FRC/WPILib.h> // please include in the .h and use only what you need; my compilation times are like 1 minute pls <3
 #include <math.h>
 #include "Autonomous.h"
 
 
 
 
-Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, Shooty &Shooter):
+Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS):
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
-    a_Shooty(Shooter),
+    a_CFS(CFS),
     a_AutoState0(kAutoIdle0),
     a_AutoState1(kAutoIdle1),
     a_AutoState2(kAutoIdle2),
