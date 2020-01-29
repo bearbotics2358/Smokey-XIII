@@ -1,26 +1,35 @@
 #include "MQTTHandler.h"
 
+char *msgbuf = NULL;
+
 void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *published) 
 {
     /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
-    char* topic_name = (char*) malloc(published->topic_name_size + 1);
-    memcpy(topic_name, published->topic_name, published->topic_name_size);
-    topic_name[published->topic_name_size] = '\0';
+    //char* topic_name = (char*) malloc(published->topic_name_size + 1);
+    memcpy(::msgbuf, published->topic_name, published->topic_name_size);
+    ::msgbuf[published->topic_name_size] = '\0';
 
-    printf("Received publish('%s'): %s\n", topic_name, (const char*) published->application_message);
+    printf("Received publish('%s'): %s\n", ::msgbuf, (const char*) published->application_message);
 
     frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
 
-    free(topic_name);
+    //free(topic_name);
 }
 
 MQTTHandler::MQTTHandler ()
 {
-    
+    if (!::msgbuf)
+    {
+        ::msgbuf = (char *) calloc (32, sizeof (char));
+    }
 }
 
 MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
 {
+    if (!::msgbuf)
+    {
+        ::msgbuf = (char *) calloc (32, sizeof (char));
+    }
     init (addrin, portin, topicin);
 }
 
@@ -56,6 +65,44 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
      mqtt_subscribe(&client, topic, 0);
 }
 
+float MQTTHandler::getDistance ()
+{
+    std::string temp = "";
+    int i = 0;
+    while (msgbuf[i] != ' ')
+    {
+        temp += msgbuf[i];
+        if (i > MSG_BUF_SIZE - 1)
+        {
+            return -INFINITY;
+        }
+    }
+    return stof (temp);
+}
+
+float MQTTHandler::getAngle ()
+{
+    std::string temp = "";
+    int i = 0;
+    bool flag = false;
+    while (msgbuf[i] != 'N')
+    {
+        if (flag)
+        {
+            temp += msgbuf[i];
+        }
+        else if (msgbuf[i] == ' ')
+        {
+            flag = true;
+        }
+        if (i > MSG_BUF_SIZE - 1)
+        {
+            return -INFINITY;
+        }
+    }
+    return stof (temp);
+}
+
 int MQTTHandler::open_nb_socket(char* addr, char* port) {
     struct addrinfo hints = {0};
 
@@ -87,14 +134,7 @@ int MQTTHandler::open_nb_socket(char* addr, char* port) {
     freeaddrinfo(servinfo);
 
     /* make non-blocking */
-#if !defined(WIN32)
     if (sockfd != -1) fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL) | O_NONBLOCK);
-#else
-    if (sockfd != INVALID_SOCKET) {
-        int iMode = 1;
-        ioctlsocket(sockfd, FIONBIO, &iMode);
-    }
-#endif
 
     /* return the new socket fd */
     return sockfd;

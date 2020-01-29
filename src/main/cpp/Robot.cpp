@@ -15,8 +15,6 @@ handler("169.254.179.144", "1185", "data")
 void Robot::RobotInit() 
 {
     frc::SmartDashboard::init();
-    
-    
 }
 
 void Robot::AutonomousInit() 

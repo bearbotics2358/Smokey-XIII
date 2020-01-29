@@ -10,6 +10,8 @@
 #include <string>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#define MSG_BUF_SIZE 32
+
 class MQTTHandler
 {
     public:
@@ -18,6 +20,8 @@ class MQTTHandler
         int init (std::string addrin, std::string portin, std::string topicin);
         std::string getMessage ();
         void update ();
+        float getDistance ();
+        float getAngle ();
     private:
         int open_nb_socket (char *addr, char *port);
         void exit_example(int status, int sockfd, pthread_t *client_daemon);
