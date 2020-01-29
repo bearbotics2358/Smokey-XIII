@@ -63,3 +63,5 @@ BR:
 
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
+
+#define SHOOT_SPEED .7
