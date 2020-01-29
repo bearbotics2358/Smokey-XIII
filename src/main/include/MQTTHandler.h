@@ -10,12 +10,14 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string>
-#include <frc/SmartDashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class MQTTHandler
 {
     public:
+        MQTTHandler ();
         MQTTHandler (std::string addrin, std::string portin, std::string topicin);
+        int init (std::string addrin, std::string portin, std::string topicin);
         std::string getMessage ();
         void update ();
     private:

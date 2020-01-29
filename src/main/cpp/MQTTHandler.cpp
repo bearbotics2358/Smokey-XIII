@@ -14,7 +14,17 @@ void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *
     free(topic_name);
 }
 
+MQTTHandler::MQTTHandler ()
+{
+    
+}
+
 MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
+{
+    init (addrin, portin, topicin);
+}
+
+int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
     char* addr = (char*) addrin.c_str();
     char* port = (char*) portin.c_str();
@@ -26,7 +36,7 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
     if (sockfd == -1) {
         // perror("Failed to open socket: ");
-        // exit_example(EXIT_FAILURE, sockfd, NULL);
+        return -1;
     }
 
     mqtt_init(&client, sockfd, sendbuf, sizeof(sendbuf), recvbuf, sizeof(recvbuf), publish_callback);
@@ -39,13 +49,11 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
     /* check that we don't have any errors */
     if (client.error != MQTT_OK) {
-        fprintf(stderr, "error: %s\n", mqtt_error_str(client.error));
-        exit_example(EXIT_FAILURE, sockfd, NULL);
+        //fprintf(stderr, "error: %s\n", mqtt_error_str(client.error));
+        return -2;
     }
 
      mqtt_subscribe(&client, topic, 0);
-
-
 }
 
 int MQTTHandler::open_nb_socket(char* addr, char* port) {
