@@ -111,8 +111,8 @@ float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
         targetAngle -= 180; 
     } 
 
-    float ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH = 0; 
+    float ahhhhhhhhhhhhhhhhhhhhhh = 0; 
 
-    return ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH; 
+    return ahhhhhhhhhhhhhhhhhhhhhh; 
 }
 
