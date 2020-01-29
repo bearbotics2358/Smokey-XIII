@@ -108,10 +108,11 @@ float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
     float distOfAngle = targetAngle - currentAngle;
 
     if(distOfAngle > 90) {
-        distOfAngle -= 180; 
-    }
+        targetAngle -= 180; 
+    } 
 
     float ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH = 0; 
 
     return ahhhhhhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH; 
 }
+
