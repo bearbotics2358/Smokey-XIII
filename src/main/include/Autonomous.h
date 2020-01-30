@@ -86,8 +86,8 @@ class Autonomous
 	int GetCurrentPath();
 	void StartPathMaster();
 	void StartPathMaster(int path);
-	//void PeriodicPathMaster();
-	//void PeriodicPathMaster(int path);
+	void PeriodicPathMaster();
+	void PeriodicPathMaster(int path);
 	void AutonomousStart0();
 	void AutonomousPeriodic0();
 	void AutonomousStart1();

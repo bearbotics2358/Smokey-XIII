@@ -172,6 +172,81 @@ void Autonomous::StartPathMaster(int path){
 	}
 }
 
+void Autonomous::PeriodicPathMaster(){
+	switch(autoPathMaster){
+		case -1:
+			// Error!
+			break;
+		case 0:
+			AutonomousPeriodicU0();
+
+			break;
+
+		case 1:
+			AutonomousPeriodicU1();
+			
+            break;
+		
+        case 2:
+			AutonomousPeriodicU2();
+			
+            break;
+		
+        case 3:
+			AutonomousPeriodicU3();
+			
+            break;
+		
+        case 4:
+            AutonomousPeriodicU4();
+			
+            break;
+		
+        case 5:
+			AutonomousPeriodicU5();
+			
+            break;
+	}
+}
+
+void Autonomous::PeriodicPathMaster(int path){
+	switch(path){
+		case -1:
+			// Error!
+			break;
+		case 0:
+			AutonomousPeriodicU0();
+
+			break;
+		
+        case 1:
+			AutonomousPeriodicU1();
+			
+            break;
+		
+        case 2:
+			AutonomousPeriodicU2();
+			
+            break;
+		
+        case 3:
+			AutonomousPeriodicU3();
+			
+            break;
+		
+        case 4:
+			AutonomousPeriodicU4();
+			
+            break;
+		
+        case 5:
+			AutonomousPeriodicU5();
+			
+            break;
+	}
+}
+
+
 
 
 void Autonomous::AutonomousStart0(){
