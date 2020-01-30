@@ -84,19 +84,34 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	float currentBR = BR_Module->getAngle(); 
 	float currentBL = BL_Module->getAngle();
 	
-	// update speeds and angles
+	float deadzoneCheck = sqrt(xIn * xIn + yIn * yIn);
 
-	// FL_Module->setDriveVelocity(FL_Speed);
-	// FL_Module->steerToAng(currentFL, FL_Angle);
+	if(deadzoneCheck < 0.15 && fabs(zIn) < 0.01)
+	{
+		FL_Speed = 0;
+		FR_Speed = 0;
+		BL_Speed = 0;
+		BR_Speed = 0;
 
-	// FR_Module->setDriveVelocity(FR_Speed);
-	// FR_Module->steerToAng(currentFR, FR_Angle);
+		FL_Angle = currentFL;
+		FR_Angle = currentFR;
+		BL_Angle = currentBL;
+		BR_Angle = currentBR;
+	}
 
-	BL_Module->setDriveVelocity(BL_Speed);
+	// update speeds and angles 
+
+	FL_Module->setDriveSpeed(0.35 * FL_Speed);
+	FL_Module->steerToAng(currentFL, FL_Angle);
+
+	FR_Module->setDriveSpeed(0.35 * FR_Speed);
+	FR_Module->steerToAng(currentFR, FR_Angle);
+
+ 	BL_Module->setDriveSpeed(0.35 * BL_Speed);
 	BL_Module->steerToAng(currentBL, BL_Angle);
 
-	// BR_Module->setDriveVelocity(BR_Speed);
-	// BR_Module->steerToAng(currentBR, BR_Angle);
+	BR_Module->setDriveSpeed(0.35 * BR_Speed);
+	BR_Module->steerToAng(currentBR, BR_Angle);
 }
 
 
