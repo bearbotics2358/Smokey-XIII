@@ -12,7 +12,8 @@ a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
 joystickOne(JOYSTICK_PORT),
 a_buttonbox(3),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
-a_LimeyLight()
+a_LimeyLight(),
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT)
 {
     a_FLModule.updateDrivePID(0.0, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -119,16 +120,8 @@ void Robot::TestInit()
 void Robot::TestPeriodic() 
 {
     
-    frc::SmartDashboard::PutBoolean("Switch 1", a_buttonbox.GetRawButton(1));
-    frc::SmartDashboard::PutBoolean("Switch 2", a_buttonbox.GetRawButton(2));
-    frc::SmartDashboard::PutBoolean("Switch 3", a_buttonbox.GetRawButton(3));
-    frc::SmartDashboard::PutBoolean("Switch 4", a_buttonbox.GetRawButton(4));
-    frc::SmartDashboard::PutBoolean("Switch 5", a_buttonbox.GetRawButton(5));
-    frc::SmartDashboard::PutBoolean("Switch 7", a_buttonbox.GetRawButton(7));
-
-    
-
-
+    a_CFS.Shoot(joystickOne.GetRawAxis(3));
+    a_CFS.Feed(joystickOne.GetRawAxis(1));
     
 }
 
