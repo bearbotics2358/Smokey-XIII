@@ -7,7 +7,7 @@ FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr)
 {
-    fieldOriented = true;
+
 }
 
 void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented) // Swerve Kinematics - Manages each module
@@ -24,7 +24,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 		yInput = temp;
 	}
 	
-	bool inDeadzone = (sqrt(xIn * xIn + yIn * yIn) < DEADZONE ? true : false); // Checks joystick deadzones
+	
 
 	float r =  sqrt((DRIVE_LENGTH * DRIVE_LENGTH) + (DRIVE_WIDTH * DRIVE_WIDTH)); // radius of the drive base
 
@@ -42,6 +42,26 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     float FR_Angle = atan2(b,d) * 180/PI;
     float BL_Angle = atan2(a,c) * 180/PI;
 	float BR_Angle = atan2(a,d) * 180/PI;
+
+	if(FL_Angle < 0) 
+	{
+		FL_Angle = FL_Angle + 360;	
+	}
+
+	if(FR_Angle < 0) 
+	{
+		FR_Angle = FR_Angle + 360;	
+	}
+
+	if(BL_Angle < 0) 
+	{
+		BL_Angle = BL_Angle + 360;	
+	}
+
+	if(BR_Angle < 0) 
+	{
+		BR_Angle = BR_Angle + 360;	
+	}
 
 	float max = std::max(std::max(FR_Speed, FL_Speed), std::max(BR_Speed, BL_Speed)); // find max speed value
 
@@ -63,55 +83,20 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	float currentFR = FR_Module->getAngle();
 	float currentBR = BR_Module->getAngle(); 
 	float currentBL = BL_Module->getAngle();
-
-	if(needsAngOpt(currentFL, FL_Angle)) // optimizes to minimum steering including reversing the speed
-	{
-		if(FL_Angle < 0)
-			FL_Angle += 180;
-		else
-			FL_Angle -= 180;
-		FL_Speed *= -1;
-	}
-	if(needsAngOpt(currentFR, FR_Angle))
-	{
-		if(FR_Angle < 0)
-			FR_Angle += 180;
-		else
-			FR_Angle -= 180;
-		FR_Speed *= -1;
-	}
-	if(needsAngOpt(currentBR, BR_Angle))
-	{
-		if(BR_Angle < 0)
-			BR_Angle += 180;
-		else
-			BR_Angle -= 180;
-		BR_Speed *= -1;
-	}
-	if(needsAngOpt(currentBL, BL_Angle))
-	{
-		if(BL_Angle < 0)
-			BL_Angle += 180;
-		else
-			BL_Angle -= 180;
-		BL_Speed *= -1;
-	}
-
-	if(inDeadzone && zIn < 0.01) // 
-	{
-		FL_Speed = 0;
-		FR_Speed = 0;
-		BL_Speed = 0;
-		BR_Speed = 0;
-
-		FL_Angle = FL_Module->getAngle();
-		FR_Angle = FR_Module->getAngle();
-		BL_Angle = BL_Module->getAngle();
-		BR_Angle = BR_Module->getAngle();
-	}
 	
 	// update speeds and angles
 
+	// FL_Module->setDriveVelocity(FL_Speed);
+	// FL_Module->steerToAng(currentFL, FL_Angle);
+
+	// FR_Module->setDriveVelocity(FR_Speed);
+	// FR_Module->steerToAng(currentFR, FR_Angle);
+
+	BL_Module->setDriveVelocity(BL_Speed);
+	BL_Module->steerToAng(currentBL, BL_Angle);
+
+	// BR_Module->setDriveVelocity(BR_Speed);
+	// BR_Module->steerToAng(currentBR, BR_Angle);
 }
 
 

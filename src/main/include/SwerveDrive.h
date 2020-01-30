@@ -2,6 +2,7 @@
 #pragma once
 
 #include "SwerveModule.h"
+#include "Prefs.h"
 
 class SwerveDrive // Class to handle the kinematics of Swerve Drive
 {
@@ -16,10 +17,6 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         SwerveModule *FR_Module;
         SwerveModule *BL_Module;
         SwerveModule *BR_Module;
-
-        bool fieldOriented;
-        const float PI = 3.14159265;
-        const float DEADZONE = 0.15; // Joystick Deadzone
 
         const float DRIVE_LENGTH = 29.75;
         const float DRIVE_WIDTH = 29.75;
