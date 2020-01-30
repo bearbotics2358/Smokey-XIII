@@ -5,12 +5,21 @@
 #include <frc/AnalogEncoder.h>
 #include <frc/AnalogInput.h>
 #include <frc/controller/PIDController.h>
+#include <Prefs.h>
 
 class CFS 
 {
     public:
-        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot);
-        
+        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot); 
+
+        void Shoot();
+        void Shoot(float speed);
+
+        void Collect();
+        void Collect(float speed);
+
+        void Feed();
+        void Feed(float speed);
        
     private:
     
