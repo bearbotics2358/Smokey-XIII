@@ -65,3 +65,5 @@ BR:
 #define LINE_TO_BALL_FAR 192.66 // inches
 
 #define SHOOT_SPEED .7
+#define COLLECT_SPEED .5
+#define FEED_SPEED .23
