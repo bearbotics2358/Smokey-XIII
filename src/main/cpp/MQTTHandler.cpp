@@ -11,7 +11,7 @@ void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *
 
     printf("Received publish('%s'): %s\n", ::msgbuf, (const char*) published->application_message);
 
-    string temp8 = "";
+    std::string temp8 = "";
 
     for (int i = 0; i < MSG_BUF_SIZE; i ++)
     {
