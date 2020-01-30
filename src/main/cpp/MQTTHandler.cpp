@@ -11,6 +11,14 @@ void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *
 
     printf("Received publish('%s'): %s\n", ::msgbuf, (const char*) published->application_message);
 
+    string temp8 = "";
+
+    for (int i = 0; i < MSG_BUF_SIZE; i ++)
+    {
+        temp8 = std::to_string (*((int *) msgbuf[i]));
+    }
+
+    frc::SmartDashboard::PutString ("Messsage", temp8);
     frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
 
     //free(topic_name);
