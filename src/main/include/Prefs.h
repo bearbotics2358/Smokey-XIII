@@ -68,3 +68,12 @@ BR:
 #define SHOOT_SPEED .7
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
+
+#define SHOOT_1 41
+#define SHOOT_2 42
+#define FEED_1 43
+#define FEED_2 44
+#define COLLECT 45
+#define PIVOT 46
+
+// int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot
