@@ -47,6 +47,9 @@ BR:
 #define JOYSTICK_PORT 1
 #define JOYSTICK_DEADZONE 0.15
 
+#define BUTTON_BOX 3
+#define XBOX_CONTROLLER 5
+
 #define TICKS_STEERING 18.0 // roughly 18 "position" units per steering rotation
 
 /* ====== ASCII ART ======= */
