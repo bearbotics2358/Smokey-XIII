@@ -80,7 +80,7 @@ void Robot::TeleopPeriodic() // main loop
     frc::SmartDashboard::PutNumber("GYRO 2: ", a_Gyro.GetAngle(1));
     frc::SmartDashboard::PutNumber("GYRO 3: ", a_Gyro.GetAngle(2));
 
-    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- \\
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
         
     if(joystickOne.GetRawButton(7)) {
         a_LimeyLight.ledOn(); 

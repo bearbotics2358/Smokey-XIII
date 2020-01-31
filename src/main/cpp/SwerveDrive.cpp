@@ -102,74 +102,37 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	// update speeds and angles 
 
 	FL_Module->setDriveSpeed(0.35 * FL_Speed);
-	FL_Module->steerToAng(currentFL, FL_Angle);
+	FL_Module->steerToAng(FL_Angle);
 
 	FR_Module->setDriveSpeed(0.35 * FR_Speed);
-	FR_Module->steerToAng(currentFR, FR_Angle);
+	FR_Module->steerToAng(FR_Angle);
 
  	BL_Module->setDriveSpeed(0.35 * BL_Speed);
-	BL_Module->steerToAng(currentBL, BL_Angle);
+	BL_Module->steerToAng(BL_Angle);
 
 	BR_Module->setDriveSpeed(0.35 * BR_Speed);
-	BR_Module->steerToAng(currentBR, BR_Angle);
+	BR_Module->steerToAng(BR_Angle);
 }
 
-
-bool SwerveDrive::needsAngOpt(float currentAngle, float targetAngle)
+void SwerveDrive::driveDistance(float dist, float direction)
 {
-	float currentTemp = currentAngle;
-	float targetTemp = targetAngle;
+	float dist2ElectricBoogalo = dist / INCHES_PER_TICK;
 
-	if(currentTemp < 360 && currentTemp > 180)
-		currentTemp -= 360;
-	else if(currentTemp > -360 && currentTemp < -180)
-		currentTemp += 360;
+	FL_Module->steerToAng(direction);
+	FR_Module->steerToAng(direction);
+	BL_Module->steerToAng(direction);
+	BR_Module->steerToAng(direction);
+	// i will not
+	FL_Module->goToPosition(dist2ElectricBoogalo);
+	FR_Module->goToPosition(dist2ElectricBoogalo);
+	BL_Module->goToPosition(dist2ElectricBoogalo);
+	BR_Module->goToPosition(dist2ElectricBoogalo);
 
-	
-	//           0
-	// 
-	// 90                -90
-	//	       
-	//       180 or -180
+}
 
-	
-	if(fabs(currentTemp) < 90 && fabs(targetTemp) < 90)
-	{
-		if(fabs(currentTemp - targetTemp) > 90)
-		{
-			return true;
-		}
-	}
-	else if((fabs(currentTemp) >= 90 && fabs(targetTemp) < 90) || (fabs(targetTemp) >= 90 && fabs(currentTemp) < 90))
-	{
-		if(fabs(currentTemp - targetTemp) > 90)
-		{
-			return true;
-		}
-	}
-	else
-	{
-		if(currentTemp < 0 && targetTemp > 0)
-		{
-			if(fabs((360 + currentTemp) - targetTemp) > 90)
-			{
-				return true;
-			}
-		} 
-		else if(currentTemp > 0 && targetTemp < 0)
-		{
-			if(fabs((360 + targetTemp) - currentTemp) > 90)
-			{
-				return true;
-			}
-		}
-	}
-		/*
-		if(targetTemp < 0) // bounds to +/- 180
-			targetTemp += 180;
-		else
-			targetTemp -= 180;
-		FL_Speed *= -1;
-		*/
-	return false;
+void SwerveDrive::resetDrive() {
+	FL_Module->resetDriveEncoder();
+	FR_Module->resetDriveEncoder();
+	BL_Module->resetDriveEncoder();
+	BR_Module->resetDriveEncoder();
 }

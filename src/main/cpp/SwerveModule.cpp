@@ -46,17 +46,16 @@ float SwerveModule::getAngle(void)
     return adjusted;
 }
 
-void SwerveModule::goToPosition(float current, float setpoint)
+void SwerveModule::goToPosition(float setpoint)
 {
-    float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
-    frc::SmartDashboard::PutNumber("velocity loop setpoint: ", speed);   
+    float speed = drivePID.Calculate(getDistance(), setpoint); // Calculates scaled output based off of encoder feedback. 
     speed = speed / 68;  // EXTREMELY temporary constant, will need to fix at some point
     driveMotor.Set(0.4 * speed);
 }
 
-void SwerveModule::steerToAng(float current, float setpoint) // the twO
+void SwerveModule::steerToAng(float setpoint) // the twO
 {
-    float speed = steerPID.Calculate(current, setpoint);  
+    float speed = steerPID.Calculate(getAngle(), setpoint);  
     speed = speed / 270; // temp solution                                                          
     steerMotor.Set(speed);
 }
@@ -81,7 +80,7 @@ float SwerveModule::getDriveSpeed(void)
 void SwerveModule::setDriveVelocity(float percent) // the onE
 {
     float change = percent * 800;
-    goToPosition(getDistance(), getDistance() + change);
+    goToPosition(getDistance() + change);
 }
 
 void SwerveModule::updateDrivePID(double pNew, double iNew, double dNew)

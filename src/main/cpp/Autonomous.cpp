@@ -178,32 +178,31 @@ void Autonomous::PeriodicPathMaster(){
 			// Error!
 			break;
 		case 0:
-			AutonomousPeriodicU0();
+			AutonomousPeriodic0();
 
 			break;
 
 		case 1:
-			AutonomousPeriodicU1();
+			AutonomousPeriodic1();
 			
             break;
 		
         case 2:
-			AutonomousPeriodicU2();
+			AutonomousPeriodic2();
 			
             break;
 		
         case 3:
-			AutonomousPeriodicU3();
+			AutonomousPeriodic3();
 			
             break;
 		
         case 4:
-            AutonomousPeriodicU4();
+            AutonomousPeriodic4();
 			
             break;
 		
-        case 5:
-			AutonomousPeriodicU5();
+        case 5: 
 			
             break;
 	}
@@ -215,32 +214,31 @@ void Autonomous::PeriodicPathMaster(int path){
 			// Error!
 			break;
 		case 0:
-			AutonomousPeriodicU0();
+			AutonomousPeriodic0();
 
 			break;
 		
         case 1:
-			AutonomousPeriodicU1();
+			AutonomousPeriodic1();
 			
             break;
 		
         case 2:
-			AutonomousPeriodicU2();
+			AutonomousPeriodic2();
 			
             break;
 		
         case 3:
-			AutonomousPeriodicU3();
+			AutonomousPeriodic3();
 			
             break;
 		
         case 4:
-			AutonomousPeriodicU4();
+			AutonomousPeriodic4();
 			
             break;
 		
         case 5:
-			AutonomousPeriodicU5();
 			
             break;
 	}
