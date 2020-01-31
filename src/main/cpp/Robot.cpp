@@ -134,12 +134,3 @@ void Robot::TestPeriodic()
 }
 
 int main() { return frc::StartRobot<Robot>(); } // Initiate main loop
-
-/*
-
-    steer module to given angle 
-    - return boolean (do we need to change the speed or not?)
-        - specify wether or not the direction need to be reversed
-    
-
-*/ 
