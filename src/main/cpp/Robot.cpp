@@ -120,13 +120,13 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    if(a_xBoxController.GetRawAxis(5) < 0.10) {
+    if(fabs(a_xBoxController.GetRawAxis(5)) < 0.10) {
         a_CFS.Shoot(0);
     } else {
         a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
     }
 
-    if(a_xBoxController.GetRawAxis(1) < 0.10) {
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
         a_CFS.Feed(0);
     } else {
         a_CFS.Feed(a_xBoxController.GetRawAxis(1));
