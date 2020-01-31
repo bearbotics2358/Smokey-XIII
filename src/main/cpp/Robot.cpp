@@ -10,7 +10,8 @@ a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replac
 a_BLModule(BL_DRIVE_ID, BL_STEER_ID, 3),
 a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
 joystickOne(JOYSTICK_PORT),
-a_buttonbox(3),
+a_xBoxController(XBOX_CONTROLLER),
+a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT)
@@ -119,10 +120,26 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    
-    a_CFS.Shoot(joystickOne.GetRawAxis(3));
-    a_CFS.Feed(joystickOne.GetRawAxis(1));
-    
+    if(a_xBoxController.GetRawAxis(5) < 0.10) {
+        a_CFS.Shoot(0);
+    } else {
+        a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
+    }
+
+    if(a_xBoxController.GetRawAxis(1) < 0.10) {
+        a_CFS.Feed(0);
+    } else {
+        a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+    }
 }
 
 int main() { return frc::StartRobot<Robot>(); } // Initiate main loop
+
+/*
+
+    steer module to given angle 
+    - return boolean (do we need to change the speed or not?)
+        - specify wether or not the direction need to be reversed
+    
+
+*/ 
