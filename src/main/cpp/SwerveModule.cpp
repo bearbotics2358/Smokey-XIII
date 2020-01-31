@@ -97,21 +97,24 @@ void SwerveModule::updateSteerPID(double pNew, double iNew, double dNew)
     steerPID.SetD(dNew);
 }
 
-float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
-    double kappa = currentAngle - targetAngle; 
-    if(kappa > 180) {
-        currentAngle -= 360;  
-    } else if(kappa < -180) {
-        currentAngle += 360; 
+float SwerveModule::adjustAngle(float targetAngle) {
+    float tempCurrent = getAngle();
+    float tempTarget = targetAngle;
+
+    if(tempCurrent - tempTarget > 180) {
+        tempCurrent -= 360;  
+    } else if(tempCurrent - tempTarget < -180) {
+        tempCurrent += 360; 
     }
-    float distOfAngle = targetAngle - currentAngle;
+    float distOfAngle = tempTarget - tempCurrent;
 
     if(distOfAngle > 90) {
-        targetAngle -= 180; 
+        tempTarget -= 180; 
     } 
 
-    float ahhhhhhhhhhhhhhhhhhhhhh = 0; 
-
-    return ahhhhhhhhhhhhhhhhhhhhhh; 
+    if(distOfAngle < -90)
+    {
+        tempTarget += 180;
+    }
 }
 
