@@ -156,7 +156,7 @@ void SwerveDrive::resetDrive() {
 	 BR_Module->steerToAng(315);
 
 	 FL_Module->setDriveSpeed(speed);
-	 FR_Module->setDriveSpeed(speed);
+	 FR_Module->setDriveSpeed(speed);	 
 	 BL_Module->setDriveSpeed(speed);
 	 BR_Module->setDriveSpeed(speed);
  }
