@@ -101,17 +101,29 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 
 	// update speeds and angles 
 
-	FL_Module->setDriveSpeed(0.35 * FL_Speed);
-	FL_Module->steerToAng(FL_Angle);
+	if(FL_Module->adjustAngle(FL_Angle)){
+		FL_Module->setDriveSpeed(-0.35 * FL_Speed);
+	} else {
+		FL_Module->setDriveSpeed(0.35 * FL_Speed);
+	}
 
-	FR_Module->setDriveSpeed(0.35 * FR_Speed);
-	FR_Module->steerToAng(FR_Angle);
+	if(FR_Module->adjustAngle(FR_Angle)){
+		FR_Module->setDriveSpeed(-0.35 * FR_Speed);
+	} else {
+		FR_Module->setDriveSpeed(0.35 * FR_Speed);
+	}
 
- 	BL_Module->setDriveSpeed(0.35 * BL_Speed);
-	BL_Module->steerToAng(BL_Angle);
+ 	if(BL_Module->adjustAngle(BL_Angle)){
+		BL_Module->setDriveSpeed(-0.35 * BL_Speed);
+	} else {
+		BL_Module->setDriveSpeed(0.35 * BL_Speed);
+	}
 
-	BR_Module->setDriveSpeed(0.35 * BR_Speed);
-	BR_Module->steerToAng(BR_Angle);
+	if(BR_Module->adjustAngle(BR_Angle)){
+		BR_Module->setDriveSpeed(-0.35 * BR_Speed);
+	} else {
+		BR_Module->setDriveSpeed(0.35 * BR_Speed);
+	}
 }
 
 void SwerveDrive::driveDistance(float dist, float direction)
@@ -136,3 +148,15 @@ void SwerveDrive::resetDrive() {
 	BL_Module->resetDriveEncoder();
 	BR_Module->resetDriveEncoder();
 }
+
+ void SwerveDrive::turnToAngle(float speed) {
+	 FL_Module->steerToAng(45);
+	 FR_Module->steerToAng(135);
+	 BL_Module->steerToAng(225);
+	 BR_Module->steerToAng(315);
+
+	 FL_Module->setDriveSpeed(speed);
+	 FR_Module->setDriveSpeed(speed);
+	 BL_Module->setDriveSpeed(speed);
+	 BR_Module->setDriveSpeed(speed);
+ }

@@ -97,21 +97,39 @@ void SwerveModule::updateSteerPID(double pNew, double iNew, double dNew)
     steerPID.SetD(dNew);
 }
 
-float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
-    double kappa = currentAngle - targetAngle; 
-    if(kappa > 180) {
-        currentAngle -= 360;  
-    } else if(kappa < -180) {
-        currentAngle += 360; 
+bool SwerveModule::adjustAngle(float targetAngle) {
+    float tempCurrent = getAngle();
+    float tempTarget = targetAngle;
+    bool changeMade = false; 
+
+    if(tempCurrent - tempTarget > 180) {
+        tempCurrent -= 360;  
+    } else if(tempCurrent - tempTarget < -180) {
+        tempCurrent += 360; 
     }
-    float distOfAngle = targetAngle - currentAngle;
+    float distOfAngle = tempTarget - tempCurrent;
 
     if(distOfAngle > 90) {
-        targetAngle -= 180; 
+        tempTarget -= 180; 
+        changeMade = true;
     } 
 
-    float ahhhhhhhhhhhhhhhhhhhhhh = 0; 
+    if(distOfAngle < -90)
+    {
+        tempTarget += 180;
+        changeMade = true; 
+    }
 
-    return ahhhhhhhhhhhhhhhhhhhhhh; 
+    steerToAng(tempTarget);
+
+    return changeMade; 
 }
 
+
+
+/*
+    steer module to given angle 
+    - return boolean (do we need to change the speed or not?)
+        o specify wether or not the direction need to be reversed  
+        o still move even if angle doesn't need to be adjusted
+*/ 
