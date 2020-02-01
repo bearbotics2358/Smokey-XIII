@@ -150,6 +150,12 @@ void SwerveDrive::resetDrive() {
 	BR_Module->resetDriveEncoder();
 }
 
+float Swerve::getAvgDistance(void)
+{
+	float ret = (FL_Module->getDistance() + FR_Module->getDistance() + BL_Module->getDistance() + BR_Module ->getDistance())/4.0;
+	return ret;
+}
+
 void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 FL_Module->steerToAng(45);
 	 FR_Module->steerToAng(135);
@@ -157,7 +163,6 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 BR_Module->steerToAng(315);
 
 	float speed = std::clamp(anglePID.Calculate(gyro, angle), -0.2, 0.2);
-
 	 FL_Module->setDriveSpeed(speed);
 	 FR_Module->setDriveSpeed(speed);
 	 BL_Module->setDriveSpeed(speed);
