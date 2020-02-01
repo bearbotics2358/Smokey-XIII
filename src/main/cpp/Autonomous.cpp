@@ -8,6 +8,7 @@ Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
     a_CFS(CFS),
+    a_Anticipation(),
     a_AutoState0(kAutoIdle0),
     a_AutoState1(kAutoIdle1),
     a_AutoState2(kAutoIdle2),
@@ -21,7 +22,8 @@ Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &
 }
 
 void Autonomous::Init(){
-	// a_Gyro.Zero();
+	a_Gyro.Zero();
+    a_Anticipation.Start();
 }
 
 void Autonomous::DecidePath(){
@@ -249,13 +251,36 @@ void Autonomous::PeriodicPathMaster(int path){
 
 void Autonomous::AutonomousStart0(){
 
+    a_AutoState0 = kArmMove0;
+    // a_Gyro.Zero();
 
 }
 
 
 void Autonomous::AutonomousPeriodic0(){
 
+    AutoState0 nextState = a_AutoState0;
 
+	switch(a_AutoState0){
+
+	    case kAutoIdle0:
+		    
+
+		    break;
+
+	    case kArmMove0:
+	    	
+
+		    break;
+
+        case kDriveAway0:
+
+
+            break;
+	}
+
+    
+	a_AutoStateU0 = nextState;
 
 }
 
@@ -313,6 +338,20 @@ void Autonomous::AutonomousStart4(){
 void Autonomous::AutonomousPeriodic4(){
 
 
+
+
+}
+
+void Autonomous::waitplz(float anticipate){
+    int woah = frc2::Timer::GetMatchTime();
+    
+    while (a_Anticipation.Get().to<float> < woah.to<float> + anticipate)
+    {
+        if (woah.to<float> >= 15){
+            break; 
+        }
+    }
+    
 
 
 }

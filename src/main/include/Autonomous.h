@@ -7,6 +7,7 @@
 #include <Climby.h>
 #include <CFS.h>
 #include <frc/Joystick.h> 
+#include <frc/Timer.h>
 #include <Prefs.h>
 // #include <JrimmyGyro.h>
 
@@ -98,6 +99,7 @@ class Autonomous
 	void AutonomousPeriodic3();
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
+	void waitplz(float anticipate);
 
 
  private:
@@ -107,6 +109,7 @@ class Autonomous
 	frc::Joystick &a_ButtonBox;
 	SwerveDrive &a_SwerveDrive;
 	CFS &a_CFS;
+	frc::Timer a_Anticipation;
 
 
 	AutoState0 a_AutoState0;
