@@ -52,12 +52,10 @@ BR:
 //   <====[-<('-'<)
 
 
-<<<<<<< HEAD
 #define bridge_host "10.23.58.26"
 #define DEFAULT_PORT 1185
 #define bridge_port DEFAULT_PORT
 #define LIGHT_RING_CONTROLLER_ADDRESS 0x4
-=======
 /* ============ GEAR RATIOS ======== */
 // drive motor -> wheel = 10:1 (10 drive rotations for one wheel rotation)
 // radius of wheel = 2 inches
@@ -69,4 +67,3 @@ BR:
 
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
->>>>>>> master
