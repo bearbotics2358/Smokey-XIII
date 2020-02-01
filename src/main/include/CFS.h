@@ -2,6 +2,7 @@
 #pragma once
 
 #include <ctre/Phoenix.h>
+#include <rev/CANSparkMax.h>
 #include <frc/AnalogEncoder.h>
 #include <frc/AnalogInput.h>
 #include <frc/controller/PIDController.h>
@@ -20,6 +21,13 @@ class CFS
 
         void Feed();
         void Feed(float speed);
+
+        void ArmMove(float speed);
+
+        void ShootVelocity(float speed);
+
+        float GetWheelSpeedR(); // return floats of velocity for right and left
+        float GetWheelSpeedL(); 
        
     private:
     
@@ -28,7 +36,8 @@ class CFS
     WPI_TalonSRX a_FeedTop;
     WPI_TalonSRX a_FeedBot;
     WPI_TalonSRX a_Collector;
-    WPI_TalonSRX a_Pivot;
+
+    rev::CANSparkMax a_Pivot; // arm motor 
 
 
 

@@ -164,7 +164,7 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 
 	float speed = std::clamp(anglePID.Calculate(gyro, angle), -0.2, 0.2);
 	 FL_Module->setDriveSpeed(speed);
-	 FR_Module->setDriveSpeed(speed);
+	 FR_Module->setDriveSpeed(speed);	 
 	 BL_Module->setDriveSpeed(speed);
 	 BR_Module->setDriveSpeed(speed);
  }

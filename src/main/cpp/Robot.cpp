@@ -120,10 +120,10 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    if(fabs(a_xBoxController.GetRawAxis(5)) < 0.10) {
+    /* if(fabs(a_xBoxController.GetRawAxis(5))) {
         a_CFS.Shoot(0);
     } else {
-        a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
+       a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
     }
 
     if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
@@ -131,6 +131,59 @@ void Robot::TestPeriodic()
     } else {
         a_CFS.Feed(a_xBoxController.GetRawAxis(1));
     }
+
+    if(fabs(a_xBoxController.GetRawAxis(3)) < 0.10) {
+        a_CFS.ArmMove(0);
+    } else {        
+        a_CFS.ArmMove(a_xBoxController.GetRawAxis(3));
+    } */ 
+
+    if(a_xBoxController.GetRawButton(4)) {
+        a_CFS.Shoot(SHOOT_SPEED); 
+    } else {
+        a_CFS.Shoot(0);
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
+        a_CFS.ArmMove(0);
+    } else {
+        a_CFS.ArmMove(a_xBoxController.GetRawAxis(1));
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(3)) < 0.10) {
+        a_CFS.Collect(0);
+    } else {
+        a_CFS.Collect(a_xBoxController.GetRawAxis(3)); 
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(2)) < 0.10) {
+        a_CFS.Collect(0);
+    } else {
+        a_CFS.Collect(-1.0 * a_xBoxController.GetRawAxis(2));
+    }
+
+    if(a_xBoxController.GetRawButton(6)) {
+        a_CFS.Feed(FEED_SPEED);
+    } else {
+        a_CFS.Feed(0);
+    }
+
+    if(a_xBoxController.GetRawButton(5)) {
+        a_CFS.Feed(-1.0 * FEED_SPEED); 
+    } else {
+        a_CFS.Feed(0);
+    }
+
+    if(a_xBoxController.GetPOV() == 0) {
+        // climb
+    } else {
+        // don't climb
+    }
+
+
+
+
 }
+
 
 int main() { return frc::StartRobot<Robot>(); } // Initiate main loop

@@ -9,13 +9,11 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
     a_FeedTop(feed1),
     a_FeedBot(feed2),
     a_Collector(collect),
-    a_Pivot(pivot)
+    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless)
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
     a_ShootRight.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
-
-
 
 }
 
@@ -47,3 +45,19 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
      a_FeedTop.Set(ControlMode::PercentOutput, speed);
  }
 
+ void CFS::ArmMove(float speed) {
+         a_Pivot.Set(speed);
+ }
+
+ void CFS::ShootVelocity(float speed) {
+     a_ShootLeft.Set(ControlMode::Velocity, speed);
+     a_ShootRight.Set(ControlMode::Velocity, speed); 
+ }
+
+ float CFS::GetWheelSpeedR() {
+     return a_ShootRight.GetSelectedSensorVelocity(); 
+ }
+
+ float CFS::GetWheelSpeedL() {
+     return a_ShootLeft.GetSelectedSensorVelocity();
+ }
