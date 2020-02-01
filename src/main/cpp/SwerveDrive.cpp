@@ -153,7 +153,7 @@ void SwerveDrive::resetDrive() {
 float SwerveDrive::getAvgDistance(void)
 {
 	float ret = (FL_Module->getDistance() + FR_Module->getDistance() + BL_Module->getDistance() + BR_Module ->getDistance())/4.0;
-	return ret;
+	return ret * INCHES_PER_TICK;
 }
 
 void SwerveDrive::turnToAngle(float gyro, float angle) {

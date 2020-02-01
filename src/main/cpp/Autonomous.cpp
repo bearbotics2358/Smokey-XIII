@@ -275,10 +275,12 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
-            if(true){
+            if(a_SwerveDrive->getAvgDistance() < ARBITRARY_DIST_BACKWARDS){
+                a_SwerveDrive->driveDistance(ARBITRARY_DIST_BACKWARDS, 180.0);
+            
+            } else {
 
-
-
+			nextState = kAutoIdle0;
 
             }
             
