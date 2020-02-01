@@ -5,19 +5,6 @@
 #include <stdio.h>
 
 Robot::Robot():
-<<<<<<< HEAD
-    handler("169.254.179.144", "1185", "data"),
-    a_Gyro(frc::I2C::kMXP), // 1
-    a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
-    a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replace 1-4 with actual IDs)
-    a_BLModule(BL_DRIVE_ID, BL_STEER_ID, 3),
-    a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
-    joystickOne(JOYSTICK_PORT),
-    a_buttonbox(3),
-    a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
-    a_LimeyLight()
-    {
-=======
 handler("169.254.179.144", "1185", "data"),
 a_Gyro(frc::I2C::kMXP), // 1
 a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
@@ -29,7 +16,6 @@ a_buttonbox(3),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight()
 {
->>>>>>> c52ef83ad11937e0b9b3ad15996e140b679c06e1
 
 }
 

@@ -1,43 +1,30 @@
 #include "MQTTHandler.h"
 
-char *msgbuf = NULL;
+struct
+{
+    float distance;
+    float angle;
+} data;
 
 void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *published) 
 {
     /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
     //char* topic_name = (char*) malloc(published->topic_name_size + 1);
-    memcpy(::msgbuf, published->topic_name, published->topic_name_size);
-    ::msgbuf[published->topic_name_size] = '\0';
+        
+    sscanf ((char *) published->application_message, "%f %f", &(data.distance), &(data.angle));
 
-    printf("Received publish('%s'): %s\n", ::msgbuf, (const char*) published->application_message);
-
-    std::string temp8 = "";
-
-    for (int i = 0; i < MSG_BUF_SIZE; i ++)
-    {
-        temp8 = std::to_string (*((int *) msgbuf[i]));
-    }
-
-    frc::SmartDashboard::PutString ("Messsage", temp8);
-    frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
+    //frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
 
     //free(topic_name);
 }
 
 MQTTHandler::MQTTHandler ()
 {
-    if (!::msgbuf)
-    {
-        ::msgbuf = (char *) calloc (32, sizeof (char));
-    }
+
 }
 
 MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
 {
-    if (!::msgbuf)
-    {
-        ::msgbuf = (char *) calloc (32, sizeof (char));
-    }
     init (addrin, portin, topicin);
 }
 
@@ -73,42 +60,14 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
      mqtt_subscribe(&client, topic, 0);
 }
 
-float MQTTHandler::getDistance ()
+float MQTTHandler::getDistance () const
 {
-    std::string temp = "";
-    int i = 0;
-    while (msgbuf[i] != ' ')
-    {
-        temp += msgbuf[i];
-        if (i > MSG_BUF_SIZE - 1)
-        {
-            return -INFINITY;
-        }
-    }
-    return stof (temp);
+    return data.distance;
 }
 
-float MQTTHandler::getAngle ()
+float MQTTHandler::getAngle () const
 {
-    std::string temp = "";
-    int i = 0;
-    bool flag = false;
-    while (msgbuf[i] != 'N')
-    {
-        if (flag)
-        {
-            temp += msgbuf[i];
-        }
-        else if (msgbuf[i] == ' ')
-        {
-            flag = true;
-        }
-        if (i > MSG_BUF_SIZE - 1)
-        {
-            return -INFINITY;
-        }
-    }
-    return stof (temp);
+    return data.angle;
 }
 
 int MQTTHandler::open_nb_socket(char* addr, char* port) {
@@ -146,15 +105,6 @@ int MQTTHandler::open_nb_socket(char* addr, char* port) {
 
     /* return the new socket fd */
     return sockfd;
-}
-
-std::string MQTTHandler::getMessage ()
-{
-    
-}
-
-void MQTTHandler::exit_example(int status, int sockfd, pthread_t *client_daemon)
-{
 }
 
 void MQTTHandler::update ()
