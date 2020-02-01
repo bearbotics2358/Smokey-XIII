@@ -12,13 +12,17 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         void swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented); // Updates Swerve Modules for swerve drive
         void driveDistance(float dist, float direction); // dist in inches and angle 0-360
         void resetDrive();
-        void turnToAngle(float speed); 
+        float getAvgDistance(void); // baka-47
+
+        void turnToAngle(float speed, float angle); 
     private:
 
         SwerveModule *FL_Module;
         SwerveModule *FR_Module;
         SwerveModule *BL_Module;
         SwerveModule *BR_Module;
+
+        frc2::PIDController anglePID;
 
         const float DRIVE_LENGTH = 29.75;
         const float DRIVE_WIDTH = 29.75;
