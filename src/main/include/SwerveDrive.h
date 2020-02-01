@@ -12,6 +12,7 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         void swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented); // Updates Swerve Modules for swerve drive
         void driveDistance(float dist, float direction); // dist in inches and angle 0-360
         void resetDrive();
+        void turnToAngle(float speed); 
     private:
 
         SwerveModule *FL_Module;

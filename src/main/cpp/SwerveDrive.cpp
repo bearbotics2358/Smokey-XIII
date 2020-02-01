@@ -148,3 +148,15 @@ void SwerveDrive::resetDrive() {
 	BL_Module->resetDriveEncoder();
 	BR_Module->resetDriveEncoder();
 }
+
+ void SwerveDrive::turnToAngle(float speed) {
+	 FL_Module->steerToAng(45);
+	 FR_Module->steerToAng(135);
+	 BL_Module->steerToAng(225);
+	 BR_Module->steerToAng(315);
+
+	 FL_Module->setDriveSpeed(speed);
+	 FR_Module->setDriveSpeed(speed);
+	 BL_Module->setDriveSpeed(speed);
+	 BR_Module->setDriveSpeed(speed);
+ }
