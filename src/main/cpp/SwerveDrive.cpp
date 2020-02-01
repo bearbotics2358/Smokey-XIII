@@ -150,7 +150,7 @@ void SwerveDrive::resetDrive() {
 	BR_Module->resetDriveEncoder();
 }
 
-float Swerve::getAvgDistance(void)
+float SwerveDrive::getAvgDistance(void)
 {
 	float ret = (FL_Module->getDistance() + FR_Module->getDistance() + BL_Module->getDistance() + BR_Module ->getDistance())/4.0;
 	return ret;
