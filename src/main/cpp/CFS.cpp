@@ -18,8 +18,8 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
 }
 
  void CFS::Shoot() {
-        a_ShootLeft.Set(ControlMode::PercentOutput, SHOOT_SPEED);
-        a_ShootRight.Set(ControlMode::PercentOutput, SHOOT_SPEED);
+        a_ShootLeft.Set(ControlMode::PercentOutput, SHOOT_VOLTS);
+        a_ShootRight.Set(ControlMode::PercentOutput, SHOOT_VOLTS);
     }
 
  void CFS::Shoot(float speed) {

@@ -68,9 +68,10 @@ BR:
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
 
-#define ARM_DEFAULT_POSITION 90 //degrees????
+#define ARM_DEFAULT_POSITION 90 //degrees???? CHANGE WHEN ACTUALLY FOUND
 
-#define SHOOT_SPEED .7
+#define SHOOT_VOLTS .7
+#define SHOOT_VELOCITY 4000
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
 
