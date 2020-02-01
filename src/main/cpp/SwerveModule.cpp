@@ -48,15 +48,13 @@ float SwerveModule::getAngle(void)
 
 void SwerveModule::goToPosition(float setpoint)
 {
-    float speed = drivePID.Calculate(getDistance(), setpoint); // Calculates scaled output based off of encoder feedback. 
-    speed = speed / 68;  // EXTREMELY temporary constant, will need to fix at some point
-    driveMotor.Set(0.4 * speed);
+    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint), -0.4, 0.4); // Calculates scaled output based off of encoder feedback. 
+    driveMotor.Set(speed);
 }
 
 void SwerveModule::steerToAng(float setpoint) // the twO
 {
-    float speed = steerPID.Calculate(getAngle(), setpoint);  
-    speed = speed / 270; // temp solution                                                          
+    float speed = std::clamp(steerPID.Calculate(getAngle(), setpoint), -0.7, 0.7);                                             
     steerMotor.Set(speed);
 }
 

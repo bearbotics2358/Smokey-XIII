@@ -64,7 +64,7 @@ BR:
 #define INCHES_PER_TICK (2.0 / 5) * PI // inches
 
 /* ============= AUTO VALUES 4 Jason yoyoyo =========== */
-
+#define ARBITRARY_DIST_BACKWARDS 20.0 // inches
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
 
