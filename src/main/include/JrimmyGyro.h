@@ -2,7 +2,7 @@
 #pragma once
 
 #include <frc/I2C.h>
-#include <HAL/HAL.h>
+#include <hal/HAL.h>
 #include <frc/Timer.h>
 
 class JrimmyGyro : public frc::I2C
