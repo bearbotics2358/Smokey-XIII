@@ -4,7 +4,8 @@
 
 
 
-Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS):
+Autonomous::Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS):
+    a_Gyro(Gyro),
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
     a_CFS(CFS),
@@ -22,38 +23,38 @@ Autonomous::Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &
 }
 
 void Autonomous::Init(){
-	a_Gyro.Zero();
+	a_Gyro->Zero();
     a_Anticipation.Start();
 }
 
 void Autonomous::DecidePath(){
     
-    if(a_ButtonBox.GetRawButton(1)){
+    if(a_ButtonBox->GetRawButton(1)){
     
         autoPathMaster = 0;
 
     }
-    else if(a_ButtonBox.GetRawButton(2)){
+    else if(a_ButtonBox->GetRawButton(2)){
     
         autoPathMaster = 1;
 
     }    
-    else if(a_ButtonBox.GetRawButton(3)){
-    
+    else if(a_ButtonBox->GetRawButton(3)){
+
         autoPathMaster = 2;
 
     }
-    else if(a_ButtonBox.GetRawButton(4)){
+    else if(a_ButtonBox->GetRawButton(4)){
     
         autoPathMaster = 3;
 
     }
-    else if(a_ButtonBox.GetRawButton(5)){
+    else if(a_ButtonBox->GetRawButton(5)){
     
         autoPathMaster = 4;
 
     }
-    else if(a_ButtonBox.GetRawButton(7)){\
+    else if(a_ButtonBox->GetRawButton(7)){
 
         autoPathMaster = 5;
 
@@ -252,7 +253,7 @@ void Autonomous::PeriodicPathMaster(int path){
 void Autonomous::AutonomousStart0(){
 
     a_AutoState0 = kArmMove0;
-    // a_Gyro.Zero();
+    a_Gyro->Zero();
 
 }
 
@@ -264,7 +265,7 @@ void Autonomous::AutonomousPeriodic0(){
 	switch(a_AutoState0){
 
 	    case kAutoIdle0:
-		    
+		    a_Gyro->Zero();
 
 		    break;
 
@@ -274,13 +275,18 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
+            if(true){
 
 
+
+
+            }
+            
             break;
 	}
 
     
-	a_AutoStateU0 = nextState;
+	a_AutoState0 = nextState;
 
 }
 
@@ -342,16 +348,16 @@ void Autonomous::AutonomousPeriodic4(){
 
 }
 
-void Autonomous::waitplz(float anticipate){
-    int woah = frc2::Timer::GetMatchTime();
+void Autonomous::waitplz(double anticipate){
+   /* double woah = frc2::Timer::GetMatchTime().to<double>;
     
-    while (a_Anticipation.Get().to<float> < woah.to<float> + anticipate)
+    while (a_Anticipation.Get().to<double> < woah.to<double> + anticipate)
     {
-        if (woah.to<float> >= 15){
+        if (woah >= 15){
             break; 
         }
     }
     
-
+*/
 
 }

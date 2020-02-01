@@ -9,7 +9,7 @@
 #include <frc/Joystick.h> 
 #include <frc/Timer.h>
 #include <Prefs.h>
-// #include <JrimmyGyro.h>
+#include <JrimmyGyro.h>
 
 
 
@@ -79,7 +79,7 @@ enum AutoState4 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS);
+	Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -99,16 +99,16 @@ class Autonomous
 	void AutonomousPeriodic3();
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
-	void waitplz(float anticipate);
+	void waitplz(double anticipate);
 
 
  private:
 
-	// JrimmyGyro a_Gyro;
-
-	frc::Joystick &a_ButtonBox;
-	SwerveDrive &a_SwerveDrive;
-	CFS &a_CFS;
+	
+	JrimmyGyro *a_Gyro;
+	frc::Joystick *a_ButtonBox;
+	SwerveDrive *a_SwerveDrive;
+	CFS *a_CFS;
 	frc::Timer a_Anticipation;
 
 
