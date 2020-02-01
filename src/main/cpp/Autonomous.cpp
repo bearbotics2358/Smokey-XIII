@@ -265,25 +265,33 @@ void Autonomous::AutonomousPeriodic0(){
 	switch(a_AutoState0){
 
 	    case kAutoIdle0:
-		    a_Gyro->Zero();
+		    IDontLikeExercise();
 
 		    break;
 
 	    case kArmMove0:
-	    	
+	    	if(!MoveDaArm(ARM_DEFAULT_POSITION)){
+                MoveDaArm(ARM_DEFAULT_POSITION);
+
+            } else {
+
+            nextState = kDriveAway0;
+
+           }
+
 
 		    break;
 
         case kDriveAway0:
-            if(a_SwerveDrive->getAvgDistance() < ARBITRARY_DIST_BACKWARDS){
-                a_SwerveDrive->driveDistance(ARBITRARY_DIST_BACKWARDS, 180.0);
-            
-            } else {
+           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0)){
+               DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
 
-			nextState = kAutoIdle0;
+           } else {
 
-            }
-            
+            nextState = kAutoIdle0;
+
+           }
+
             break;
 	}
 
@@ -294,14 +302,65 @@ void Autonomous::AutonomousPeriodic0(){
 
 
 void Autonomous::AutonomousStart1(){
-
-
+    
+    a_AutoState1 = kArmMove1;
+    a_Gyro->Zero();
 
 }
 
 
 void Autonomous::AutonomousPeriodic1(){
 
+    AutoState1 nextState = a_AutoState1;
+
+	switch(a_AutoState1){
+
+	    case kAutoIdle1:
+		    IDontLikeExercise();
+
+		    break;
+
+	    case kArmMove1:
+	    	if(!MoveDaArm(ARM_DEFAULT_POSITION)){
+                MoveDaArm(ARM_DEFAULT_POSITION);
+
+            } else {
+
+            nextState = kShoot1;
+
+           }
+
+
+		    break;
+
+        case kShoot1:
+           if(false){
+               
+
+           } else {
+
+            nextState = kDriveAway1;
+
+           }
+
+            break;
+
+
+        case kDriveAway1:
+           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0)){
+               DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
+
+           } else {
+
+            nextState = kAutoIdle1;
+
+           }
+
+            break;
+	}
+
+    
+	a_AutoState1 = nextState;
 
 }
 
@@ -350,6 +409,14 @@ void Autonomous::AutonomousPeriodic4(){
 
 }
 
+void Autonomous::IDontLikeExercise(){
+
+    a_Gyro->Zero();
+    a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+
+}
+
+
 void Autonomous::waitplz(double anticipate){
    /* double woah = frc2::Timer::GetMatchTime().to<double>;
     
@@ -362,4 +429,46 @@ void Autonomous::waitplz(double anticipate){
     
 */
 
+}
+
+bool Autonomous::MoveDaArm(double angle){
+
+
+return true;
+
+/*
+    Move arm code here when we have it
+
+
+
+*/
+
+}
+
+
+bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is not done
+
+    if(a_SwerveDrive->getAvgDistance() < dist / INCHES_PER_TICK){
+        a_SwerveDrive->driveDistance(dist, angle);
+        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        return false;
+
+
+    } else {
+        a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        return true;
+
+    }
+            
+
+}
+
+
+bool Autonomous::RootyTootyShooty(){
+
+    a_CFS->Shoot(SHOOT_SPEED);
+    return true;
+
+    
 }

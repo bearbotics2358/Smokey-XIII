@@ -99,7 +99,11 @@ class Autonomous
 	void AutonomousPeriodic3();
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
+	void IDontLikeExercise();
 	void waitplz(double anticipate);
+	bool MoveDaArm(double angle);
+	bool DriveDist(double dist, double angle);
+	bool RootyTootyShooty();
 
 
  private:
