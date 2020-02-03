@@ -118,6 +118,12 @@ bool SwerveModule::adjustAngle(float targetAngle) {
         changeMade = true; 
     }
 
+    if(tempTarget < 0) {
+        tempTarget += 360;
+    } else if(tempTarget > 360) {
+        tempTarget -= 360;
+    } // zzzzzzzzzzzzzz
+
     steerToAng(tempTarget);
 
     return changeMade; 
