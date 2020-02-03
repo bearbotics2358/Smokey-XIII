@@ -180,11 +180,7 @@ void Robot::TestPeriodic()
         // don't climb
     }
 
-<<<<<<< HEAD
     */ 
-=======
-    */
->>>>>>> d619d335a55ad86d9b1f961cd247c5aea9334b43
 
 
 }
