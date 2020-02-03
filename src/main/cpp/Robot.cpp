@@ -120,7 +120,7 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    /* if(fabs(a_xBoxController.GetRawAxis(5))) {
+    if(fabs(a_xBoxController.GetRawAxis(5))) {
         a_CFS.Shoot(0);
     } else {
        a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
@@ -136,9 +136,9 @@ void Robot::TestPeriodic()
         a_CFS.ArmMove(0);
     } else {        
         a_CFS.ArmMove(a_xBoxController.GetRawAxis(3));
-    } */ 
+    } 
 
-    if(a_xBoxController.GetRawButton(4)) {
+    /* if(a_xBoxController.GetRawButton(4)) {
         a_CFS.Shoot(SHOOT_SPEED); 
     } else {
         a_CFS.Shoot(0);
@@ -180,7 +180,7 @@ void Robot::TestPeriodic()
         // don't climb
     }
 
-
+    */
 
 
 }
