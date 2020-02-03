@@ -6,10 +6,11 @@ FL_Module(FL_Ptr),
 FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
-anglePID(0.2, 0, 0),
-jenkinsTheCrabPID(0.2, 0, 0)
+anglePID(0.2, 0.0 , 0.0),
+jenkinsTheCrabPID(0.2, 0.0, 0.0)
 {
-
+	anglePID.EnableContinuousInput(0.0, 360.0);
+	jenkinsTheCrabPID.EnableContinuousInput(0.0, 360.0);
 }
 
 void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented) // Swerve Kinematics - Manages each module
@@ -293,7 +294,19 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 BL_Module->steerToAng(225);
 	 BR_Module->steerToAng(315);
 
-	float speed = std::clamp(anglePID.Calculate(gyro, angle), -0.2, 0.2);
+	float speed = std::clamp(anglePID.Calculate(gyro, angle), -0.2, 0.2); // calculates a speed we need to go based off our current sensor and target position
+	 FL_Module->setDriveSpeed(speed);
+	 FR_Module->setDriveSpeed(speed);	 
+	 BL_Module->setDriveSpeed(speed);
+	 BR_Module->setDriveSpeed(speed);
+ }
+
+ void SwerveDrive::makeShiftTurn(float speed) {
+	 FL_Module->steerToAng(45);
+	 FR_Module->steerToAng(135);
+	 BL_Module->steerToAng(225);
+	 BR_Module->steerToAng(315);
+
 	 FL_Module->setDriveSpeed(speed);
 	 FR_Module->setDriveSpeed(speed);	 
 	 BL_Module->setDriveSpeed(speed);
