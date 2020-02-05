@@ -84,26 +84,40 @@ class Autonomous
 	//void UpdateGameData();
 	void DecidePath();
 	void DecidePath(int intent);
+
 	int GetCurrentPath();
+
 	void StartPathMaster();
 	void StartPathMaster(int path);
+
 	void PeriodicPathMaster();
 	void PeriodicPathMaster(int path);
+
 	void AutonomousStart0();
 	void AutonomousPeriodic0();
+
 	void AutonomousStart1();
 	void AutonomousPeriodic1();
+
 	void AutonomousStart2();
 	void AutonomousPeriodic2();
+
 	void AutonomousStart3();
 	void AutonomousPeriodic3();
+
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
-	void IDontLikeExercise();
-	void waitplz(double anticipate);
-	bool MoveDaArm(double angle);
-	bool DriveDist(double dist, double angle);
-	bool RootyTootyShooty();
+
+
+// ------------------Sub-Routines-------------------------//
+
+	void IDontLikeExercise(); // IDLE
+	void waitplz(double anticipate); // Wait
+	bool MoveDaArm(double angle); // arm move to angle
+	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
+	bool RootyTootyShooty(); // Shooting balls 
+
+
 
 
  private:

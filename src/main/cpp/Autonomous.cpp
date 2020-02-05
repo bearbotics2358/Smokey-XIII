@@ -23,7 +23,7 @@ Autonomous::Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *
 }
 
 void Autonomous::Init(){
-	a_Gyro->Zero();
+	// a_Gyro->Zero();
     a_Anticipation.Start();
 }
 
@@ -468,6 +468,8 @@ bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is
 bool Autonomous::RootyTootyShooty(){
 
     a_CFS->ShootVelocity(SHOOT_VELOCITY);
+
+    
     return true;
 
     
