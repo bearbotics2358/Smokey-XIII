@@ -139,7 +139,6 @@ float SwerveDrive::lockZ(float gyro)
 
 void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) // 
 {
-	/*
 	if(!crabs)
 	{
 		holdAngle = gyroIn;
@@ -150,13 +149,11 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
     float yInput = yIn;
     float zInput = lockZ(gyroIn);
 
-	if(fieldOriented) // Makes joystick inputs field oriented
-	{
-		float gyroRadians = gyroIn * PI / 180; 
-		float temp = yInput * cos(gyroRadians) + xInput * sin(gyroRadians);
-		xInput = -yInput * sin(gyroRadians) + xInput * cos(gyroRadians);
-		yInput = temp;
-	}
+	float gyroRadians = gyroIn * PI / 180; 
+	float temp = yInput * cos(gyroRadians) + xInput * sin(gyroRadians);
+	xInput = -yInput * sin(gyroRadians) + xInput * cos(gyroRadians);
+	yInput = temp;
+	
 	
 	
 
@@ -220,7 +217,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
 	
 	float deadzoneCheck = sqrt(xIn * xIn + yIn * yIn);
 
-	if(deadzoneCheck < 0.15 && fabs(zIn) < 0.01)
+	if(deadzoneCheck < 0.15 && fabs(zInput) < 0.01)
 	{
 		FL_Speed = 0;
 		FR_Speed = 0;
@@ -258,7 +255,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
 	} else {
 		BR_Module->setDriveSpeed(0.35 * BR_Speed);
 	}
-	*/
+	
 }
 
 void SwerveDrive::driveDistance(float dist, float direction)
