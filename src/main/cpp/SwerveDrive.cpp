@@ -139,6 +139,7 @@ float SwerveDrive::lockZ(float gyro)
 
 void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) // 
 {
+	/*
 	if(!crabs)
 	{
 		holdAngle = gyroIn;
@@ -257,6 +258,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
 	} else {
 		BR_Module->setDriveSpeed(0.35 * BR_Speed);
 	}
+	*/
 }
 
 void SwerveDrive::driveDistance(float dist, float direction)
