@@ -32,7 +32,7 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         frc2::PIDController jenkinsTheCrabPID; // blame kordt
 
         float holdAngle;
-        bool crabs; // if we're in crab drive mode
+        bool crab; // if we're in crab drive mode
 
         const float DRIVE_LENGTH = 29.75;
         const float DRIVE_WIDTH = 29.75;

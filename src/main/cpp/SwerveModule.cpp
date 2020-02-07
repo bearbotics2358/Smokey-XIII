@@ -1,6 +1,5 @@
 
 #include "SwerveModule.h"
-#include "Math.h"
 
 SwerveModule::SwerveModule(int driveID, int steerID, int steerEncID):
 driveMotor(driveID, rev::CANSparkMaxLowLevel::MotorType::kBrushless),

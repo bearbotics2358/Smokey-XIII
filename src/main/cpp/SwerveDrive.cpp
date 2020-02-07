@@ -15,7 +15,7 @@ jenkinsTheCrabPID(0.2, 0.0, 0.0)
 
 void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bool fieldOriented) // Swerve Kinematics - Manages each module
 {
-	crabs = false;
+	crab = false;
 	
     float xInput = xIn; // Temp variables to avoid corrupting the data
     float yInput = yIn;
@@ -139,10 +139,10 @@ float SwerveDrive::lockZ(float gyro)
 
 void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) // 
 {
-	if(!crabs)
+	if(!crab)
 	{
 		holdAngle = gyroIn;
-		crabs = true;
+		crab = true;
 	}
 
 	float xInput = xIn; // Temp variables to avoid corrupting the data
