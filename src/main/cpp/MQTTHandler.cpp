@@ -27,7 +27,7 @@ void MQTTHandler::reconnect_callback(struct mqtt_client *client, void **state)
         close (client->socketfd);
     }
 
-    int sockfd = MQTTHandler::open_nb_socket (rcdata->addres, rcdata->port)
+    int sockfd = MQTTHandler::open_nb_socket (rcdata->addres, rcdata->port);
     if (sockfd == -1)
     {
         return;
