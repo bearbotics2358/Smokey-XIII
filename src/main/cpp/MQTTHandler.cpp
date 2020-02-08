@@ -18,6 +18,28 @@ void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *
     //free(topic_name);
 }
 
+void MQTTHandler::reconnect_callback(struct mqtt_client *client, void **state)
+{
+    reconnect_data *rcdata = *((reconnect_data **) state);
+
+    if (client->error != MQTT_ERROR_INITIAL_RECONNECT)
+    {
+        close (client->socketfd);
+    }
+
+    int sockfd = MQTTHandler::open_nb_socket (rcdata->addres, rcdata->port)
+    if (sockfd == -1)
+    {
+        return;
+    }
+
+    mqtt_reinit (client, sockfd, rcdata->sendbuf, rcdata->sendbuf_size, rcdata->recvbuf, rcdata->recvbuf_size);
+
+    mqtt_connect (client, NULL, NULL, NULL, 0, NULL, NULL, MQTT_CONNECT_CLEAN_SESSION, 400);
+
+    mqtt_subscribe (client, rcdata->topic, 0);
+}
+
 MQTTHandler::MQTTHandler ()
 {
 
@@ -36,28 +58,26 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     
     /* open the non-blocking TCP socket (connecting to the broker) */
     sockfd = open_nb_socket(addr, port);
-
-
     if (sockfd == -1) {
-        // perror("Failed to open socket: ");
         return -1;
     }
 
-    mqtt_init(&client, sockfd, sendbuf, sizeof(sendbuf), recvbuf, sizeof(recvbuf), publish_callback);
-    /* Create an anonymous session */
-    const char* client_id = NULL;
-    /* Ensure we have a clean session */
-    uint8_t connect_flags = MQTT_CONNECT_CLEAN_SESSION;
-    /* Send connection request to the broker. */
-    mqtt_connect(&client, client_id, NULL, NULL, 0, NULL, NULL, connect_flags, 400);
+    reconnect_data rcdata;
+    rcdata.addres = addr;
+    rcdata.port = port;
+    rcdata.topic = topic;
+    rcdata.sendbuf = sendbuf;
+    rcdata.sendbuf_size = sizeof(sendbuf);
+    rcdata.recvbuf = recvbuf;
+    rcdata.recvbuf_size = sizeof(recvbuf);
+
+    mqtt_init_reconnect(&client, reconnect_callback, &rcdata, publish_callback);
 
     /* check that we don't have any errors */
     if (client.error != MQTT_OK) {
-        //fprintf(stderr, "error: %s\n", mqtt_error_str(client.error));
         return -2;
     }
-
-     mqtt_subscribe(&client, topic, 0);
+    return 0;
 }
 
 float MQTTHandler::getDistance () const
