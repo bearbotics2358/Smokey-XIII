@@ -53,7 +53,7 @@ void SwerveModule::goToPosition(float setpoint)
 
 void SwerveModule::steerToAng(float setpoint) // the twO
 {
-    float speed = std::clamp(steerPID.Calculate(getAngle(), setpoint), -0.7, 0.7);                                             
+    float speed = std::clamp(steerPID.Calculate(getAngle(), setpoint) / 270.0, -0.5, 0.5);                                           
     steerMotor.Set(speed);
 }
 
