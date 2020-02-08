@@ -40,6 +40,8 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
     a_Gyro.Update(); 
+    frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
+    frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
 }
 
 void Robot::AutonomousInit() 
@@ -59,9 +61,12 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
+
+
+
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
-    float z = joystickOne.GetRawAxis(2);
+    float z = -1 * joystickOne.GetRawAxis(2);
     float gyro = a_Gyro.GetAngle(0); 
     bool fieldOreo = true; // field oriented? - yes
 
@@ -79,8 +84,6 @@ void Robot::TeleopPeriodic() // main loop
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
-    frc::SmartDashboard::PutNumber("GYRO 2: ", a_Gyro.GetAngle(1));
-    frc::SmartDashboard::PutNumber("GYRO 3: ", a_Gyro.GetAngle(2));
 
     /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
         
@@ -111,6 +114,35 @@ void Robot::TeleopPeriodic() // main loop
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
     a_LimeyLight.printValues();
+
+
+
+    float scalar = 1.0;
+
+    if(a_xBoxController.GetRawButton(1))
+    {
+        scalar = 0.8; // 80% speed if a is held
+    }
+
+    a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
+
+    a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    
+    if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
+    {
+        a_CFS.Collect(a_xBoxController.GetRawAxis(3));
+    }
+    else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
+    {
+        a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+    }
+    else
+    {
+        a_CFS.Collect(0);
+    }
+    
+
+
 }
 
 void Robot::TestInit() 
@@ -120,23 +152,30 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    if(fabs(a_xBoxController.GetRawAxis(5))) {
-        a_CFS.Shoot(0);
-    } else {
-       a_CFS.Shoot(a_xBoxController.GetRawAxis(5));
+    float scalar = 1.0;
+
+    if(a_xBoxController.GetRawButton(1))
+    {
+        scalar = 0.8; // 80% speed if a is held
     }
 
-    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
-        a_CFS.Feed(0);
-    } else {
-        a_CFS.Feed(a_xBoxController.GetRawAxis(1));
-    }
+    a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
 
-    if(fabs(a_xBoxController.GetRawAxis(3)) < 0.10) {
-        a_CFS.ArmMove(0);
-    } else {        
-        a_CFS.ArmMove(a_xBoxController.GetRawAxis(3));
-    } 
+    a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    
+    if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
+    {
+        a_CFS.Collect(a_xBoxController.GetRawAxis(3));
+    }
+    else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
+    {
+        a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+    }
+    else
+    {
+        a_CFS.Collect(0);
+    }
+    
 
     /* if(a_xBoxController.GetRawButton(4)) {
         a_CFS.Shoot(SHOOT_SPEED); 
@@ -146,7 +185,7 @@ void Robot::TestPeriodic()
 
     if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
         a_CFS.ArmMove(0);
-    } else {
+    } else {,
         a_CFS.ArmMove(a_xBoxController.GetRawAxis(1));
     }
 

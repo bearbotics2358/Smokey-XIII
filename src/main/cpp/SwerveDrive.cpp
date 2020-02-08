@@ -78,7 +78,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     	BR_Speed /= max;
     }
 
-	float scalar = 1; // scalar to adjust if speed is too high
+	float scalar = 0.35; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -106,28 +106,41 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 
 	// update speeds and angles 
 
+	/* FL_Module->setDriveSpeed(FL_Speed);
+	FL_Module->steerToAng(FL_Angle);
+
+	FR_Module->setDriveSpeed(FR_Speed);
+	FR_Module->steerToAng(FR_Angle);
+
+ 	BL_Module->setDriveSpeed(BL_Speed);
+	BL_Module->steerToAng(BL_Angle);
+
+	BR_Module->setDriveSpeed(BR_Speed);
+	BR_Module->steerToAng(BR_Angle);	
+	*/
+
 	if(FL_Module->adjustAngle(FL_Angle)){
-		FL_Module->setDriveSpeed(-0.35 * FL_Speed);
+		FL_Module->setDriveSpeed(-1.0 * FL_Speed);
 	} else {
-		FL_Module->setDriveSpeed(0.35 * FL_Speed);
+		FL_Module->setDriveSpeed(FL_Speed);
 	}
 
 	if(FR_Module->adjustAngle(FR_Angle)){
-		FR_Module->setDriveSpeed(-0.35 * FR_Speed);
+		FR_Module->setDriveSpeed(-1.0 * FR_Speed);
 	} else {
-		FR_Module->setDriveSpeed(0.35 * FR_Speed);
+		FR_Module->setDriveSpeed(FR_Speed);
 	}
 
  	if(BL_Module->adjustAngle(BL_Angle)){
-		BL_Module->setDriveSpeed(-0.35 * BL_Speed);
+		BL_Module->setDriveSpeed(-1.0 * BL_Speed);
 	} else {
-		BL_Module->setDriveSpeed(0.35 * BL_Speed);
+		BL_Module->setDriveSpeed(BL_Speed);
 	}
 
 	if(BR_Module->adjustAngle(BR_Angle)){
-		BR_Module->setDriveSpeed(-0.35 * BR_Speed);
+		BR_Module->setDriveSpeed(-1.0 * BR_Speed);
 	} else {
-		BR_Module->setDriveSpeed(0.35 * BR_Speed);
+		BR_Module->setDriveSpeed(BR_Speed);
 	}
 }
 
