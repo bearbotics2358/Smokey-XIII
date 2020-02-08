@@ -52,9 +52,9 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
 int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
-    char* addr = (char*) addrin.c_str();
-    char* port = (char*) portin.c_str();
-    char* topic = (char*) topicin.c_str();
+    char *addr = (char *) addrin.c_str();
+    char *port = (char *) portin.c_str();
+    char *topic = (char *) topicin.c_str();
     
     /* open the non-blocking TCP socket (connecting to the broker) */
     sockfd = open_nb_socket(addr, port);
@@ -76,6 +76,18 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     /* check that we don't have any errors */
     if (client.error != MQTT_OK) {
         return -2;
+    }
+    return 0;
+}
+
+int MQTTHandler::mqttPublish (std::string msg, std::string topic)
+{
+    const char *ctopic = (const char *) topic.c_str();
+    void *cmsg = (void *) msg.c_str();
+
+    if (mqtt_publish (&client, ctopic, cmsg, msg.length(), MQTT_PUBLISH_RETAIN) != MQTT_OK)
+    {
+        return -1;
     }
     return 0;
 }

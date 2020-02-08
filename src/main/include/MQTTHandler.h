@@ -30,6 +30,7 @@ class MQTTHandler
         MQTTHandler (std::string addrin, std::string portin, std::string topicin);
         int init (std::string addrin, std::string portin, std::string topicin);
         void update ();
+        int mqttPublish (std::string msg, std::string topic);
         float getDistance () const;
         float getAngle () const;
     private:
