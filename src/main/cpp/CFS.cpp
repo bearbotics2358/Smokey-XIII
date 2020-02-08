@@ -26,25 +26,25 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
     }
 
  void CFS::Shoot(float speed) {
-        a_ShootLeft.Set(ControlMode::PercentOutput, speed);
+        a_ShootLeft.Set(ControlMode::PercentOutput, -speed);
         a_ShootRight.Set(ControlMode::PercentOutput, speed);
  }
 
  void CFS::Collect() {
-     a_Collector.Set(ControlMode::PercentOutput, COLLECT_SPEED);
+     a_Collector.Set(ControlMode::PercentOutput, -COLLECT_SPEED);
  }
 
  void CFS::Collect(float speed) {
-     a_Collector.Set(ControlMode::PercentOutput, speed);
+     a_Collector.Set(ControlMode::PercentOutput, -speed);
  }
 
  void CFS::Feed() {
-     a_FeedBot.Set(ControlMode::PercentOutput, FEED_SPEED);
+     a_FeedBot.Set(ControlMode::PercentOutput, -FEED_SPEED);
      a_FeedTop.Set(ControlMode::PercentOutput, FEED_SPEED);
  }
 
  void CFS::Feed(float speed) {
-     a_FeedBot.Set(ControlMode::PercentOutput, speed);
+     a_FeedBot.Set(ControlMode::PercentOutput, -speed);
      a_FeedTop.Set(ControlMode::PercentOutput, speed);
  }
 
@@ -69,8 +69,10 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
      if(a_BeamBreak1.beamBroken() && index < 5) {
          ballCount[index] = true;
          index++; 
+         a_BeamBreak1.isBroken = false; 
      } else if(a_BeamBreak2.beamBroken() && index > 0) {
          ballCount[index] = false; 
          index--;
+         a_BeamBreak2.isBroken = false; 
      }
  }

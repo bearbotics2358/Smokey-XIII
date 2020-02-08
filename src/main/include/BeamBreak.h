@@ -8,6 +8,7 @@ public:
 
     BeamBreak(int port);
     bool beamBroken();
+    bool isBroken = false; 
 
 private:    
 

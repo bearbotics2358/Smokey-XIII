@@ -8,8 +8,11 @@
 
     bool BeamBreak::beamBroken() {
         if(a_Input.Get() == 1) {
-            return true; 
+            isBroken = true; 
+        } else {
+            isBroken = false; 
         }
+        return isBroken; 
     }
  
     /*
