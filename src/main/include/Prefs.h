@@ -83,3 +83,6 @@ BR:
 #define PIVOT 46
 
 // int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot
+
+#define BEAM_BREAK1 2
+#define BEAM_BREAK2 3

@@ -111,6 +111,13 @@ void Robot::TeleopPeriodic() // main loop
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
     a_LimeyLight.printValues();
+
+    frc::SmartDashboard::PutBoolean("Ball Count", a_CFS.ballCount[0]);
+    frc::SmartDashboard::PutBoolean("Ball Count", a_CFS.ballCount[1]);
+    frc::SmartDashboard::PutBoolean("Ball Count", a_CFS.ballCount[2]);
+    frc::SmartDashboard::PutBoolean("Ball Count", a_CFS.ballCount[3]);
+    frc::SmartDashboard::PutBoolean("Ball Count", a_CFS.ballCount[4]);
+    
 }
 
 void Robot::TestInit() 

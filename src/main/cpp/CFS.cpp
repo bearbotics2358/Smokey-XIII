@@ -9,7 +9,10 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
     a_FeedTop(feed1),
     a_FeedBot(feed2),
     a_Collector(collect),
+    a_BeamBreak1(BEAM_BREAK1),
+    a_BeamBreak2(BEAM_BREAK2),
     a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless)
+    
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
@@ -60,4 +63,14 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
 
  float CFS::GetWheelSpeedL() {
      return a_ShootLeft.GetSelectedSensorVelocity();
+ }
+
+ void CFS::Index() {
+     if(a_BeamBreak1.beamBroken() && index < 5) {
+         ballCount[index] = true;
+         index++; 
+     } else if(a_BeamBreak2.beamBroken() && index > 0) {
+         ballCount[index] = false; 
+         index--;
+     }
  }
