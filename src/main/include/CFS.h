@@ -22,6 +22,7 @@ class CFS
 
         void Feed();
         void Feed(float speed);
+        void FeedBeamBreak(); 
 
         void ArmMove(float speed);
 
@@ -29,10 +30,8 @@ class CFS
 
         float GetWheelSpeedR(); // return floats of velocity for right and left
         float GetWheelSpeedL(); 
+
         
-        void Index(); 
-        int index = 0; 
-        bool ballCount[5] = {false, false, false, false, false};
        
 
         /* 
@@ -50,8 +49,7 @@ class CFS
     WPI_TalonSRX a_FeedBot;
     WPI_TalonSRX a_Collector;
 
-    BeamBreak a_BeamBreak1;
-    BeamBreak a_BeamBreak2;
+    BeamBreak a_BeamBreak;
 
     rev::CANSparkMax a_Pivot; // arm motor 
 

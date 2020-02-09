@@ -15,6 +15,7 @@ a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT)
+// a_BrokenBeam(BROKEN_BEAM)
 {
     a_FLModule.updateDrivePID(0.0, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -42,6 +43,8 @@ void Robot::RobotPeriodic()
     a_Gyro.Update(); 
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
+    // frc::SmartDashboard::PutBoolean("Beam Break", a_BrokenBeam.beamBroken());
+    
 }
 
 void Robot::AutonomousInit() 
@@ -141,6 +144,8 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.Collect(0);
     }
     
+    
+
 }
 
 void Robot::TestInit() 
@@ -159,7 +164,14 @@ void Robot::TestPeriodic()
 
     a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
 
-    a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    if(a_xBoxController.GetRawButton(2))
+    {
+        a_CFS.FeedBeamBreak();
+    }
+    else
+    {
+        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    }
     
     if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
     {
@@ -168,6 +180,7 @@ void Robot::TestPeriodic()
     else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
     {
         a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+        frc::SmartDashboard::PutNumber("Collector Speed: ", -1 * a_xBoxController.GetRawAxis(2));
     }
     else
     {

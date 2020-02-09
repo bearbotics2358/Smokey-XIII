@@ -86,3 +86,4 @@ BR:
 
 #define BEAM_BREAK1 2
 #define BEAM_BREAK2 3
+#define BROKEN_BEAM 1

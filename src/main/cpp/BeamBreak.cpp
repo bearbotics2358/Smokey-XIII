@@ -1,7 +1,7 @@
 #include "BeamBreak.h"
 
     BeamBreak::BeamBreak(int port): 
-    a_Input(BEAM_BREAK1)
+    a_Input(port)
     {
         
     }
@@ -21,14 +21,3 @@
     */
 
 
-
-
- /*
- reverse = false;
-
- if(reverse && a_Input.Get() == 1) {
-            count++; 
-        } else if(!reverse && a_Input.Get() == 1) {
-            count--;
-        }
- */
