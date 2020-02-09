@@ -9,7 +9,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
     a_FeedTop(feed1),
     a_FeedBot(feed2),
     a_Collector(collect),
-    a_BeamBreak(BROKEN_BEAM),
+    a_BrokenBeam(BROKEN_BEAM),
     a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless)
     
 {
@@ -60,7 +60,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot):
  }
 
 void CFS::FeedBeamBreak() {
-    if(a_BeamBreak.beamBroken()) {
+    if(a_BrokenBeam.beamBroken()) {
         Feed(-0.5);
     } else {
         Feed(0);
@@ -82,5 +82,9 @@ void CFS::FeedBeamBreak() {
 
  float CFS::GetWheelSpeedL() {
      return a_ShootLeft.GetSelectedSensorVelocity();
+ }
+
+ bool CFS::GetBeamBreak() {
+     return a_BrokenBeam.beamBroken(); 
  }
 

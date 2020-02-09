@@ -30,6 +30,7 @@ class CFS
 
         float GetWheelSpeedR(); // return floats of velocity for right and left
         float GetWheelSpeedL(); 
+        bool GetBeamBreak(); 
 
         
        
@@ -49,7 +50,7 @@ class CFS
     WPI_TalonSRX a_FeedBot;
     WPI_TalonSRX a_Collector;
 
-    BeamBreak a_BeamBreak;
+    BeamBreak a_BrokenBeam;
 
     rev::CANSparkMax a_Pivot; // arm motor 
 

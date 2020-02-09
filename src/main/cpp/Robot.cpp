@@ -43,7 +43,7 @@ void Robot::RobotPeriodic()
     a_Gyro.Update(); 
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
-    // frc::SmartDashboard::PutBoolean("Beam Break", a_BrokenBeam.beamBroken());
+    frc::SmartDashboard::PutBoolean("Beam Break", a_CFS.GetBeamBreak());
     
 }
 
