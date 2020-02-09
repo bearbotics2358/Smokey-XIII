@@ -1,6 +1,5 @@
 #pragma once
 
-#include "mqtt.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -10,6 +9,8 @@
 #include <stdlib.h>
 #include <string>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include "mqtt.h"
+#include "Prefs.h"
 
 typedef struct
 {
@@ -35,11 +36,11 @@ class MQTTHandler
         float getAngle () const;
     private:
         static int open_nb_socket (char *addr, char *port);
-        static void publish_callback(void **unused, struct mqtt_response_publish *published);
-        static void reconnect_callback(struct mqtt_client *client, void **state);
+        static void publish_callback (void **unused, struct mqtt_response_publish *published);
+        static void reconnect_callback (struct mqtt_client *client, void **state);
         struct mqtt_client client;
         reconnect_data rcdata;
-        uint8_t sendbuf[2048];
-        uint8_t recvbuf[1024];
+        uint8_t sendbuf[SEND_BUF_LEN];
+        uint8_t recvbuf[RECV_BUF_LEN];
         int sockfd;
 };

@@ -6,19 +6,12 @@ struct
     float angle;
 } data;
 
-void MQTTHandler::publish_callback(void** unused, struct mqtt_response_publish *published) 
-{
-    /* note that published->topic_name is NOT null-terminated (here we'll change it to a c-string) */
-    //char* topic_name = (char*) malloc(published->topic_name_size + 1);
-        
+void MQTTHandler::publish_callback (void** unused, struct mqtt_response_publish *published) 
+{    
     sscanf ((char *) published->application_message, "%f %f", &(data.distance), &(data.angle));
-
-    //frc::SmartDashboard::PutString ("Message", std::string ((char *) published->application_message));
-
-    //free(topic_name);
 }
 
-void MQTTHandler::reconnect_callback(struct mqtt_client *client, void **state)
+void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
 {
     reconnect_data *rcdata = *((reconnect_data **) state);
 
@@ -56,8 +49,7 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     char *port = (char *) portin.c_str();
     char *topic = (char *) topicin.c_str();
     
-    /* open the non-blocking TCP socket (connecting to the broker) */
-    sockfd = open_nb_socket(addr, port);
+    sockfd = open_nb_socket (addr, port);
     if (sockfd == -1) {
         return -1;
     }
@@ -71,9 +63,8 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     rcdata.recvbuf = recvbuf;
     rcdata.recvbuf_size = sizeof(recvbuf);
 
-    mqtt_init_reconnect(&client, reconnect_callback, &rcdata, publish_callback);
+    mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback);
 
-    /* check that we don't have any errors */
     if (client.error != MQTT_OK) {
         return -2;
     }
@@ -85,7 +76,7 @@ int MQTTHandler::mqttPublish (std::string msg, std::string topic)
     const char *ctopic = (const char *) topic.c_str();
     void *cmsg = (void *) msg.c_str();
 
-    if (mqtt_publish (&client, ctopic, cmsg, msg.length(), MQTT_PUBLISH_RETAIN) != MQTT_OK)
+    if (mqtt_publish (&client, ctopic, cmsg, msg.length (), MQTT_PUBLISH_RETAIN) != MQTT_OK)
     {
         return -1;
     }
@@ -102,7 +93,8 @@ float MQTTHandler::getAngle () const
     return data.angle;
 }
 
-int MQTTHandler::open_nb_socket(char* addr, char* port) {
+// From mqtt_c examples/sockets
+int MQTTHandler::open_nb_socket (char* addr, char* port) {
     struct addrinfo hints = {0};
 
     hints.ai_family = AF_UNSPEC; /* IPv4 or IPv6 */

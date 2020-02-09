@@ -17,7 +17,7 @@
 #define BR_STEER_ID 31
 #define BR_DRIVE_ID 32
 
-#define PI 3.14159265
+//#define PI 3.14159265
 
 
 /*
@@ -67,3 +67,8 @@ BR:
 
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
+
+/* ============= MQTTHandler ============= */
+
+#define SEND_BUF_LEN 32
+#define RECV_BUF_LEN 32

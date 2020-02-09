@@ -18,7 +18,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 
 	if(fieldOriented) // Makes joystick inputs field oriented
 	{
-		float gyroRadians = gyroIn * PI / 180; 
+		float gyroRadians = gyroIn * M_PI / 180; 
 		float temp = yInput * cos(gyroRadians) + xInput * sin(gyroRadians);
 		xInput = -yInput * sin(gyroRadians) + xInput * cos(gyroRadians);
 		yInput = temp;
@@ -38,10 +38,10 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     float BL_Speed = sqrt(a*a + d*d);
     float BR_Speed = sqrt(a*a + c*c);
 
-	float FL_Angle = atan2(b,c) * 180/PI; // calculates wheel angles and converts to radians
-    float FR_Angle = atan2(b,d) * 180/PI;
-    float BL_Angle = atan2(a,c) * 180/PI;
-	float BR_Angle = atan2(a,d) * 180/PI;
+	float FL_Angle = atan2(b,c) * 180/M_PI; // calculates wheel angles and converts to radians
+    float FR_Angle = atan2(b,d) * 180/M_PI;
+    float BL_Angle = atan2(a,c) * 180/M_PI;
+	float BR_Angle = atan2(a,d) * 180/M_PI;
 
 	if(FL_Angle < 0) 
 	{
