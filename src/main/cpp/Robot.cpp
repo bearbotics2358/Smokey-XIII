@@ -43,9 +43,12 @@ void Robot::RobotPeriodic()
     a_Gyro.Update(); 
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
-    frc::SmartDashboard::PutBoolean("Bottom Beam Break", a_CFS.GetBottomBeam());
-    frc::SmartDashboard::PutBoolean("Top Beam Break", a_CFS.GetTopBeam());
-    
+    frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
+    frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
+    frc::SmartDashboard::PutNumber("FL Speed: ", a_FLModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("FR Speed: ", a_FRModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
 }
 
 void Robot::AutonomousInit() 
@@ -81,7 +84,7 @@ void Robot::TeleopPeriodic() // main loop
         if(joystickOne.GetRawButton(1)) {
             a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
         } else {
-           a_swerveyDrive.swerveUpdate(x, y, 0, gyro, fieldOreo);
+           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
     } else {
         a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
@@ -130,7 +133,14 @@ void Robot::TeleopPeriodic() // main loop
 
     a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
 
-    a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    if(a_xBoxController.GetRawButton(2))
+    {
+        a_CFS.AutoCollect();
+    }
+    else
+    {
+        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    }
     
     if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
     {
@@ -164,10 +174,18 @@ void Robot::TestPeriodic()
     }
 
     a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
+/*
+    if(a_xboxController.GetRawbutton()) 
+    {
+        a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
+    } else 
+    {
 
+    }
+*/
     if(a_xBoxController.GetRawButton(2))
     {
-        a_CFS.FeedBeamBreak();
+        a_CFS.AutoCollect();
     }
     else
     {
