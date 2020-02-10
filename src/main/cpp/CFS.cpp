@@ -61,8 +61,9 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
  }
 
 void CFS::AutoCollect() {
-    if(!a_TopBeam.beamBroken()) // less than 4
+    if(true) // !a_TopBeam.beamBroken()) // less than 4
     {
+        frc::SmartDashboard::PutBoolean("auto collecting: ", true);
         Collect(-0.32);
         if(a_BrokenBeam.beamBroken()) {
             Feed(-0.5);

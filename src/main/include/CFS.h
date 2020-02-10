@@ -8,6 +8,7 @@
 #include <frc/controller/PIDController.h>
 #include <Prefs.h>
 #include "BeamBreak.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class CFS 
 {

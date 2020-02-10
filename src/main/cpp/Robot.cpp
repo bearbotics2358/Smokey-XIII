@@ -82,12 +82,12 @@ void Robot::TeleopPeriodic() // main loop
 
     if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) {
-            a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+            // a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
         } else {
-           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+           // a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
     } else {
-        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        // a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
@@ -137,22 +137,21 @@ void Robot::TeleopPeriodic() // main loop
     }
     else
     {
+        if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
+        {
+            a_CFS.Collect(a_xBoxController.GetRawAxis(3));
+        }
+        else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
+        {
+            a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+        }
+        else
+        {
+            a_CFS.Collect(0);
+        }
+
         a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
     }
-    
-    if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
-    {
-        a_CFS.Collect(a_xBoxController.GetRawAxis(3));
-    }
-    else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
-    {
-        a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
-    }
-    else
-    {
-        a_CFS.Collect(0);
-    }
-    
     
 
 }
