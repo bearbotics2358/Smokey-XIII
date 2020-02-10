@@ -23,6 +23,7 @@ enum AutoState0 { // Encoders
 enum AutoState1 { // Encoders
 	kAutoIdle1 = 0,
 	kArmMove1,
+	kBallFind1,
 	kShoot1,
     kDriveAway1
 };
@@ -115,7 +116,8 @@ class Autonomous
 	void waitplz(double anticipate); // Wait
 	bool MoveDaArm(double angle); // arm move to angle
 	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
-	bool RootyTootyShooty(); // Shooting balls 
+	bool CheckBallPos();
+	bool RootyTootyShooty(int count); // Shooting balls 
 
 
 
@@ -138,5 +140,9 @@ class Autonomous
 
 
     int autoPathMaster;
+	int BallsShot;
+	bool prevbeam;
+	bool currbeam;
+
 
 };

@@ -19,6 +19,9 @@ Autonomous::Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *
 {
 
     autoPathMaster = -1;
+    BallsShot = 0;
+    prevbeam = false;
+    currbeam = true;
 
 }
 
@@ -333,9 +336,24 @@ void Autonomous::AutonomousPeriodic1(){
 
 		    break;
 
+
+        case kBallFind1:
+            if(CheckBallPos()){
+               a_CFS->Feed(AUTO_FEED_VAL);
+
+            } else {
+               nextState = kShoot1;
+
+            }
+
+            break;
+
+
+
+
         case kShoot1:
-           if(false){
-               
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+               RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
 
@@ -437,8 +455,16 @@ bool Autonomous::MoveDaArm(double angle){
 return true;
 
 /*
-    Move arm code here when we have it
+    if(a_CFS->getArmAngle() < angle){         /////AUTO_SHOOT_ANGLE
+        a_CFS->armToAngle(angle);
+        frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
+        return false;
 
+    } else {
+        // a_CFS->armToAngle(KILL);
+        frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
+        return true;
+    }
 
 
 */
@@ -465,12 +491,37 @@ bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is
 }
 
 
-bool Autonomous::RootyTootyShooty(){
+bool Autonomous::CheckBallPos(){
+    if(a_CFS->GetTopBeam()){
+        return true;
 
-    a_CFS->ShootVelocity(SHOOT_VELOCITY);
+    } else {
+        return false;
 
+    }
+
+}
+
+
+bool Autonomous::RootyTootyShooty(int count){
+    currbeam = CheckBallPos();
     
-    return true;
+    
+    if(BallsShot < ((2 * count) - 1) and !currbeam == prevbeam){
+        BallsShot++;
+        prevbeam = currbeam;
+        return false;
+    }
+    else if(BallsShot < ((2 * count) - 1)){
+        a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
+        a_CFS->Feed(AUTO_FEED_VAL);
+        return false;
+    }
+    else{
+        BallsShot = 0;
+        return true;
+    }
+
 
     
 }
