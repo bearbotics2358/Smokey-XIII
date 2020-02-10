@@ -84,6 +84,5 @@ BR:
 
 // int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot
 
-#define BEAM_BREAK1 2
-#define BEAM_BREAK2 3
-#define BROKEN_BEAM 1
+#define REESES_BEAM 2 // Top Beam
+#define BROKEN_BEAM 1 // Bottom Beam

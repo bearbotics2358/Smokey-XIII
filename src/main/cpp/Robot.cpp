@@ -14,7 +14,7 @@ a_xBoxController(XBOX_CONTROLLER),
 a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
-a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT)
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
     a_FLModule.updateDrivePID(0.0, 0, 0);
@@ -43,7 +43,8 @@ void Robot::RobotPeriodic()
     a_Gyro.Update(); 
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
-    frc::SmartDashboard::PutBoolean("Beam Break", a_CFS.GetBeamBreak());
+    frc::SmartDashboard::PutBoolean("Bottom Beam Break", a_CFS.GetBottomBeam());
+    frc::SmartDashboard::PutBoolean("Top Beam Break", a_CFS.GetTopBeam());
     
 }
 

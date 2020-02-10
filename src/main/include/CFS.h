@@ -12,7 +12,7 @@
 class CFS 
 {
     public:
-        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot); 
+        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int beam1, int beam2); 
 
         void Shoot();
         void Shoot(float speed);
@@ -22,7 +22,8 @@ class CFS
 
         void Feed();
         void Feed(float speed);
-        void FeedBeamBreak(); 
+
+        void AutoCollect(); 
 
         void ArmMove(float speed);
 
@@ -51,6 +52,7 @@ class CFS
     WPI_TalonSRX a_Collector;
 
     BeamBreak a_BrokenBeam;
+    BeamBreak a_TopBeam;
 
     rev::CANSparkMax a_Pivot; // arm motor 
 

@@ -47,7 +47,7 @@ float SwerveModule::getAngle(void)
 
 void SwerveModule::goToPosition(float setpoint)
 {
-    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint), -0.4, 0.4); // Calculates scaled output based off of encoder feedback. 
+    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint) / 60.0, -0.4, 0.4); // Calculates scaled output based off of encoder feedback. 
     driveMotor.Set(speed);
 }
 
