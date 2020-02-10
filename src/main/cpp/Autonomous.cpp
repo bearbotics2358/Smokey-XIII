@@ -353,7 +353,7 @@ void Autonomous::AutonomousPeriodic1(){
 
         case kShoot1:
            if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
-               RootyTootyShooty(AUTO_START_BALL_NUM)
+               RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
 
@@ -512,7 +512,7 @@ bool Autonomous::RootyTootyShooty(int count){
         prevbeam = currbeam;
         return false;
     }
-    else if(BallsShot < ((2 * count) - 1){
+    else if(BallsShot < ((2 * count) - 1)){
         a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
         a_CFS->Feed(AUTO_FEED_VAL);
         return false;
