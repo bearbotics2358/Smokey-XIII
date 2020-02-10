@@ -78,7 +78,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     	BR_Speed /= max;
     }
 
-	float scalar = 0.35; // scalar to adjust if speed is too high
+	float scalar = 0.9; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -146,7 +146,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 
 float SwerveDrive::lockZ(float gyro)
 {
-	float ret = jenkinsTheCrabPID.Calculate(gyro, holdAngle);
+	float ret = std::clamp(jenkinsTheCrabPID.Calculate(gyro, holdAngle) / 270.0, -0.5, 0.5);
 	return ret;
 }
 

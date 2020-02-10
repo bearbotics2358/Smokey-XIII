@@ -70,7 +70,7 @@ void SwerveModule::setSteerSpeed(float target)
 
 float SwerveModule::getDriveSpeed(void)
 {
-    float ret = driveEnc.GetVelocity() / driveEnc.GetVelocityConversionFactor();
+    float ret = driveEnc.GetVelocity();
     return ret;
 }
 

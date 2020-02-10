@@ -31,7 +31,8 @@ class CFS
 
         float GetWheelSpeedR(); // return floats of velocity for right and left
         float GetWheelSpeedL(); 
-        bool GetBeamBreak(); 
+        bool GetBottomBeam();
+        bool GetTopBeam(); 
 
         
        
