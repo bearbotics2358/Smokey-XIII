@@ -23,7 +23,6 @@ typedef struct
     size_t recvbuf_size;
 } reconnect_data;
 
-
 class MQTTHandler
 {
     public:
