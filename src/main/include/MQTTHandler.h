@@ -30,7 +30,8 @@ class MQTTHandler
         MQTTHandler ();
         MQTTHandler (std::string addrin, std::string portin, std::string topicin);
         int init (std::string addrin, std::string portin, std::string topicin);
-        void update ();
+        bool update ();
+        bool noErrors () const;
         int mqttPublish (std::string msg, std::string topic);
         float getDistance () const;
         float getAngle () const;
@@ -43,4 +44,5 @@ class MQTTHandler
         uint8_t sendbuf[SEND_BUF_LEN];
         uint8_t recvbuf[RECV_BUF_LEN];
         int sockfd;
+        bool errorF;
 };

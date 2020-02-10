@@ -131,7 +131,18 @@ int MQTTHandler::open_nb_socket (char* addr, char* port) {
     return sockfd;
 }
 
-void MQTTHandler::update ()
+bool MQTTHandler::update ()
 {
     mqtt_sync (&client);
+    if (client.error != MQTT_OK)
+    {
+        errorF = false;
+        return false;
+    }
+    return true;
+}
+
+bool MQTTHandler::noErrors () const
+{
+    return errorF;
 }
