@@ -123,15 +123,13 @@ void Robot::TeleopPeriodic() // main loop
     a_LimeyLight.printValues();
 
 
+    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
-    float scalar = 1.0;
-
-    if(a_xBoxController.GetRawButton(1))
-    {
-        scalar = 0.8; // 80% speed if a is held
+    if(a_xBoxController.GetRawButton(1)) {
+        a_CFS.ShootVelocity(-1); 
+    } else {
+        a_CFS.ShootVelocity(0);
     }
-
-    a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
 
     if(a_xBoxController.GetRawButton(2))
     {
@@ -174,15 +172,7 @@ void Robot::TestPeriodic()
     }
 
     a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
-/*
-    if(a_xboxController.GetRawbutton()) 
-    {
-        a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
-    } else 
-    {
 
-    }
-*/
     if(a_xBoxController.GetRawButton(2))
     {
         a_CFS.AutoCollect();
@@ -207,11 +197,7 @@ void Robot::TestPeriodic()
     }
     
 
-    /* if(a_xBoxController.GetRawButton(4)) {
-        a_CFS.Shoot(SHOOT_SPEED); 
-    } else {
-        a_CFS.Shoot(0);
-    }
+    /* 
 
     if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
         a_CFS.ArmMove(0);
