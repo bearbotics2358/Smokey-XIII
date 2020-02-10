@@ -68,7 +68,22 @@ BR:
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
 
+
+#define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
+
 #define ARM_DEFAULT_POSITION 90 //degrees???? CHANGE WHEN ACTUALLY FOUND
+#define AUTO_ARM_FINAL_POS 23 //degrees???? CHANGE WHEN ACTUALLY FOUND
+#define AUTO_SHOOT_VELOCITY 400 // RPM, change after PID tuned and Tested
+#define AUTO_FEED_VAL .5 // wowowowow
+
+
+
+
+
+
+
+
+/*----------------------------------------------*/
 
 #define SHOOT_VOLTS .7
 #define SHOOT_VELOCITY 400
