@@ -6,6 +6,44 @@ struct
     float angle;
 } data;
 
+// From mqtt_c examples/sockets
+int MQTTHandler::open_nb_socket (char* addr, char* port) {
+    struct addrinfo hints = {0};
+
+    hints.ai_family = AF_UNSPEC; /* IPv4 or IPv6 */
+    hints.ai_socktype = SOCK_STREAM; /* Must be TCP */
+    int sockfd = -1;
+    int rv;
+    struct addrinfo *p, *servinfo;
+
+    /* get address information */
+    rv = getaddrinfo(addr, port, &hints, &servinfo);
+    if(rv != 0) {
+        fprintf(stderr, "Failed to open socket (getaddrinfo): %s\n", gai_strerror(rv));
+        return -1;
+    }
+
+    /* open the first possible socket */
+    for(p = servinfo; p != NULL; p = p->ai_next) {
+        sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        if (sockfd == -1) continue;
+
+        /* connect to server */
+        rv = connect(sockfd, servinfo->ai_addr, servinfo->ai_addrlen);
+        if(rv == -1) continue;
+        break;
+    }  
+
+    /* free servinfo */
+    freeaddrinfo(servinfo);
+
+    /* make non-blocking */
+    if (sockfd != -1) fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL) | O_NONBLOCK);
+
+    /* return the new socket fd */
+    return sockfd;
+}
+
 void MQTTHandler::publish_callback (void** unused, struct mqtt_response_publish *published) 
 {    
     sscanf ((char *) published->application_message, "%f %f", &(data.distance), &(data.angle));
@@ -71,66 +109,6 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     return 0;
 }
 
-int MQTTHandler::mqttPublish (std::string msg, std::string topic)
-{
-    const char *ctopic = (const char *) topic.c_str();
-    void *cmsg = (void *) msg.c_str();
-
-    if (mqtt_publish (&client, ctopic, cmsg, msg.length (), MQTT_PUBLISH_RETAIN) != MQTT_OK)
-    {
-        return -1;
-    }
-    return 0;
-}
-
-float MQTTHandler::getDistance () const
-{
-    return data.distance;
-}
-
-float MQTTHandler::getAngle () const
-{
-    return data.angle;
-}
-
-// From mqtt_c examples/sockets
-int MQTTHandler::open_nb_socket (char* addr, char* port) {
-    struct addrinfo hints = {0};
-
-    hints.ai_family = AF_UNSPEC; /* IPv4 or IPv6 */
-    hints.ai_socktype = SOCK_STREAM; /* Must be TCP */
-    int sockfd = -1;
-    int rv;
-    struct addrinfo *p, *servinfo;
-
-    /* get address information */
-    rv = getaddrinfo(addr, port, &hints, &servinfo);
-    if(rv != 0) {
-        fprintf(stderr, "Failed to open socket (getaddrinfo): %s\n", gai_strerror(rv));
-        return -1;
-    }
-
-    /* open the first possible socket */
-    for(p = servinfo; p != NULL; p = p->ai_next) {
-        sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
-        if (sockfd == -1) continue;
-
-        /* connect to server */
-        rv = connect(sockfd, servinfo->ai_addr, servinfo->ai_addrlen);
-        if(rv == -1) continue;
-        break;
-    }  
-
-    /* free servinfo */
-    freeaddrinfo(servinfo);
-
-    /* make non-blocking */
-    if (sockfd != -1) fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL) | O_NONBLOCK);
-
-    /* return the new socket fd */
-    return sockfd;
-}
-
 bool MQTTHandler::update ()
 {
     mqtt_sync (&client);
@@ -145,4 +123,26 @@ bool MQTTHandler::update ()
 bool MQTTHandler::noErrors () const
 {
     return errorF;
+}
+
+int MQTTHandler::mqttPublish (std::string msg, std::string topic)
+{
+    const char *ctopic = (const char *) topic.c_str();
+    void *cmsg = (void *) msg.c_str();
+
+    if (mqtt_publish (&client, ctopic, cmsg, msg.length (), MQTT_PUBLISH_RETAIN) != MQTT_OK)
+    {
+        return -1;
+    }
+    return 0;
+}
+
+float MQTTHandler::getDistance ()
+{
+    return data.distance;
+}
+
+float MQTTHandler::getAngle ()
+{
+    return data.angle;
 }
