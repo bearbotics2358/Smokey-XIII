@@ -16,12 +16,30 @@ a_buttonbox(3),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight()
 {
+    a_FLModule.updateDrivePID(0.0, 0, 0);
+    a_FLModule.updateSteerPID(2.0, 0, 0.02);
 
+    a_FRModule.updateDrivePID(0.8, 0, 0);
+    a_FRModule.updateSteerPID(2.2, 0, 0.002);
+
+    a_BLModule.updateDrivePID(0.8, 0, 0);
+    a_BLModule.updateSteerPID(2.0, 0, 0.002);
+
+    a_BRModule.updateDrivePID(0.0, 0, 0);
+    a_BRModule.updateSteerPID(2.0, 0, 0.01);
 }
 
 void Robot::RobotInit() 
 {
     frc::SmartDashboard::init();
+    a_Gyro.Init();
+    a_Gyro.Cal();
+    a_Gyro.Zero();
+}
+
+void Robot::RobotPeriodic()
+{
+    a_Gyro.Update(); 
 }
 
 void Robot::AutonomousInit() 
@@ -41,15 +59,16 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
-    float x = joystickOne.GetRawAxis(0);
-    float y = joystickOne.GetRawAxis(1);
+    float x = -1 * joystickOne.GetRawAxis(0);
+    float y = -1 * joystickOne.GetRawAxis(1);
     float z = joystickOne.GetRawAxis(2);
     float gyro = a_Gyro.GetAngle(0); 
-    bool fieldOreo = false; // field oriented? 
+    bool fieldOreo = true; // field oriented? - yes
 
-    bool inDeadzone = (sqrt(x * x + y * y) < JOYSTICK_DEADZONE && z < 0.01 ? true : false); // Checks joystick deadzones
+    frc::SmartDashboard::PutNumber("Chase: ", z);
+    bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < 0.01)) ? true : false); // Checks joystick deadzones
 
-    if(inDeadzone) {
+    if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) {
             a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
         } else {
@@ -60,6 +79,8 @@ void Robot::TeleopPeriodic() // main loop
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
+    frc::SmartDashboard::PutNumber("GYRO 2: ", a_Gyro.GetAngle(1));
+    frc::SmartDashboard::PutNumber("GYRO 3: ", a_Gyro.GetAngle(2));
 
     // -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- \\
         

@@ -17,7 +17,8 @@
 #define BR_STEER_ID 31
 #define BR_DRIVE_ID 32
 
-//#define PI 3.14159265
+#define PI 3.14159265
+
 
 
 /*
@@ -67,6 +68,9 @@ BR:
 
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
+#define SHOOT_SPEED .7
+#define COLLECT_SPEED .5
+#define FEED_SPEED .23
 
 /* ============= MQTTHandler ============= */
 

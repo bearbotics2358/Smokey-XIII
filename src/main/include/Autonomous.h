@@ -3,10 +3,9 @@
 #pragma once
 
 #include <frc/WPILib.h>
-#include <Shooty.h>
 #include <SwerveDrive.h>
 #include <Climby.h>
-#include <Collecty.h>
+#include <CFS.h>
 #include <frc/Joystick.h> 
 #include <Prefs.h>
 // #include <JrimmyGyro.h>
@@ -16,17 +15,20 @@
 
 enum AutoState0 { // Encoders
 	kAutoIdle0 = 0,
+	kArmMove0,
 	kDriveAway0
 };
 
 enum AutoState1 { // Encoders
 	kAutoIdle1 = 0,
+	kArmMove1,
 	kShoot1,
     kDriveAway1
 };
 
 enum AutoState2 { // T.O.F and Encoders
 	kAutoIdle2 = 0,
+	kArmMove2,
 	kShoot2,
     kTurnToParallel2,
     kDriveToWall2,
@@ -36,6 +38,7 @@ enum AutoState2 { // T.O.F and Encoders
 
 enum AutoState3 { // T.O.F and Encoders
 	kAutoIdle3 = 0,
+	kArmMove3,
 	kShoot3,
     kTurnToParallel3,
     kDriveToWall3,
@@ -60,6 +63,7 @@ enum AutoState3 {
 
 enum AutoState4 { // Uses vision
 	kAutoIdle4 = 0,
+	kArmMove4,
 	kShoot4,
     kTurnToTruss4,
     kDrivetoBalls4,
@@ -74,7 +78,7 @@ enum AutoState4 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(int ButtonsID);
+	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -82,8 +86,8 @@ class Autonomous
 	int GetCurrentPath();
 	void StartPathMaster();
 	void StartPathMaster(int path);
-	//void PeriodicPathMaster();
-	//void PeriodicPathMaster(int path);
+	void PeriodicPathMaster();
+	void PeriodicPathMaster(int path);
 	void AutonomousStart0();
 	void AutonomousPeriodic0();
 	void AutonomousStart1();
@@ -100,14 +104,16 @@ class Autonomous
 
 	// JrimmyGyro a_Gyro;
 
+	frc::Joystick &a_ButtonBox;
+	SwerveDrive &a_SwerveDrive;
+	CFS &a_CFS;
+
+
 	AutoState0 a_AutoState0;
 	AutoState1 a_AutoState1;
 	AutoState2 a_AutoState2;
     AutoState3 a_AutoState3;
     AutoState4 a_AutoState4;
-
-    frc::Joystick a_buttonBox;
-
 
 
     int autoPathMaster;
