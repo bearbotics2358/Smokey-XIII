@@ -1,6 +1,5 @@
 
 #include "SwerveModule.h"
-#include "Math.h"
 
 SwerveModule::SwerveModule(int driveID, int steerID, int steerEncID):
 driveMotor(driveID, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
@@ -46,18 +45,15 @@ float SwerveModule::getAngle(void)
     return adjusted;
 }
 
-void SwerveModule::goToPosition(float current, float setpoint)
+void SwerveModule::goToPosition(float setpoint)
 {
-    float speed = drivePID.Calculate(current, setpoint); // Calculates scaled output based off of encoder feedback.
-    frc::SmartDashboard::PutNumber("velocity loop setpoint: ", speed);   
-    speed = speed / 68;  // EXTREMELY temporary constant, will need to fix at some point
-    driveMotor.Set(0.4 * speed);
+    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint) / 60.0, -0.4, 0.4); // Calculates scaled output based off of encoder feedback. 
+    driveMotor.Set(speed);
 }
 
-void SwerveModule::steerToAng(float current, float setpoint) // the twO
+void SwerveModule::steerToAng(float setpoint) // the twO
 {
-    float speed = steerPID.Calculate(current, setpoint);  
-    speed = speed / 270; // temp solution                                                          
+    float speed = std::clamp(steerPID.Calculate(getAngle(), setpoint) / 270.0, -0.5, 0.5);                                           
     steerMotor.Set(speed);
 }
 
@@ -74,14 +70,14 @@ void SwerveModule::setSteerSpeed(float target)
 
 float SwerveModule::getDriveSpeed(void)
 {
-    float ret = driveEnc.GetVelocity() / driveEnc.GetVelocityConversionFactor();
+    float ret = driveEnc.GetVelocity();
     return ret;
 }
 
 void SwerveModule::setDriveVelocity(float percent) // the onE
 {
     float change = percent * 800;
-    goToPosition(getDistance(), getDistance() + change);
+    goToPosition(getDistance() + change);
 }
 
 void SwerveModule::updateDrivePID(double pNew, double iNew, double dNew)
@@ -98,21 +94,45 @@ void SwerveModule::updateSteerPID(double pNew, double iNew, double dNew)
     steerPID.SetD(dNew);
 }
 
-float SwerveModule::adjustAngle(float currentAngle, float targetAngle) {
-    double kappa = currentAngle - targetAngle; 
-    if(kappa > 180) {
-        currentAngle -= 360;  
-    } else if(kappa < -180) {
-        currentAngle += 360; 
+bool SwerveModule::adjustAngle(float targetAngle) {
+    float tempCurrent = getAngle();
+    float tempTarget = targetAngle;
+    bool changeMade = false; 
+
+    if(tempCurrent - tempTarget > 180) {
+        tempCurrent -= 360;  
+    } else if(tempCurrent - tempTarget < -180) {
+        tempCurrent += 360; 
     }
-    float distOfAngle = targetAngle - currentAngle;
+    float distOfAngle = tempTarget - tempCurrent;
 
     if(distOfAngle > 90) {
-        targetAngle -= 180; 
+        tempTarget -= 180; 
+        changeMade = true;
     } 
 
-    float ahhhhhhhhhhhhhhhhhhhhhh = 0; 
+    if(distOfAngle < -90)
+    {
+        tempTarget += 180;
+        changeMade = true; 
+    }
 
-    return ahhhhhhhhhhhhhhhhhhhhhh; 
+    if(tempTarget < 0) {
+        tempTarget += 360;
+    } else if(tempTarget > 360) {
+        tempTarget -= 360;
+    } // zzzzzzzzzzzzzz
+
+    steerToAng(tempTarget);
+
+    return changeMade; 
 }
 
+
+
+/*
+    steer module to given angle 
+    - return boolean (do we need to change the speed or not?)
+        o specify wether or not the direction need to be reversed  
+        o still move even if angle doesn't need to be adjusted
+*/ 

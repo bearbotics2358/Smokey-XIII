@@ -8,6 +8,7 @@
 #include "SwerveDrive.h" // Swerve kinematics
 #include "JrimmyGyro.h" // Gyro wrapper class; takes in I2C port
 #include "LimeyLight.h"
+#include "CFS.h"
 
 class Robot : public frc::TimedRobot 
 {
@@ -34,7 +35,7 @@ class Robot : public frc::TimedRobot
     SwerveModule a_BRModule;
      
     frc::Joystick joystickOne; // 3D flightstick (Logitech Attack 3?)
-
+    frc::Joystick a_xBoxController; 
     frc::Joystick a_buttonbox;
 
     // Swerve Drive object
@@ -42,6 +43,12 @@ class Robot : public frc::TimedRobot
 
     // Lime Light Object
     LimeyLight a_LimeyLight; 
-    
+
     MQTTHandler handler;
+
+    CFS a_CFS; 
+
+    // BeamBreak a_BrokenBeam; 
+
+
 };

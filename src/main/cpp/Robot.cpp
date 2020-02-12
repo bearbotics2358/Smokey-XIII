@@ -12,9 +12,12 @@ a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replac
 a_BLModule(BL_DRIVE_ID, BL_STEER_ID, 3),
 a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
 joystickOne(JOYSTICK_PORT),
-a_buttonbox(3),
+a_xBoxController(XBOX_CONTROLLER),
+a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
-a_LimeyLight()
+a_LimeyLight(),
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
+// a_BrokenBeam(BROKEN_BEAM)
 {
     a_FLModule.updateDrivePID(0.0, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -40,6 +43,14 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
     a_Gyro.Update(); 
+    frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
+    frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
+    frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
+    frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
+    frc::SmartDashboard::PutNumber("FL Speed: ", a_FLModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("FR Speed: ", a_FRModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
 }
 
 void Robot::AutonomousInit() 
@@ -59,9 +70,12 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
+
+
+
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
-    float z = joystickOne.GetRawAxis(2);
+    float z = -1 * joystickOne.GetRawAxis(2);
     float gyro = a_Gyro.GetAngle(0); 
     bool fieldOreo = true; // field oriented? - yes
 
@@ -70,19 +84,17 @@ void Robot::TeleopPeriodic() // main loop
 
     if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) {
-            a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+            // a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
         } else {
-           a_swerveyDrive.swerveUpdate(x, y, 0, gyro, fieldOreo);
+           // a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
     } else {
-        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        // a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
-    frc::SmartDashboard::PutNumber("GYRO 2: ", a_Gyro.GetAngle(1));
-    frc::SmartDashboard::PutNumber("GYRO 3: ", a_Gyro.GetAngle(2));
 
-    // -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- \\
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
         
     if(joystickOne.GetRawButton(7)) {
         a_LimeyLight.ledOn(); 
@@ -111,6 +123,39 @@ void Robot::TeleopPeriodic() // main loop
     std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
     a_LimeyLight.printValues();
+
+
+    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
+
+    if(a_xBoxController.GetRawButton(1)) {
+        a_CFS.ShootVelocity(-1); 
+    } else {
+        a_CFS.ShootVelocity(0);
+    }
+
+    if(a_xBoxController.GetRawButton(2))
+    {
+        a_CFS.AutoCollect();
+    }
+    else
+    {
+        if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
+        {
+            a_CFS.Collect(a_xBoxController.GetRawAxis(3));
+        }
+        else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
+        {
+            a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+        }
+        else
+        {
+            a_CFS.Collect(0);
+        }
+
+        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    }
+    
+
 }
 
 void Robot::TestInit() 
@@ -126,18 +171,81 @@ void Robot::RobotPeriodic()
 
 void Robot::TestPeriodic() 
 {
-    
-    frc::SmartDashboard::PutBoolean("Switch 1", a_buttonbox.GetRawButton(1));
-    frc::SmartDashboard::PutBoolean("Switch 2", a_buttonbox.GetRawButton(2));
-    frc::SmartDashboard::PutBoolean("Switch 3", a_buttonbox.GetRawButton(3));
-    frc::SmartDashboard::PutBoolean("Switch 4", a_buttonbox.GetRawButton(4));
-    frc::SmartDashboard::PutBoolean("Switch 5", a_buttonbox.GetRawButton(5));
-    frc::SmartDashboard::PutBoolean("Switch 7", a_buttonbox.GetRawButton(7));
+    float scalar = 1.0;
 
+    if(a_xBoxController.GetRawButton(1))
+    {
+        scalar = 0.8; // 80% speed if a is held
+    }
+
+    a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
+
+    if(a_xBoxController.GetRawButton(2))
+    {
+        a_CFS.AutoCollect();
+    }
+    else
+    {
+        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+    }
+    
+    if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
+    {
+        a_CFS.Collect(a_xBoxController.GetRawAxis(3));
+    }
+    else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
+    {
+        a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
+        frc::SmartDashboard::PutNumber("Collector Speed: ", -1 * a_xBoxController.GetRawAxis(2));
+    }
+    else
+    {
+        a_CFS.Collect(0);
+    }
     
 
+    /* 
 
-    
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.10) {
+        a_CFS.ArmMove(0);
+    } else {,
+        a_CFS.ArmMove(a_xBoxController.GetRawAxis(1));
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(3)) < 0.10) {
+        a_CFS.Collect(0);
+    } else {
+        a_CFS.Collect(a_xBoxController.GetRawAxis(3)); 
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(2)) < 0.10) {
+        a_CFS.Collect(0);
+    } else {
+        a_CFS.Collect(-1.0 * a_xBoxController.GetRawAxis(2));
+    }
+
+    if(a_xBoxController.GetRawButton(6)) {
+        a_CFS.Feed(FEED_SPEED);
+    } else {
+        a_CFS.Feed(0);
+    }
+
+    if(a_xBoxController.GetRawButton(5)) {
+        a_CFS.Feed(-1.0 * FEED_SPEED); 
+    } else {
+        a_CFS.Feed(0);
+    }
+
+    if(a_xBoxController.GetPOV() == 0) {
+        // climb
+    } else {
+        // don't climb
+    }
+
+    */ 
+
+
 }
+
 
 int main() { return frc::StartRobot<Robot>(); } // Initiate main loop

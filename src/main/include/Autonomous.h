@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include <frc/WPILib.h>
+// #include <frc/WPILib.h>
 #include <SwerveDrive.h>
 #include <Climby.h>
 #include <CFS.h>
 #include <frc/Joystick.h> 
+#include <frc/Timer.h>
 #include <Prefs.h>
-// #include <JrimmyGyro.h>
+#include <JrimmyGyro.h>
 
 
 
@@ -22,6 +23,7 @@ enum AutoState0 { // Encoders
 enum AutoState1 { // Encoders
 	kAutoIdle1 = 0,
 	kArmMove1,
+	kBallFind1,
 	kShoot1,
     kDriveAway1
 };
@@ -78,35 +80,56 @@ enum AutoState4 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(frc::Joystick &ButtonBox, SwerveDrive &SwerveDrive, CFS &CFS);
+	Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
 	void DecidePath(int intent);
+
 	int GetCurrentPath();
+
 	void StartPathMaster();
 	void StartPathMaster(int path);
+
 	void PeriodicPathMaster();
 	void PeriodicPathMaster(int path);
+
 	void AutonomousStart0();
 	void AutonomousPeriodic0();
+
 	void AutonomousStart1();
 	void AutonomousPeriodic1();
+
 	void AutonomousStart2();
 	void AutonomousPeriodic2();
+
 	void AutonomousStart3();
 	void AutonomousPeriodic3();
+
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
 
 
+// ------------------Sub-Routines-------------------------//
+
+	void IDontLikeExercise(); // IDLE
+	void waitplz(double anticipate); // Wait
+	bool MoveDaArm(double angle); // arm move to angle
+	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
+	bool CheckBallPos();
+	bool RootyTootyShooty(int count); // Shooting balls 
+
+
+
+
  private:
 
-	// JrimmyGyro a_Gyro;
-
-	frc::Joystick &a_ButtonBox;
-	SwerveDrive &a_SwerveDrive;
-	CFS &a_CFS;
+	
+	JrimmyGyro *a_Gyro;
+	frc::Joystick *a_ButtonBox;
+	SwerveDrive *a_SwerveDrive;
+	CFS *a_CFS;
+	frc::Timer a_Anticipation;
 
 
 	AutoState0 a_AutoState0;
@@ -117,5 +140,9 @@ class Autonomous
 
 
     int autoPathMaster;
+	int BallsShot;
+	bool prevbeam;
+	bool currbeam;
+
 
 };

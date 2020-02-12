@@ -47,6 +47,9 @@ BR:
 #define JOYSTICK_PORT 1
 #define JOYSTICK_DEADZONE 0.15
 
+#define BUTTON_BOX 3
+#define XBOX_CONTROLLER 5
+
 #define TICKS_STEERING 18.0 // roughly 18 "position" units per steering rotation
 
 /* ====== ASCII ART ======= */
@@ -65,12 +68,42 @@ BR:
 #define INCHES_PER_TICK (2.0 / 5) * PI // inches
 
 /* ============= AUTO VALUES 4 Jason yoyoyo =========== */
-
+#define ARBITRARY_DIST_BACKWARDS 20.0 // inches
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
-#define SHOOT_SPEED .7
+
+#define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
+
+#define ARM_DEFAULT_POSITION 90 //degrees???? CHANGE WHEN ACTUALLY FOUND
+#define AUTO_ARM_FINAL_POS 23 //degrees???? CHANGE WHEN ACTUALLY FOUND
+#define AUTO_SHOOT_VELOCITY 400 // RPM, change after PID tuned and Tested
+#define AUTO_FEED_VAL .5 // wowowowow
+
+
+
+
+
+
+
+
+/*----------------------------------------------*/
+
+#define SHOOT_VOLTS .7
+#define SHOOT_VELOCITY 400
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
+
+#define SHOOT_1 41
+#define SHOOT_2 42
+#define FEED_1 43
+#define FEED_2 44
+#define COLLECT 45
+#define PIVOT 46
+
+// int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot
+
+#define REESES_BEAM 2 // Top Beam
+#define BROKEN_BEAM 1 // Bottom Beam
 
 /* ============= MQTTHandler ============= */
 
