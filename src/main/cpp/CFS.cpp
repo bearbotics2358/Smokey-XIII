@@ -11,22 +11,23 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_Collector(collect),
     a_BrokenBeam(beam1),
     a_TopBeam(beam2),
-    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless)
-    
+    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
+    pivotInput(0),
+    a_PivotEncoder(pivotInput)
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
     a_ShootRight.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
 
-    a_ShootLeft.Config_kP(0, 0.5, 0);
+    a_ShootLeft.Config_kP(0, 10, 0);
     a_ShootLeft.Config_kI(0, 0, 0);
-    a_ShootLeft.Config_kD(0, 0, 0);
-    a_ShootLeft.Config_kF(0, 1.8, 0);
+    a_ShootLeft.Config_kD(0, 0.1, 0);
+    a_ShootLeft.Config_kF(0, 1.7, 0);
 
-    a_ShootRight.Config_kP(0, -0.6, 0); 
+    a_ShootRight.Config_kP(0, 1.75, 0); 
     a_ShootRight.Config_kI(0, 0, 0);
-    a_ShootRight.Config_kD(0, 0, 0);
-    a_ShootRight.Config_kF(0, 1.8, 0); // 0.8 * 1023 / 400
+    a_ShootRight.Config_kD(0, 0.5, 0);
+    a_ShootRight.Config_kF(0, 1.7, 0); // 0.8 * 1023 / 400
     // p - makes speed more agressive in change
     // f - the lowest speed it can go (y intercept)
 
@@ -108,4 +109,10 @@ void CFS::AutoCollect() {
 
 bool CFS::GetTopBeam() {
     return a_TopBeam.beamBroken();
+}
+
+float CFS::GetPivotPosition(void)
+{
+    float ret = a_PivotEncoder.GetDistance();
+    return ret;
 }

@@ -45,6 +45,8 @@ class CFS
            (rainy day booleans)
         */
 
+        float GetPivotPosition(void);
+
     private:
     
     WPI_TalonSRX a_ShootLeft;
@@ -57,6 +59,9 @@ class CFS
     BeamBreak a_TopBeam;
 
     rev::CANSparkMax a_Pivot; // arm motor 
+
+    frc::AnalogInput pivotInput; // pivot encoder
+    frc::AnalogEncoder a_PivotEncoder;
 
     
 

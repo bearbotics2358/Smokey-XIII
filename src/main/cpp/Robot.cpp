@@ -17,16 +17,16 @@ a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
-    a_FLModule.updateDrivePID(0.0, 0, 0);
+    a_FLModule.updateDrivePID(0.2, 0, 0.1);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
 
-    a_FRModule.updateDrivePID(0.8, 0, 0);
+    a_FRModule.updateDrivePID(0.2, 0, 0.1);
     a_FRModule.updateSteerPID(2.2, 0, 0.002);
 
-    a_BLModule.updateDrivePID(0.8, 0, 0);
+    a_BLModule.updateDrivePID(0.2, 0, 0.1);
     a_BLModule.updateSteerPID(2.0, 0, 0.002);
 
-    a_BRModule.updateDrivePID(0.0, 0, 0);
+    a_BRModule.updateDrivePID(0.2, 0, 0.1);
     a_BRModule.updateSteerPID(2.0, 0, 0.01);
 }
 
@@ -49,6 +49,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("FR Speed: ", a_FRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
+    frc::SmartDashboard::PutNumber("Pivot Encoder: ", a_CFS.GetPivotPosition());
 }
 
 void Robot::AutonomousInit() 
@@ -82,12 +83,12 @@ void Robot::TeleopPeriodic() // main loop
 
     if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) {
-            // a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+            a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
         } else {
-           // a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
     } else {
-        // a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
@@ -125,6 +126,12 @@ void Robot::TeleopPeriodic() // main loop
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
+    if(joystickOne.GetRawButton(2))
+    {
+        a_Gyro.Cal();
+        a_Gyro.Zero();
+    }
+
     if(a_xBoxController.GetRawButton(1)) {
         a_CFS.ShootVelocity(-1); 
     } else {
@@ -153,6 +160,9 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
     }
     
+    float temp = 0.2 * a_xBoxController.GetRawAxis(5);
+    a_CFS.ArmMove(temp);
+    frc::SmartDashboard::PutNumber("Arm Input: ", temp);
 
 }
 
