@@ -128,7 +128,7 @@ void Robot::TeleopPeriodic() // main loop
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
-    if(joystickOne.GetRawButton(2))
+    if(joystickOne.GetRawButton(5))
     {
         a_Gyro.Cal();
         a_Gyro.Zero();
