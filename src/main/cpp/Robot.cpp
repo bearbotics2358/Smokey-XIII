@@ -2,8 +2,10 @@
 #include "Robot.h"
 #include "Prefs.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <stdio.h>
 
 Robot::Robot():
+handler("169.254.179.144", "1185", "data"),
 a_Gyro(frc::I2C::kMXP), // 1
 a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
 a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replace 1-4 with actual IDs)
@@ -169,6 +171,12 @@ void Robot::TeleopPeriodic() // main loop
 void Robot::TestInit() 
 {
 
+}
+
+void Robot::RobotPeriodic() 
+{
+    //frc::SmartDashboard::PutNumber("MQTT CONNECT", 1);
+    handler.update ();
 }
 
 void Robot::TestPeriodic() 

@@ -56,6 +56,10 @@ BR:
 //   <====[-<('-'<)
 
 
+#define bridge_host "10.23.58.26"
+#define DEFAULT_PORT 1185
+#define bridge_port DEFAULT_PORT
+#define LIGHT_RING_CONTROLLER_ADDRESS 0x4
 /* ============ GEAR RATIOS ======== */
 // drive motor -> wheel = 10:1 (10 drive rotations for one wheel rotation)
 // radius of wheel = 2 inches
@@ -67,7 +71,6 @@ BR:
 #define ARBITRARY_DIST_BACKWARDS 20.0 // inches
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
-
 
 #define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
 
@@ -96,3 +99,8 @@ BR:
 
 #define REESES_BEAM 2 // Top Beam
 #define BROKEN_BEAM 1 // Bottom Beam
+
+/* ============= MQTTHandler ============= */
+
+#define SEND_BUF_LEN 32
+#define RECV_BUF_LEN 32
