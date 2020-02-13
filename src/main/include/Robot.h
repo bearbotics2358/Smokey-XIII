@@ -1,6 +1,7 @@
 
 #pragma once
- 
+
+#include "MQTTHandler.h"
 #include <frc/TimedRobot.h> // "Timed Robot" template
 #include "SwerveModule.h" // Swerve modules
 #include <frc/Joystick.h> // Joystick 
@@ -41,10 +42,11 @@ class Robot : public frc::TimedRobot
     // Lime Light Object
     LimeyLight a_LimeyLight; 
 
+    MQTTHandler handler;
+
     CFS a_CFS; 
 
     // BeamBreak a_BrokenBeam; 
-
 
 
 };

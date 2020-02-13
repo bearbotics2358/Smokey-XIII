@@ -2,6 +2,7 @@
 #include "Robot.h"
 #include "Prefs.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <stdio.h>
 
 Robot::Robot():
 a_Gyro(frc::I2C::kMXP), // 1
@@ -14,6 +15,7 @@ a_xBoxController(XBOX_CONTROLLER),
 a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
+handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
@@ -41,6 +43,7 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
     a_Gyro.Update(); 
+    handler.update();
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
     frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
@@ -50,6 +53,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("Pivot Encoder: ", a_CFS.GetPivotPosition());
+    
 }
 
 void Robot::AutonomousInit() 
@@ -126,7 +130,7 @@ void Robot::TeleopPeriodic() // main loop
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
-    if(joystickOne.GetRawButton(2))
+    if(joystickOne.GetRawButton(5))
     {
         a_Gyro.Cal();
         a_Gyro.Zero();
@@ -170,6 +174,7 @@ void Robot::TestInit()
 {
 
 }
+
 
 void Robot::TestPeriodic() 
 {
