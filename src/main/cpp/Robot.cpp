@@ -52,8 +52,9 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("FR Speed: ", a_FRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
-    frc::SmartDashboard::PutNumber("Pivot Encoder: ", a_CFS.GetPivotPosition());
-    
+    frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
+    frc::SmartDashboard::PutNumber("Pivot theta: ", a_CFS.VoltToAngle()); // this returns 0
+    // return 0;
 }
 
 void Robot::AutonomousInit() 

@@ -76,8 +76,9 @@ float SwerveModule::getDriveSpeed(void)
 
 void SwerveModule::setDriveVelocity(float percent) // the onE
 {
-    float change = percent * 400;
-    goToPosition(getDistance() + change);
+    float currentSpeed = getDriveSpeed();
+    float theta = drivePID.Calculate(currentSpeed, percent * DRIVE_VELOCITY);
+    driveMotor.Set(theta); 
 }
 
 void SwerveModule::updateDrivePID(double pNew, double iNew, double dNew)
