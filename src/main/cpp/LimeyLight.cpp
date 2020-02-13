@@ -33,9 +33,21 @@ float LimeyLight::getDist () const
 }
 
 
-float LimeyLight::getAngleShooter () const
+float LimeyLight::getXAngleShooter (const std::vector<float> velocity, const float gyro) const
+{
+    float diff = gyro + getAngleX();
+    diff = diff < 0 ? 360 + diff : diff;
+    return 0.0f;
+}
+
+float LimeyLight::getYAngleShooter () const
 {
     return 0.0f;
+}
+
+bool LimeyLight::isTarget () const
+{
+    return GET_LIMELIGHT_VALUE(table, "tv") > 0;
 }
 
 float LimeyLight::getAngleX () const

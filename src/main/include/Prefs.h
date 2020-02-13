@@ -96,3 +96,7 @@ BR:
 
 #define SEND_BUF_LEN 32
 #define RECV_BUF_LEN 32
+
+/* ============= Vision ============= */
+
+#define CONTROL_VELOCITY

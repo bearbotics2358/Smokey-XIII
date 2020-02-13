@@ -117,16 +117,22 @@ void Robot::TeleopPeriodic() // main loop
         // turn on remote viewing 
     }
 
+    // untested, temp button
+    if(joystickOne.GetRawButton(6) && a_LimeyLight.isTarget()) {
+        a_swerveyDrive.turnToAngle(gyro, a_LimeyLight.getXAngleShooter (std::vector<float> (), gyro));
+        #ifdef CONTROL_VELOCITY
+        #else
+        
+        #endif
+    }
+
         /*
             cameraMode 0: Vision processing
             cameraMode 1: Remote viewing 
             :)
         */
 
-    std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-
     a_LimeyLight.printValues();
-
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
