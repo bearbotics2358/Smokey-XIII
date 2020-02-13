@@ -79,6 +79,7 @@ BR:
 #define SHOOT_VELOCITY 400
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
+#define DRIVE_VELOCITY 20
 
 #define SHOOT_1 41
 #define SHOOT_2 42
