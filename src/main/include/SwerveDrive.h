@@ -36,4 +36,6 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
 
         const float DRIVE_LENGTH = 29.75;
         const float DRIVE_WIDTH = 29.75;
+
+        const float PI = M_PI;
 };

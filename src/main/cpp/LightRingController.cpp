@@ -1,6 +1,7 @@
+
 #include <LightRingController.h>
 #include <Prefs.h>
-#include <frc/WPILib.h>
+
 
 LightRingController::LightRingController()
 	:a_I2C(frc::I2C::kOnboard, LIGHT_RING_CONTROLLER_ADDRESS){

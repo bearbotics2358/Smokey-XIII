@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 Robot::Robot():
-handler("169.254.179.144", "1185", "data"),
 a_Gyro(frc::I2C::kMXP), // 1
 a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
 a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replace 1-4 with actual IDs)
@@ -16,6 +15,7 @@ a_xBoxController(XBOX_CONTROLLER),
 a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
+handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
@@ -43,6 +43,7 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
     a_Gyro.Update(); 
+    handler.update();
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
     frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
@@ -52,6 +53,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("Pivot Encoder: ", a_CFS.GetPivotPosition());
+    
 }
 
 void Robot::AutonomousInit() 
@@ -173,11 +175,6 @@ void Robot::TestInit()
 
 }
 
-void Robot::RobotPeriodic() 
-{
-    //frc::SmartDashboard::PutNumber("MQTT CONNECT", 1);
-    handler.update ();
-}
 
 void Robot::TestPeriodic() 
 {

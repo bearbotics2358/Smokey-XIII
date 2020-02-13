@@ -17,8 +17,6 @@
 #define BR_STEER_ID 31
 #define BR_DRIVE_ID 32
 
-#define PI 3.14159265
-
 
 
 /*
@@ -41,8 +39,6 @@ BR:
 */
 
 
-
-
 /* ========== Joystick Ports ========= */
 #define JOYSTICK_PORT 1
 #define JOYSTICK_DEADZONE 0.15
@@ -55,17 +51,13 @@ BR:
 /* ====== ASCII ART ======= */
 //   <====[-<('-'<)
 
-
-#define bridge_host "10.23.58.26"
-#define DEFAULT_PORT 1185
-#define bridge_port DEFAULT_PORT
 #define LIGHT_RING_CONTROLLER_ADDRESS 0x4
 /* ============ GEAR RATIOS ======== */
 // drive motor -> wheel = 10:1 (10 drive rotations for one wheel rotation)
 // radius of wheel = 2 inches
 // circumfrence = 4 Pi inches
 // 10 ticks = 4 Pi inches
-#define INCHES_PER_TICK (2.0 / 5) * PI // inches
+#define INCHES_PER_TICK (2.0 / 5) * M_PI // inches
 
 /* ============= AUTO VALUES 4 Jason yoyoyo =========== */
 #define ARBITRARY_DIST_BACKWARDS 20.0 // inches

@@ -1,7 +1,7 @@
-#ifndef LIGHTRINGCONTROLLER_H
-#define LIGHTRINGCONTROLLER_H
 
-#include <frc/WPILib.h>
+#pragma once
+
+#include <frc/I2C.h>
 
 class LightRingController {
 public:
@@ -12,5 +12,3 @@ public:
 private:
 	frc::I2C a_I2C;
 };
-
-#endif // LIGHTRINGCONTROLLER_H

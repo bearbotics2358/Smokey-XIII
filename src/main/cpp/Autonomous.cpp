@@ -1,4 +1,4 @@
-#include <frc/WPILib.h> // please include in the .h and use only what you need; my compilation times are like 1 minute pls <3
+
 #include <math.h>
 #include "Autonomous.h"
 
