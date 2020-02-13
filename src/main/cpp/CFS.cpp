@@ -111,8 +111,17 @@ bool CFS::GetTopBeam() {
     return a_TopBeam.beamBroken();
 }
 
-float CFS::GetPivotPosition(void)
+float CFS::GetPivotPosition()
 {
     float ret = a_PivotEncoder.GetDistance();
     return ret;
+}
+
+float CFS::VoltToAngle()
+{
+    float volts = GetPivotPosition();
+
+    float angle = (((volts - VOLTS_MIN) * (ANGLE_MAX - ANGLE_MIN)) / (VOLTS_MAX - VOLTS_MIN)) + ANGLE_MIN
+    return angle;
+
 }

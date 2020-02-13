@@ -33,8 +33,10 @@ class CFS
         float GetWheelSpeedR(); // return floats of velocity for right and left
         float GetWheelSpeedL(); 
         bool GetBottomBeam();
-        bool GetTopBeam(); 
+        bool GetTopBeam();
 
+         
+        float VoltToAngle();
         
        
 
