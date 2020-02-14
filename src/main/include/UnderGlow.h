@@ -11,6 +11,8 @@ class UnderGlow
     void PowerOn(); 
     void PowerOff(); 
     void SetHyperDrive(); 
+    void SetSith();
+    void SetJedi(); 
 
    
 
