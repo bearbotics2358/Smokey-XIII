@@ -27,6 +27,7 @@ class CFS
         void AutoCollect(); 
 
         void ArmMove(float speed);
+        void ArmMovePos(float pos);
 
         void ShootVelocity(float speed);
 

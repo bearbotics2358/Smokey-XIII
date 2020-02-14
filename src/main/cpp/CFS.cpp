@@ -90,6 +90,13 @@ void CFS::AutoCollect() {
          a_Pivot.Set(speed);
  }
 
+ void CFS:: ArmMovePos(float pos) {
+    
+
+
+ }
+
+
  void CFS::ShootVelocity(float speed) {
      a_ShootLeft.Set(ControlMode::Velocity, -1.0 * speed * SHOOT_VELOCITY);
      a_ShootRight.Set(ControlMode::Velocity, speed * SHOOT_VELOCITY); 
