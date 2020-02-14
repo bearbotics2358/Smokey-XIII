@@ -457,12 +457,12 @@ return true;
 
 /*
     if(a_CFS->getArmAngle() < angle){         /////AUTO_SHOOT_ANGLE
-        a_CFS->armToAngle(angle);
+        a_CFS->ArmMovePos(angle);
         frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
         return false;
 
     } else {
-        // a_CFS->armToAngle(KILL);
+        // a_CFS->ArmMovePos(KILL); ????? something to stop it
         frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
         return true;
     }
