@@ -42,7 +42,7 @@ class Robot : public frc::TimedRobot
     // Lime Light Object
     LimeyLight a_LimeyLight; 
 
-    MQTTHandler handler;
+    // MQTTHandler handler;
 
     CFS a_CFS; 
 

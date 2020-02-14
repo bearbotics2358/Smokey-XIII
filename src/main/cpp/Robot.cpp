@@ -15,7 +15,7 @@ a_xBoxController(XBOX_CONTROLLER),
 a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
-handler("169.254.179.144", "1185", "data"),
+// handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
@@ -43,7 +43,7 @@ void Robot::RobotInit()
 void Robot::RobotPeriodic()
 {
     a_Gyro.Update(); 
-    handler.update();
+    // handler.update();
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
     frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
@@ -53,8 +53,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
-    frc::SmartDashboard::PutNumber("Pivot theta: ", a_CFS.VoltToAngle()); // this returns 0
-    // return 0;
+    frc::SmartDashboard::PutNumber("Pivot theta: ", a_CFS.VoltToAngle());
 }
 
 void Robot::AutonomousInit() 
