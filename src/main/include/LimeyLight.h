@@ -13,7 +13,9 @@ class LimeyLight
         LimeyLight ();
         ~LimeyLight ();
         float getDist () const;
-        float getAngleShooter () const;
+        float getXAngleShooter (const std::vector<float> velocity, const float gyro) const;
+        float getYAngleShooter () const;
+        bool isTarget () const;
         float getAngleX () const;
         float getAngleY () const;
         float getArea () const;
