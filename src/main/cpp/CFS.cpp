@@ -62,7 +62,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
  }
 
 void CFS::AutoCollect() {
-    if(true) // !a_TopBeam.beamBroken()) // less than 4
+    if(!a_TopBeam.beamBroken()) // less than 4
     {
         frc::SmartDashboard::PutBoolean("auto collecting: ", true);
         Collect(-0.32);
@@ -121,7 +121,7 @@ float CFS::VoltToAngle()
 {
     float volts = GetPivotPosition();
 
-    float angle = (((volts - VOLTS_MIN) * (ANGLE_MAX - ANGLE_MIN)) / (VOLTS_MAX - VOLTS_MIN)) + ANGLE_MIN
+    float angle = (((volts - VOLTS_MIN) * (ANGLE_MAX - ANGLE_MIN)) / (VOLTS_MAX - VOLTS_MIN)) + ANGLE_MIN;
     return angle;
 
 }
