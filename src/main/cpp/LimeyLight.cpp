@@ -28,21 +28,30 @@ LimeyLight::~LimeyLight ()
 
 float LimeyLight::getDist () const
 {
+    // distance in feet
     float temp = GET_LIMELIGHT_VALUE(table, "ts") * (M_PI / 180.0f);
     return ((58.0f / (GET_LIMELIGHT_VALUE(table, "thor"))) / cos(temp)) * 191.0f; //Temporary Constants
 }
-
 
 float LimeyLight::getXAngleShooter (const std::vector<float> velocity, const float gyro) const
 {
     float diff = gyro + getAngleX();
     diff = diff < 0 ? 360 + diff : diff;
-    return 0.0f;
+    return diff;
 }
 
 float LimeyLight::getYAngleShooter () const
 {
     return 0.0f;
+}
+
+float LimeyLight::getVelocityShooter () const
+{
+    /* velocity = (distance * sqrt(g)) /
+    sqrt(2 * height * cos^2(shooter angle) - 2 * distance * sin(shooter angle) cos(shooter angle)) */
+    // constants are wrong right now
+    float distance = getDist ();
+    return ((3.130495168 * distance) / sqrt (TH2_COS2_ANGLE - distance * SIN_2ANGLE));
 }
 
 bool LimeyLight::isTarget () const
@@ -57,7 +66,7 @@ float LimeyLight::getAngleX () const
 
 float LimeyLight::getAngleY () const
 {
-    return GET_LIMELIGHT_VALUE(table, "ty");
+    return GET_LIMELIGHT_VALUE(table, "ty") + SHOOTER_ANGLE;
 }
 
 float LimeyLight::getArea () const

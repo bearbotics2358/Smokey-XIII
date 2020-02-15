@@ -74,11 +74,13 @@ float SwerveModule::getDriveSpeed(void)
     return ret;
 }
 
-void SwerveModule::setDriveVelocity(float percent) // the onE
+float SwerveModule::setDriveVelocity(float percent) // the onE
 {
     float currentSpeed = getDriveSpeed();
-    float theta = drivePID.Calculate(currentSpeed, percent * DRIVE_VELOCITY);
-    driveMotor.Set(theta); 
+    float speed = std::clamp(drivePID.Calculate(currentSpeed, percent * DRIVE_VELOCITY), -0.3, 0.3);
+    driveMotor.Set(speed); 
+
+    return speed;
 }
 
 void SwerveModule::updateDrivePID(double pNew, double iNew, double dNew)

@@ -64,11 +64,19 @@ void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
         return;
     }
 
+    printf ("before reinit");
+
     mqtt_reinit (client, sockfd, rcdata->sendbuf, rcdata->sendbuf_size, rcdata->recvbuf, rcdata->recvbuf_size);
+
+    printf ("before reconnect");
 
     mqtt_connect (client, NULL, NULL, NULL, 0, NULL, NULL, MQTT_CONNECT_CLEAN_SESSION, 400);
 
+    printf ("before subscribe");
+
     mqtt_subscribe (client, rcdata->topic, 0);
+
+    printf ("after subscribe");
 }
 
 MQTTHandler::MQTTHandler ()
