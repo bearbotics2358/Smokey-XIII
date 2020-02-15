@@ -19,16 +19,16 @@ a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
 // a_BrokenBeam(BROKEN_BEAM)
 {
-    a_FLModule.updateDrivePID(0.2, 0, 0.1);
+    a_FLModule.updateDrivePID(0.001, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
 
-    a_FRModule.updateDrivePID(0.2, 0, 0.1);
+    a_FRModule.updateDrivePID(0.001, 0, 0);
     a_FRModule.updateSteerPID(2.2, 0, 0.002);
 
-    a_BLModule.updateDrivePID(0.2, 0, 0.1);
+    a_BLModule.updateDrivePID(0.001, 0, 0);
     a_BLModule.updateSteerPID(2.0, 0, 0.002);
 
-    a_BRModule.updateDrivePID(0.2, 0, 0.1);
+    a_BRModule.updateDrivePID(0.001, 0, 0);
     a_BRModule.updateSteerPID(2.0, 0, 0.01);
 }
 
@@ -79,7 +79,13 @@ void Robot::TeleopPeriodic() // main loop
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
     float z = -1 * joystickOne.GetRawAxis(2);
-    float gyro = a_Gyro.GetAngle(0); 
+    float gyro = a_Gyro.GetAngle(0);
+    
+    if(gyro < 0)
+    {
+        gyro += 360;
+    }
+    
     bool fieldOreo = true; // field oriented? - yes
 
     frc::SmartDashboard::PutNumber("Chase: ", z);
@@ -118,13 +124,14 @@ void Robot::TeleopPeriodic() // main loop
     }
 
     // untested, temp button
-    if(joystickOne.GetRawButton(6) && a_LimeyLight.isTarget()) {
+    /* if(joystickOne.GetRawButton(6) && a_LimeyLight.isTarget()) {
         a_swerveyDrive.turnToAngle(gyro, a_LimeyLight.getXAngleShooter (std::vector<float> (), gyro));
         #ifdef CONTROL_VELOCITY
         #else
         
         #endif
     }
+    */
 
         /*
             cameraMode 0: Vision processing
@@ -143,8 +150,13 @@ void Robot::TeleopPeriodic() // main loop
     }
 
     if(a_xBoxController.GetRawButton(1)) {
-        a_CFS.ShootVelocity(-1); 
-    } else {
+        a_CFS.ShootVelocity(-0.925); 
+    }
+    else if(a_xBoxController.GetRawButton(3))
+    {
+        a_CFS.ShootVelocity(-0.8); 
+    }
+    else {
         a_CFS.ShootVelocity(0);
     }
 
