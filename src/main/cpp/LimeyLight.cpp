@@ -48,10 +48,10 @@ float LimeyLight::getYAngleShooter () const
 float LimeyLight::getVelocityShooter () const
 {
     /* velocity = (distance * sqrt(g)) /
-    sqrt(2 * height * cos^2(shooter angle) - 2 * distance * sin(shooter angle) cos(shooter angle)) */
+    sqrt(-2 * height * cos^2(shooter angle) + 2 * distance * sin(shooter angle) cos(shooter angle)) */
     // constants are wrong right now
     float distance = getDist ();
-    return ((3.130495168 * distance) / sqrt (TH2_COS2_ANGLE - distance * SIN_2ANGLE));
+    return ((3.130495168 * distance) / sqrt (distance * SIN_2ANGLE - TH2_COS2_ANGLE));
 }
 
 bool LimeyLight::isTarget () const
