@@ -27,7 +27,7 @@ class LimeyLight
         void ledOff();
         void cameraMode(int whichCam);
         void printValues(); 
-        void calcZAxis();
+        float calcZAxis();
         
     private:
         nt::NetworkTableInstance table;

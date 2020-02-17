@@ -160,6 +160,10 @@ void Robot::TeleopPeriodic() // main loop
             :)
         */
 
+       if(joystickOne.GetRawButton(4)) {
+           a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
+       } // calculates what angle robot should turn
+       
     a_LimeyLight.printValues();
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */

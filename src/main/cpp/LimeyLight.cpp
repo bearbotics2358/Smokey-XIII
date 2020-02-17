@@ -125,10 +125,10 @@ void LimeyLight::printValues ()
 
 }
 
-void calcZAxis() {
-    /* // float rowlet = getAngleX();
-    float shinyRowlet = lemonLight.Calculate(0.0, getAngleX());
+float LimeyLight::calcZAxis() {
+
+    float rowlet = getAngleX();
+    float shinyRowlet = lemonLight.Calculate(0.0, rowlet);
+
     return shinyRowlet;
-    */
-    
 }
