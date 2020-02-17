@@ -4,6 +4,7 @@
 #include <networktables/NetworkTableInstance.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Prefs.h"
+#include <frc/controller/PIDController.h> 
 
 #define GET_LIMELIGHT_VALUE(table, key) (table).GetTable("limelight")->GetNumber((key), 0.0f)
 
@@ -26,7 +27,9 @@ class LimeyLight
         void ledOff();
         void cameraMode(int whichCam);
         void printValues(); 
+        void calcZAxis();
         
     private:
         nt::NetworkTableInstance table;
+        frc2::PIDController lemonLight; 
 };

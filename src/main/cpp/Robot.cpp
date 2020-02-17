@@ -53,7 +53,8 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("BL Speed: ", a_BLModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("BR Speed: ", a_BRModule.getDriveSpeed());
     frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
-    frc::SmartDashboard::PutNumber("Pivot theta: ", a_CFS.VoltToAngle());
+    frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.VoltToAngle());
+    frc::SmartDashboard::PutBoolean("Limelight Target?", a_LimeyLight.isTarget());
 }
 
 void Robot::AutonomousInit() 
@@ -80,20 +81,38 @@ void Robot::TeleopPeriodic() // main loop
     float y = -1 * joystickOne.GetRawAxis(1);
     float z = -1 * joystickOne.GetRawAxis(2);
     float gyro = a_Gyro.GetAngle(0);
+
+    if(fabs(x) < 0.10)
+    {
+        x = 0;
+    }
+    if(fabs(y) < 0.10)
+    {
+        y = 0;
+    }
+    if(fabs(z) < 0.10)
+    {
+        z = 0;
+    }
     
     if(gyro < 0)
     {
+        gyro = fmod(gyro, -360);
         gyro += 360;
+    }
+    else
+    {
+        gyro = fmod(gyro, 360);
     }
     
     bool fieldOreo = true; // field oriented? - yes
 
     frc::SmartDashboard::PutNumber("Chase: ", z);
-    bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < 0.01)) ? true : false); // Checks joystick deadzones
+    bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < JOYSTICK_DEADZONE)) ? true : false); // Checks joystick deadzones
 
     if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) {
-            a_swerveyDrive.swerveUpdate(x, y, z, gyro, fieldOreo);
+            a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, fieldOreo);
         } else {
            a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
@@ -115,13 +134,15 @@ void Robot::TeleopPeriodic() // main loop
         // *even bigger gasp* turns led off 
     }
     
-    if(joystickOne.GetRawButton(8)) {
+    if(joystickOne.GetRawButton(10)) {
         a_LimeyLight.cameraMode(0);
         //  turn on vision
-    } else if(joystickOne.GetRawButton(10)) {
+    } else if(joystickOne.GetRawButton(12)) {
         a_LimeyLight.cameraMode(1); 
         // turn on remote viewing 
     }
+
+    
 
     // untested, temp button
     /* if(joystickOne.GetRawButton(6) && a_LimeyLight.isTarget()) {
@@ -150,11 +171,11 @@ void Robot::TeleopPeriodic() // main loop
     }
 
     if(a_xBoxController.GetRawButton(1)) {
-        a_CFS.ShootVelocity(-0.925); 
+        a_CFS.ShootVelocity(0.925); 
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(-0.8); 
+        a_CFS.ShootVelocity(0.52); 
     }
     else {
         a_CFS.ShootVelocity(0);
