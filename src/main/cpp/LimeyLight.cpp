@@ -4,7 +4,7 @@
 
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
-lemonLight(0.0, 0.0, 0.0)
+lemonLight(0.05, 0.0, 0.0)
 {
 
 }
@@ -128,7 +128,7 @@ void LimeyLight::printValues ()
 float LimeyLight::calcZAxis() {
 
     float rowlet = getAngleX();
-    float shinyRowlet = lemonLight.Calculate(0.0, rowlet);
+    float shinyRowlet = -1 * std::clamp(lemonLight.Calculate(0.0, rowlet), -0.4, 0.4);
 
     return shinyRowlet;
 }

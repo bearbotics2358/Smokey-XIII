@@ -203,8 +203,16 @@ void Robot::TeleopPeriodic() // main loop
         {
             a_CFS.Collect(0);
         }
-
-        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+        if(a_xBoxController.GetRawButton(5))
+        {
+            a_CFS.Feed(-0.4);
+        }
+        else
+        {
+            a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+        }
+        
+        
     }
     
     float temp = 0.2 * a_xBoxController.GetRawAxis(5);
