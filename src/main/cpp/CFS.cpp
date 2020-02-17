@@ -19,15 +19,15 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
     a_ShootRight.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
 
-    a_ShootLeft.Config_kP(0, 10, 0);
+    a_ShootLeft.Config_kP(0, 2, 0); // 10
     a_ShootLeft.Config_kI(0, 0, 0);
     a_ShootLeft.Config_kD(0, 0.1, 0);
-    a_ShootLeft.Config_kF(0, 1.7, 0); // 1.7
+    a_ShootLeft.Config_kF(0, 1.65, 0);
 
-    a_ShootRight.Config_kP(0, 1.75, 0); 
+    a_ShootRight.Config_kP(0, 1, 0); // 2
     a_ShootRight.Config_kI(0, 0, 0);
     a_ShootRight.Config_kD(0, 0.5, 0);
-    a_ShootRight.Config_kF(0, 1.7, 0); // 0.8 * 1023 / 400
+    a_ShootRight.Config_kF(0, 1.7, 0);
     // p - makes speed more agressive in change
     // f - the lowest speed it can go (y intercept)
 
@@ -66,7 +66,7 @@ void CFS::AutoCollect() {
     {
         Collect(-0.40);
         if(a_BrokenBeam.beamBroken()) {
-            Feed(-0.70);
+            Feed(-0.55);
         } else {
             Feed(0);
         }
