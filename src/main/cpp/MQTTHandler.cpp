@@ -88,7 +88,6 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
         return -1;
     }
 
-    reconnect_data rcdata;
     rcdata.addres = addr;
     rcdata.port = port;
     rcdata.topic = topic;
