@@ -83,10 +83,10 @@ BR:
 /*----------------------------------------------*/
 
 #define SHOOT_VOLTS .7
-#define SHOOT_VELOCITY 400
+#define SHOOT_VELOCITY -500
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
-#define DRIVE_VELOCITY 20
+#define DRIVE_VELOCITY -500
 
 #define SHOOT_1 41
 #define SHOOT_2 42

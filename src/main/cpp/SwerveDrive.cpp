@@ -78,7 +78,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     	BR_Speed /= max;
     }
 
-	float scalar = 0.5; // scalar to adjust if speed is too high
+	float scalar = 0.8; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -120,26 +120,34 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	*/
 
 	if(FL_Module->adjustAngle(FL_Angle)){
+		// frc::SmartDashboard::PutNumber("FL Set: ", FL_Module->setDriveVelocity(-FL_Speed));
 		FL_Module->setDriveSpeed(-FL_Speed);
 	} else {
+		// frc::SmartDashboard::PutNumber("FL Set: ", FL_Module->setDriveVelocity(FL_Speed));
 		FL_Module->setDriveSpeed(FL_Speed);
 	}
 
 	if(FR_Module->adjustAngle(FR_Angle)){
+		// frc::SmartDashboard::PutNumber("FR Set: ", FR_Module->setDriveVelocity(-FR_Speed));
 		FR_Module->setDriveSpeed(-FR_Speed);
 	} else {
+		// frc::SmartDashboard::PutNumber("FR Set: ", FR_Module->setDriveVelocity(-FR_Speed));
 		FR_Module->setDriveSpeed(FR_Speed);
 	}
 
  	if(BL_Module->adjustAngle(BL_Angle)){
+		// frc::SmartDashboard::PutNumber("BL Set: ", FL_Module->setDriveVelocity(-BL_Speed));
 		BL_Module->setDriveSpeed(-BL_Speed);
 	} else {
+		// frc::SmartDashboard::PutNumber("BL Set: ", FL_Module->setDriveVelocity(-BL_Speed));
 		BL_Module->setDriveSpeed(BL_Speed);
 	}
 
 	if(BR_Module->adjustAngle(BR_Angle)){
+		// frc::SmartDashboard::PutNumber("BR Set: ", FL_Module->setDriveVelocity(-BR_Speed));
 		BR_Module->setDriveSpeed(-BR_Speed);
 	} else {
+		// frc::SmartDashboard::PutNumber("BR Set: ", FL_Module->setDriveVelocity(-BR_Speed));
 		BR_Module->setDriveSpeed(BR_Speed);
 	}
 }
@@ -217,7 +225,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
     	BR_Speed /= max;
     }
 
-	float scalar = 0.5; // scalar to adjust if speed is too high
+	float scalar = 0.8; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -230,7 +238,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
 	
 	float deadzoneCheck = sqrt(xIn * xIn + yIn * yIn);
 
-	if(deadzoneCheck < 0.15 && fabs(zInput) < 0.01)
+	if(deadzoneCheck < 0.15 && fabs(zInput) < 0.1)
 	{
 		FL_Speed = 0;
 		FR_Speed = 0;

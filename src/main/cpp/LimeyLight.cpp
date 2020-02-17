@@ -3,7 +3,8 @@
  //std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 
 LimeyLight::LimeyLight ()
-: table(nt::NetworkTableInstance::GetDefault())
+: table(nt::NetworkTableInstance::GetDefault()),
+lemonLight(0.0, 0.0, 0.0)
 {
 
 }
@@ -56,7 +57,7 @@ float LimeyLight::getVelocityShooter () const
 
 bool LimeyLight::isTarget () const
 {
-    return GET_LIMELIGHT_VALUE(table, "tv") > 0;
+    return GET_LIMELIGHT_VALUE(table, "tv") == 1;
 }
 
 float LimeyLight::getAngleX () const
@@ -122,4 +123,12 @@ void LimeyLight::printValues ()
     frc::SmartDashboard::PutNumber("Target Skew: ", targetSkew); 
     frc::SmartDashboard::PutNumber("Target Width: ", width); 
 
+}
+
+float LimeyLight::calcZAxis() {
+
+    float rowlet = getAngleX();
+    float shinyRowlet = lemonLight.Calculate(0.0, rowlet);
+
+    return shinyRowlet;
 }
