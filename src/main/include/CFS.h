@@ -62,8 +62,8 @@ class CFS
 
     rev::CANSparkMax a_Pivot; // arm motor 
 
-    frc::AnalogInput pivotInput; // pivot encoder
-    frc::AnalogEncoder a_PivotEncoder;
+    // frc::AnalogInput pivotInput; // pivot encoder
+    // frc::AnalogEncoder a_PivotEncoder;
 
     
 

@@ -38,6 +38,9 @@ void Robot::RobotInit()
     a_Gyro.Init();
     a_Gyro.Cal();
     a_Gyro.Zero();
+
+    a_LimeyLight.ledOff();
+    a_LimeyLight.cameraMode(0);
 }
 
 void Robot::RobotPeriodic()
@@ -161,8 +164,10 @@ void Robot::TeleopPeriodic() // main loop
         */
 
        if(joystickOne.GetRawButton(4)) {
-           a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
-       } // calculates what angle robot should turn
+           a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, false);
+       } // calculates what angle robot should turn 
+       // joystickOne.GetRawAxis(0)
+       // joystickOne.GetRawAxis(1)
        
     a_LimeyLight.printValues();
 

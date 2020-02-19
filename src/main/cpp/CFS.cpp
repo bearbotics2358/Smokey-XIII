@@ -11,9 +11,9 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_Collector(collect),
     a_BrokenBeam(beam1),
     a_TopBeam(beam2),
-    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
-    pivotInput(0),
-    a_PivotEncoder(pivotInput)
+    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless) /*,*/ 
+    // pivotInput(0),
+    // a_PivotEncoder(pivotInput)
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
@@ -114,8 +114,8 @@ bool CFS::GetTopBeam() {
 
 float CFS::GetPivotPosition()
 {
-    float ret = a_PivotEncoder.GetDistance();
-    return ret;
+    // float ret = a_PivotEncoder.GetDistance();
+    return 0.0;
 }
 
 float CFS::VoltToAngle()
