@@ -65,8 +65,8 @@ BR:
 #define LINE_TO_BALL_FAR 192.66 // inches
 
 
-#define VOLTS_MAX 1 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
-#define VOLTS_MIN 2 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MAX 0.78 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MIN 1.74 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
 #define ANGLE_MAX 90
 #define ANGLE_MIN 20
 
@@ -83,10 +83,12 @@ BR:
 /*----------------------------------------------*/
 
 #define SHOOT_VOLTS .7
-#define SHOOT_VELOCITY -500
 #define COLLECT_SPEED .5
 #define FEED_SPEED .23
-#define DRIVE_VELOCITY -500
+
+#define SHOOT_VELOCITY 462.5
+#define DRIVE_VELOCITY 500
+#define FEED_VELOCITY 100 // velocity of the feeder stuff
 
 #define SHOOT_1 41
 #define SHOOT_2 42
