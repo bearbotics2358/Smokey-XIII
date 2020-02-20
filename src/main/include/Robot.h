@@ -9,6 +9,7 @@
 #include "JrimmyGyro.h" // Gyro wrapper class; takes in I2C port
 #include "LimeyLight.h"
 #include "CFS.h"
+#include "Autonomous.h"
 
 class Robot : public frc::TimedRobot 
 {
@@ -44,5 +45,7 @@ class Robot : public frc::TimedRobot
 
     // MQTTHandler handler;
     CFS a_CFS; 
+
+    Autonomous a_JAutonomous;
 
 };

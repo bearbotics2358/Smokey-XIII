@@ -8,7 +8,7 @@ driveEnc(driveMotor.GetEncoder()),
 steerEncNEO(steerMotor.GetEncoder()),
 rawSteerEnc(steerEncID),
 steerEnc(rawSteerEnc),
-drivePID(0, 0, 0),
+drivePID(0.01, 0, 0),
 steerPID(0, 0, 0)
 { 
     steerPID.EnableContinuousInput(0.0, 360.0);
@@ -47,7 +47,7 @@ float SwerveModule::getAngle(void)
 
 void SwerveModule::goToPosition(float setpoint)
 {
-    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint) / 60.0, -0.5, 0.5); // Calculates scaled output based off of encoder feedback. 
+    float speed = std::clamp(drivePID.Calculate(getDistance(), setpoint), -0.3, 0.3); // Calculates scaled output based off of encoder feedback. 
     driveMotor.Set(speed);
 }
 

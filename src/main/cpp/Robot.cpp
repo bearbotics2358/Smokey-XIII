@@ -16,7 +16,8 @@ a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 // handler("169.254.179.144", "1185", "data"),
-a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM)
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM),
+a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS)
 {
     a_FLModule.updateDrivePID(0.001, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -62,12 +63,14 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit() 
 {
-
+    a_JAutonomous.Init();
+    a_JAutonomous.DecidePath(0);
+    a_JAutonomous.StartPathMaster();
 }
 
 void Robot::AutonomousPeriodic() 
 {
-    
+    a_JAutonomous.PeriodicPathMaster();
 }
 
 void Robot::TeleopInit() 
@@ -239,37 +242,15 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    float scalar = 1.0;
-
-    if(a_xBoxController.GetRawButton(1))
+    if(joystickOne.GetRawButton(4))
     {
-        scalar = 0.8; // 80% speed if a is held
-    }
-
-    a_CFS.ShootVelocity(scalar * a_xBoxController.GetRawAxis(5));
-
-    if(a_xBoxController.GetRawButton(2))
-    {
-        a_CFS.AutoCollect();
+        a_swerveyDrive.driveDistance(5, 180);
     }
     else
     {
-        a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+        a_swerveyDrive.swerveUpdate(0, 0, 0, a_Gyro.GetAngle(0), true);
     }
     
-    if(fabs(a_xBoxController.GetRawAxis(3)) > 0)
-    {
-        a_CFS.Collect(a_xBoxController.GetRawAxis(3));
-    }
-    else if(fabs(a_xBoxController.GetRawAxis(2)) > 0)
-    {
-        a_CFS.Collect(-1* a_xBoxController.GetRawAxis(2));
-        frc::SmartDashboard::PutNumber("Collector Speed: ", -1 * a_xBoxController.GetRawAxis(2));
-    }
-    else
-    {
-        a_CFS.Collect(0);
-    }
     
 
     /* 
