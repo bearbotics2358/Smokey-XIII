@@ -43,10 +43,6 @@ class Robot : public frc::TimedRobot
     LimeyLight a_LimeyLight; 
 
     // MQTTHandler handler;
-
     CFS a_CFS; 
-
-    // BeamBreak a_BrokenBeam; 
-
 
 };

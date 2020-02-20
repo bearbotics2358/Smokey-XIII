@@ -7,15 +7,15 @@ FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
 anglePID(2, 0.0 , 0.0),
-jenkinsTheCrabPID(5, 0.0, 0.0),
-FL_Input(0),
+jenkinsTheCrabPID(5, 0.0, 0.0)
+/* FL_Input(0),
 FR_Input(1),
 BL_Input(2),
 BR_Input(3),
 FL_Encoder(FL_Input),
 FR_Encoder(FR_Input),
 BL_Encoder(BL_Input),
-BR_Encoder(BR_Input)
+BR_Encoder(BR_Input)*/
 {
 	anglePID.EnableContinuousInput(0.0, 360.0);
 	jenkinsTheCrabPID.EnableContinuousInput(0.0, 360.0);

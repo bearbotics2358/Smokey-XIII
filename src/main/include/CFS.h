@@ -28,26 +28,22 @@ class CFS
 
         void ArmMove(float speed);
 
-        void ShootVelocity(float speed);
+        void ShootVelocity(float speed); // check prefs; positive speed is shooting
+        void FeedVelocity(float speed); // run the bands in a velocity loop
 
         float GetWheelSpeedR(); // return floats of velocity for right and left
         float GetWheelSpeedL(); 
         bool GetBottomBeam();
         bool GetTopBeam();
 
+        float GetFeedSpeedTop(void); // speed of top feeder band
+        float GetFeedSpeedBot(void); // speed of bot feeder band
          
         float VoltToAngle();
-        
-       
-
-        /* 
-           bool ball6;
-           bool ball7;
-           bool ball8; 
-           (rainy day booleans)
-        */
 
         float GetPivotPosition(void);
+
+        void setArmAngle(float angle);
 
     private:
     
@@ -62,8 +58,10 @@ class CFS
 
     rev::CANSparkMax a_Pivot; // arm motor 
 
-    // frc::AnalogInput pivotInput; // pivot encoder
-    // frc::AnalogEncoder a_PivotEncoder;
+    frc::AnalogInput pivotInput; // pivot encoder
+    frc::AnalogEncoder a_PivotEncoder;
+
+    frc2::PIDController armAnglePID;
 
     
 

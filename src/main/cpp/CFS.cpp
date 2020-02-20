@@ -11,9 +11,10 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_Collector(collect),
     a_BrokenBeam(beam1),
     a_TopBeam(beam2),
-    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless) /*,*/ 
-    // pivotInput(0),
-    // a_PivotEncoder(pivotInput)
+    a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless),  
+    pivotInput(0),
+    a_PivotEncoder(pivotInput),
+    armAnglePID(0.05, 0, 0)
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
@@ -31,6 +32,20 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     // p - makes speed more agressive in change
     // f - the lowest speed it can go (y intercept)
 
+    a_FeedBot.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    a_FeedTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+
+    a_FeedBot.Config_kP(0, 0.09, 0);
+    a_FeedBot.Config_kI(0, 0, 0);
+    a_FeedBot.Config_kD(0, 0, 0);
+    a_FeedBot.Config_kF(0, 0.41, 0);
+
+    a_FeedTop.Config_kP(0, 0.09, 0);
+    a_FeedTop.Config_kI(0, 0, 0);
+    a_FeedTop.Config_kD(0, 0, 0); 
+    a_FeedTop.Config_kF(0, 0.50, 0); 
+
+    
 }
 
  void CFS::Shoot() {
@@ -66,7 +81,8 @@ void CFS::AutoCollect() {
     {
         Collect(-0.40);
         if(a_BrokenBeam.beamBroken()) {
-            Feed(-0.55);
+            // Feed(-0.55);
+            FeedVelocity(1200);
         } else {
             Feed(0);
         }
@@ -92,8 +108,14 @@ void CFS::AutoCollect() {
  }
 
  void CFS::ShootVelocity(float speed) {
-     a_ShootLeft.Set(ControlMode::Velocity, -1.0 * speed * SHOOT_VELOCITY);
-     a_ShootRight.Set(ControlMode::Velocity, speed * SHOOT_VELOCITY); 
+     a_ShootLeft.Set(ControlMode::Velocity, speed);
+     a_ShootRight.Set(ControlMode::Velocity, -speed); 
+ }
+
+ void CFS::FeedVelocity(float speed)
+ {
+    a_FeedBot.Set(ControlMode::Velocity, speed);
+    a_FeedTop.Set(ControlMode::Velocity, -speed);
  }
 
  float CFS::GetWheelSpeedR() {
@@ -114,8 +136,8 @@ bool CFS::GetTopBeam() {
 
 float CFS::GetPivotPosition()
 {
-    // float ret = a_PivotEncoder.GetDistance();
-    return 0.0;
+    float ret = a_PivotEncoder.GetDistance();
+    return ret;
 }
 
 float CFS::VoltToAngle()
@@ -124,5 +146,20 @@ float CFS::VoltToAngle()
 
     float angle = (((volts - VOLTS_MIN) * (ANGLE_MAX - ANGLE_MIN)) / (VOLTS_MAX - VOLTS_MIN)) + ANGLE_MIN;
     return angle;
+}
 
+float CFS::GetFeedSpeedTop(void)
+{
+    return a_FeedTop.GetSelectedSensorVelocity(0);
+}
+
+float CFS::GetFeedSpeedBot(void)
+{
+    return a_FeedBot.GetSelectedSensorVelocity(0);
+}
+
+void CFS::setArmAngle(float angle)
+{
+    float temp = std::clamp(-1 * armAnglePID.Calculate(VoltToAngle(), angle), -0.3, 0.3);
+    a_Pivot.Set(temp);
 }
