@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -35,7 +36,7 @@ class MQTTHandler
         static float getDistance ();
         static float getAngle ();
     private:
-        static int open_nb_socket (char *addr, char *port);
+        static int open_nb_socket (const char *addr, const char *port);
         static void publish_callback (void **unused, struct mqtt_response_publish *published);
         static void reconnect_callback (struct mqtt_client *client, void **state);
         struct mqtt_client client;
