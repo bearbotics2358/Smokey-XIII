@@ -27,7 +27,7 @@ Autonomous::Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *
 }
 
 void Autonomous::Init(){
-	a_Gyro->Zero();
+	// a_Gyro->Zero();
     a_Anticipation.Start();
 }
 

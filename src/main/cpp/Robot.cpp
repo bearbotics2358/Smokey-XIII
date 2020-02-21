@@ -3,10 +3,10 @@
 #include "Prefs.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <stdio.h>
-
+/*~~ hi :) ~~ */
 Robot::Robot():
 a_Gyro(frc::I2C::kMXP), // 1
-a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), // what is the steerEncID???
+a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), 
 a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replace 1-4 with actual IDs)
 a_BLModule(BL_DRIVE_ID, BL_STEER_ID, 3),
 a_BRModule(BR_DRIVE_ID, BR_STEER_ID, 4),
