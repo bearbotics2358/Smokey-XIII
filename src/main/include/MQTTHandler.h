@@ -1,23 +1,19 @@
 #pragma once
 
 #include <unistd.h>
-#include <stdio.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/time.h>
-#include <netdb.h>
 #include <fcntl.h>
-#include <stdlib.h>
 #include <string>
-#include <frc/smartdashboard/SmartDashboard.h>
+#include <poll.h>
+#include <errno.h>
 #include "mqtt.h"
 #include "Prefs.h"
 
 typedef struct
 {
-    char *addres;
-    char *port;
-    char *topic;
+    char addres[16];
+    char port[8];
+    char topic[1024];
     uint8_t *sendbuf;
     size_t sendbuf_size;
     uint8_t *recvbuf;
@@ -33,6 +29,7 @@ class MQTTHandler
         bool update ();
         bool noErrors () const;
         int mqttPublish (std::string msg, std::string topic);
+	void injectError ();
         static float getDistance ();
         static float getAngle ();
     private:

@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include <sys/socket.h>
+
 /*
 MIT License
 

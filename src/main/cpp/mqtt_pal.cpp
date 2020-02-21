@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <mqtt.h>
+#include "mqtt.h"
 
 /** 
  * @file 
@@ -85,12 +85,27 @@ ssize_t mqtt_pal_sendall(mqtt_pal_socket_handle fd, const void* buf, size_t len,
     return sent;
 }
 
+int hacked_recv (mqtt_pal_socket_handle fd, uint8_t *buf, size_t bufsz, int flags, unsigned int timeout) {
+	struct mmsghdr msgout;
+	struct timespec time
+	{
+		4,			// seconds
+		timeout * 1000 * 1000	// nanoseconds
+	};
+
+	int out = recvmmsg ((int) fd, &msgout, 1, flags, &time);
+	memcpy (buf, &msgout.msg_hdr, msgout.msg_len > bufsz ? bufsz : msgout.msg_len);
+	return out;
+}
+
 ssize_t mqtt_pal_recvall(mqtt_pal_socket_handle fd, void* bufin, size_t bufsz, int flags) {
     uint8_t *buf = (uint8_t *)bufin;
     const uint8_t *const start = (uint8_t *) buf;
     ssize_t rv;
     do {
         rv = recv(fd, buf, bufsz, flags);
+	// MODIFIED
+	//rv = hacked_recv (fd, buf, bufsz, flags, 20);
         if (rv > 0) {
             /* successfully read bytes from the socket */
             buf += rv;
