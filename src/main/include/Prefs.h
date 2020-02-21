@@ -65,8 +65,8 @@ BR:
 #define LINE_TO_BALL_FAR 192.66 // inches
 
 
-#define VOLTS_MAX 0.78 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
-#define VOLTS_MIN 1.74 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MAX 1.783 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MIN 2.69 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
 #define ANGLE_MAX 90
 #define ANGLE_MIN 20
 
@@ -76,7 +76,7 @@ BR:
 #define ARM_DEFAULT_POSITION 90 //degrees???? CHANGE WHEN ACTUALLY FOUND
 #define AUTO_ARM_FINAL_POS 23 //degrees???? CHANGE WHEN ACTUALLY FOUND
 #define AUTO_SHOOT_VELOCITY 400 // RPM, change after PID tuned and Tested
-#define AUTO_FEED_VAL .5 // wowowowow
+#define AUTO_FEED_VAL 600 // wowowowow
 
 
 
@@ -88,7 +88,7 @@ BR:
 
 #define SHOOT_VELOCITY 462.5
 #define DRIVE_VELOCITY 500
-#define FEED_VELOCITY 100 // velocity of the feeder stuff
+#define FEED_VELOCITY 1200 // velocity of the feeder stuff
 
 #define SHOOT_1 41
 #define SHOOT_2 42

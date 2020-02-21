@@ -222,7 +222,7 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(6))
         {
-            a_CFS.FeedVelocity(1000); // positive is intake
+            a_CFS.FeedVelocity(800); // positive is intake
         }
         else
         {
@@ -242,15 +242,12 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
-    if(joystickOne.GetRawButton(4))
-    {
-        a_swerveyDrive.driveDistance(5, 180);
+    if(joystickOne.GetRawButton(4)) {
+        a_JAutonomous.RootyTootyShooty(2);
+    } else {
+        a_CFS.ShootVelocity(0);
+        a_CFS.FeedVelocity(0);
     }
-    else
-    {
-        a_swerveyDrive.swerveUpdate(0, 0, 0, a_Gyro.GetAngle(0), true);
-    }
-    
     
 
     /* 

@@ -493,14 +493,7 @@ bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is
 
 
 bool Autonomous::CheckBallPos(){
-    if(a_CFS->GetTopBeam()){
-        return true;
-
-    } else {
-        return false;
-
-    }
-
+    return a_CFS->GetTopBeam();
 }
 
 
@@ -508,18 +501,20 @@ bool Autonomous::RootyTootyShooty(int count){
     currbeam = CheckBallPos();
     
     
-    if(BallsShot < ((2 * count)) and !currbeam == prevbeam){
+    if(BallsShot < ((2 * count)) && currbeam != prevbeam){
         BallsShot++;
         prevbeam = currbeam;
         return false;
     }
     else if(BallsShot < ((2 * count))){
         a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
-        a_CFS->Feed(AUTO_FEED_VAL);
+        a_CFS->FeedVelocity(AUTO_FEED_VAL);
         return false;
     }
     else{
         BallsShot = 0;
+        a_CFS->ShootVelocity(0);
+        a_CFS->FeedVelocity(0);
         return true;
     }
 

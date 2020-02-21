@@ -25,7 +25,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_ShootLeft.Config_kD(0, 0.1, 0);
     a_ShootLeft.Config_kF(0, 1.65, 0);
 
-    a_ShootRight.Config_kP(0, 1, 0); // 2
+    a_ShootRight.Config_kP(0, 2, 0); // 2
     a_ShootRight.Config_kI(0, 0, 0);
     a_ShootRight.Config_kD(0, 0.5, 0);
     a_ShootRight.Config_kF(0, 1.75, 0);
@@ -38,12 +38,12 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_FeedBot.Config_kP(0, 0.09, 0);
     a_FeedBot.Config_kI(0, 0, 0);
     a_FeedBot.Config_kD(0, 0, 0);
-    a_FeedBot.Config_kF(0, 0.41, 0);
+    a_FeedBot.Config_kF(0, 0.405, 0);
 
     a_FeedTop.Config_kP(0, 0.09, 0);
     a_FeedTop.Config_kI(0, 0, 0);
     a_FeedTop.Config_kD(0, 0, 0); 
-    a_FeedTop.Config_kF(0, 0.50, 0); 
+    a_FeedTop.Config_kF(0, 0.515, 0); 
 
     
 }
@@ -143,7 +143,7 @@ bool CFS::GetTopBeam() {
 
 float CFS::GetPivotPosition()
 {
-    float ret = a_PivotEncoder.GetDistance();
+    float ret = pivotInput.GetVoltage();
     return ret;
 }
 
