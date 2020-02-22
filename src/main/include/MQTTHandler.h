@@ -29,7 +29,7 @@ class MQTTHandler
         bool update ();
         bool noErrors () const;
         int mqttPublish (std::string msg, std::string topic);
-	void injectError ();
+	    void injectError ();
         static float getDistance ();
         static float getAngle ();
     private:
