@@ -59,6 +59,18 @@ void Robot::RobotPeriodic()
 
     frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());
     frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
+
+    frc::SmartDashboard::PutNumber("Distance Driven: ", a_swerveyDrive.getAvgDistance());
+}
+
+void Robot::DisabledInit()
+{
+    a_swerveyDrive.resetDrive();
+}
+
+void Robot::DisabledPeriodic()
+{
+
 }
 
 void Robot::AutonomousInit() 

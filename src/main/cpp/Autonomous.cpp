@@ -287,8 +287,8 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
-           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 0)){
-               DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
+           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180)){
+               // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
 
@@ -475,7 +475,7 @@ return true;
 
 bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is not done
 
-    if((double) a_SwerveDrive->getAvgDistance() < dist){
+    if((double) fabs(a_SwerveDrive->getAvgDistance()) < dist){
         a_SwerveDrive->driveDistance(dist, angle);
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
         return false;
