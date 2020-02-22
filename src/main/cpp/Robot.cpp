@@ -16,7 +16,7 @@ a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 // handler("169.254.179.144", "1185", "data"),
-a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM),
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, CLIMBER, BROKEN_BEAM, REESES_BEAM),
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS)
 {
     a_FLModule.updateDrivePID(0.001, 0, 0);
@@ -260,6 +260,8 @@ void Robot::TestPeriodic()
         a_CFS.ShootVelocity(0);
         a_CFS.FeedVelocity(0);
     }
+
+    a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
     
 
     /* 

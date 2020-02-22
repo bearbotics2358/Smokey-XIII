@@ -3,7 +3,7 @@
 
 
 
-CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int beam1, int beam2):
+CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int climb, int beam1, int beam2):
     a_ShootLeft(shoot1),
     a_ShootRight(shoot2),
     a_FeedTop(feed1),
@@ -12,6 +12,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_BrokenBeam(beam1),
     a_TopBeam(beam2),
     a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless),  
+    a_Climber(climb, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
     pivotInput(0),
     a_PivotEncoder(pivotInput),
     armAnglePID(0.05, 0, 0)
@@ -169,4 +170,11 @@ void CFS::setArmAngle(float angle)
 {
     float temp = std::clamp(-1 * armAnglePID.Calculate(VoltToAngle(), angle), -0.3, 0.3);
     a_Pivot.Set(temp);
+}
+
+void CFS::ClimbQuestionMark(float speed)
+{
+
+    a_Climber.Set(speed);
+
 }

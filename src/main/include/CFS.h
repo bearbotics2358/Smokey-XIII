@@ -13,7 +13,7 @@
 class CFS 
 {
     public:
-        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int beam1, int beam2); 
+        CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int climb, int beam1, int beam2); 
 
         void Shoot();
         void Shoot(float speed);
@@ -45,6 +45,11 @@ class CFS
         float GetPivotPosition(void);
 
         void setArmAngle(float angle);
+        
+
+        void ClimbQuestionMark(float speed);
+
+
 
     private:
     
@@ -58,6 +63,7 @@ class CFS
     BeamBreak a_TopBeam;
 
     rev::CANSparkMax a_Pivot; // arm motor 
+    rev::CANSparkMax a_Climber;
 
     frc::AnalogInput pivotInput; // pivot encoder
     frc::AnalogEncoder a_PivotEncoder;
