@@ -287,8 +287,8 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
-           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0)){
-               DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
+           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 0)){
+               DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
 
@@ -457,12 +457,12 @@ return true;
 
 /*
     if(a_CFS->getArmAngle() < angle){         /////AUTO_SHOOT_ANGLE
-        a_CFS->armToAngle(angle);
+        a_CFS->ArmMovePos(angle);
         frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
         return false;
 
     } else {
-        // a_CFS->armToAngle(KILL);
+        // a_CFS->ArmMovePos(KILL); ????? something to stop it
         frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
         return true;
     }
@@ -475,7 +475,7 @@ return true;
 
 bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is not done
 
-    if(a_SwerveDrive->getAvgDistance() < dist / INCHES_PER_TICK){
+    if((double) a_SwerveDrive->getAvgDistance() < dist){
         a_SwerveDrive->driveDistance(dist, angle);
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
         return false;
@@ -483,7 +483,7 @@ bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is
 
     } else {
         a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
-        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
         return true;
 
     }
@@ -493,14 +493,7 @@ bool Autonomous::DriveDist(double dist, double angle){ // true is done, false is
 
 
 bool Autonomous::CheckBallPos(){
-    if(a_CFS->GetTopBeam()){
-        return true;
-
-    } else {
-        return false;
-
-    }
-
+    return a_CFS->GetTopBeam();
 }
 
 
@@ -508,18 +501,20 @@ bool Autonomous::RootyTootyShooty(int count){
     currbeam = CheckBallPos();
     
     
-    if(BallsShot < ((2 * count) - 1) and !currbeam == prevbeam){
+    if(BallsShot < ((2 * count)) && currbeam != prevbeam){
         BallsShot++;
         prevbeam = currbeam;
         return false;
     }
-    else if(BallsShot < ((2 * count) - 1)){
+    else if(BallsShot < ((2 * count))){
         a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
-        a_CFS->Feed(AUTO_FEED_VAL);
+        a_CFS->FeedVelocity(AUTO_FEED_VAL);
         return false;
     }
     else{
         BallsShot = 0;
+        a_CFS->ShootVelocity(0);
+        a_CFS->FeedVelocity(0);
         return true;
     }
 

@@ -8,6 +8,14 @@ BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
 anglePID(2, 0.0 , 0.0),
 jenkinsTheCrabPID(5, 0.0, 0.0)
+/* FL_Input(0),
+FR_Input(1),
+BL_Input(2),
+BR_Input(3),
+FL_Encoder(FL_Input),
+FR_Encoder(FR_Input),
+BL_Encoder(BL_Input),
+BR_Encoder(BR_Input)*/
 {
 	anglePID.EnableContinuousInput(0.0, 360.0);
 	jenkinsTheCrabPID.EnableContinuousInput(0.0, 360.0);
@@ -287,7 +295,7 @@ void SwerveDrive::driveDistance(float dist, float direction)
 	FR_Module->steerToAng(direction);
 	BL_Module->steerToAng(direction);
 	BR_Module->steerToAng(direction);
-	// i will not
+	
 	FL_Module->goToPosition(dist2ElectricBoogalo);
 	FR_Module->goToPosition(dist2ElectricBoogalo);
 	BL_Module->goToPosition(dist2ElectricBoogalo);
