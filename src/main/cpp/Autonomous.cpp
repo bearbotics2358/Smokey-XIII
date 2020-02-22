@@ -456,7 +456,7 @@ bool Autonomous::MoveDaArm(double angle){
     // frc::SmartDashboard::PutNumber("ArM pOsItIoN", a_CFS->GetArmAngle());
     a_CFS->ArmMovePos(angle);
 
-    return fabs(current - angle) < 0.8
+    return fabs(current - angle) < 0.8;
 
 }
 
