@@ -148,7 +148,7 @@ float CFS::GetPivotPosition()
     return ret;
 }
 
-float CFS::VoltToAngle()
+float CFS::GetArmAngle()
 {
     float volts = GetPivotPosition();
 
@@ -168,7 +168,7 @@ float CFS::GetFeedSpeedBot(void)
 
 void CFS::setArmAngle(float angle)
 {
-    float temp = std::clamp(-1 * armAnglePID.Calculate(VoltToAngle(), angle), -0.3, 0.3);
+    float temp = std::clamp(-1 * armAnglePID.Calculate(GetArmAngle(), angle), -0.3, 0.3);
     a_Pivot.Set(temp);
 }
 

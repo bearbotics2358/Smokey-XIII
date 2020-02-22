@@ -326,7 +326,7 @@ void Autonomous::AutonomousPeriodic1(){
 
 	    case kArmMove1:
 	    	if(!MoveDaArm(ARM_DEFAULT_POSITION)){
-                MoveDaArm(ARM_DEFAULT_POSITION);
+                // MoveDaArm(ARM_DEFAULT_POSITION);
 
             } else {
 
@@ -354,7 +354,7 @@ void Autonomous::AutonomousPeriodic1(){
 
         case kShoot1:
            if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
-               RootyTootyShooty(AUTO_START_BALL_NUM);
+               // RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
 
@@ -367,7 +367,7 @@ void Autonomous::AutonomousPeriodic1(){
 
         case kDriveAway1:
            if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0)){
-               DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
+               // DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
 
            } else {
 
@@ -452,23 +452,11 @@ void Autonomous::waitplz(double anticipate){
 
 bool Autonomous::MoveDaArm(double angle){
 
+    double current = a_CFS->GetArmAngle();
+    // frc::SmartDashboard::PutNumber("ArM pOsItIoN", a_CFS->GetArmAngle());
+    a_CFS->ArmMovePos(angle);
 
-return true;
-
-/*
-    if(a_CFS->getArmAngle() < angle){         /////AUTO_SHOOT_ANGLE
-        a_CFS->ArmMovePos(angle);
-        frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
-        return false;
-
-    } else {
-        // a_CFS->ArmMovePos(KILL); ????? something to stop it
-        frc::SmartDashboard::PutNumber("ArM POsItIoN", a_CFS->getArmAngle());
-        return true;
-    }
-
-
-*/
+    return fabs(current - angle) < 0.8
 
 }
 

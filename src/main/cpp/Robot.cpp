@@ -54,7 +54,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
     
     frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
-    frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.VoltToAngle());
+    frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.GetArmAngle());
     frc::SmartDashboard::PutBoolean("Limelight Target?", a_LimeyLight.isTarget());
 
     frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());

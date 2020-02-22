@@ -40,7 +40,7 @@ class CFS
         float GetFeedSpeedTop(void); // speed of top feeder band
         float GetFeedSpeedBot(void); // speed of bot feeder band
          
-        float VoltToAngle();
+        float GetArmAngle();
 
         float GetPivotPosition(void);
 
