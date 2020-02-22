@@ -234,11 +234,11 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(6))
         {
-            a_CFS.FeedVelocity(800); // positive is intake
+            a_CFS.FeedVelocity(1000); // positive is intake
         }
         else
         {
-            a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+            a_CFS.Feed(a_xBoxController.GetRawAxis(1));
         }
         
         
