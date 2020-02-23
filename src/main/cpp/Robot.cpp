@@ -61,6 +61,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
 
     frc::SmartDashboard::PutNumber("Distance Driven: ", a_swerveyDrive.getAvgDistance());
+    frc::SmartDashboard::PutNumber("angle??????????: ", a_Gyro.GetAngle(0));
 }
 
 void Robot::DisabledInit()
@@ -76,7 +77,7 @@ void Robot::DisabledPeriodic()
 void Robot::AutonomousInit() 
 {
     a_JAutonomous.Init();
-    a_JAutonomous.DecidePath(0);
+    a_JAutonomous.DecidePath(5);
     a_JAutonomous.StartPathMaster();
 }
 

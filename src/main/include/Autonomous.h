@@ -73,6 +73,15 @@ enum AutoState4 { // Uses vision
     kSecondShoot4
 };
 
+enum AutoState5 { // Uses vision
+	kAutoIdle5 = 0,
+	kArmMove5,
+	kDriveBack5,
+    kTurntoShoot5,
+    kShootBalls5
+};
+
+
 
 // add more vision versions later
 
@@ -109,6 +118,8 @@ class Autonomous
 	void AutonomousStart4();
 	void AutonomousPeriodic4();
 
+	void AutonomousStart5();
+	void AutonomousPeriodic5();
 
 // ------------------Sub-Routines-------------------------//
 
@@ -118,6 +129,7 @@ class Autonomous
 	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
 	bool CheckBallPos();
 	bool RootyTootyShooty(int count); // Shooting balls 
+	bool TurnTaAngle(float angle);
 
 
 
@@ -137,6 +149,7 @@ class Autonomous
 	AutoState2 a_AutoState2;
     AutoState3 a_AutoState3;
     AutoState4 a_AutoState4;
+	AutoState5 a_AutoState5;
 
 
     int autoPathMaster;
