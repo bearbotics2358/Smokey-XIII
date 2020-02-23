@@ -13,6 +13,7 @@ class UnderGlow
     void SetHyperDrive(); 
     void SetSith();
     void SetJedi(); 
+    void SetRainbow(); 
 
    
 
