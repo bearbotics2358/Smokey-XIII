@@ -6,6 +6,11 @@ struct
     float angle;
 } data;
 
+void sigpipeHandler (int signal)
+{
+    printf ("Recieved signal SIGPIPE");
+}
+
 int MQTTHandler::open_nb_socket (const char *addr, const char *port)
 {
     int sockfd = socket (AF_INET, SOCK_STREAM | O_NONBLOCK, 0); // IPv4, byte stream, non-blocking socket
@@ -64,19 +69,9 @@ void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
         return;
     }
 
-    printf ("before reinit");
-
     mqtt_reinit (client, sockfd, rcdata->sendbuf, rcdata->sendbuf_size, rcdata->recvbuf, rcdata->recvbuf_size);
-
-    printf ("before reconnect");
-
     mqtt_connect (client, NULL, NULL, NULL, 0, NULL, NULL, MQTT_CONNECT_CLEAN_SESSION, 5);
-
-    printf ("before subscribe");
-
     mqtt_subscribe (client, rcdata->topic, 0);
-
-    printf ("after subscribe");
 }
 
 MQTTHandler::MQTTHandler ()
@@ -91,6 +86,8 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
 int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
+    signal (SIGPIPE, sigpipeHandler);
+
     strncpy ((char *) &rcdata.addres, addrin.c_str (), 15);
     strncpy ((char *) &rcdata.port, portin.c_str (), 7);
     strncpy ((char *) &rcdata.topic, topicin.c_str (), 1023);

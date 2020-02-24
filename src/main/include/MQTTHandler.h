@@ -6,6 +6,7 @@
 #include <string>
 #include <poll.h>
 #include <errno.h>
+#include <signal.h>
 #include "mqtt.h"
 #include "Prefs.h"
 
