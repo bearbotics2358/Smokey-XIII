@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <vector>
 #include <signal.h>
 #include "MQTTHandler.h"
 #include "CANHandler.h"

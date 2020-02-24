@@ -201,7 +201,10 @@ void Robot::TeleopPeriodic() // main loop
     // reconnect to pi
     if(joystickOne.GetRawButton(6))
     {
-        if (syncSafe && signal (SIGPIPE))
+        if (!syncSafe && signal (SIGPIPE, sigpipeHandler) != SIG_ERR)
+        {
+            syncSafe = true;
+        }
         a_handler.injectError();
     }
 
