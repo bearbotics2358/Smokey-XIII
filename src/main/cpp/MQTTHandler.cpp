@@ -89,7 +89,8 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     rcdata.recvbuf = recvbuf;
     rcdata.recvbuf_size = sizeof(recvbuf);
 
-    mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback, this);
+    mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback);
+    client.publish_response_callback_state = this;
 
     mqtt_sync (&client);
 
