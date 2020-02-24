@@ -5,6 +5,7 @@
 #include <stdio.h>
 /*~~ hi :) ~~ */
 Robot::Robot():
+#ifndef LAPTOP
 a_Gyro(frc::I2C::kMXP), // 1
 a_FLModule(FL_DRIVE_ID, FL_STEER_ID, 1), 
 a_FRModule(FR_DRIVE_ID, FR_STEER_ID, 2), // (when we get analog encoders, replace 1-4 with actual IDs)
@@ -18,9 +19,11 @@ a_LimeyLight(),
 // handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM),
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
-a_handler("10.23.58.26", "1183", "data"),
-a_canHandler(canMakeIn2020())
+a_canHandler(canMakeIn2020()),
+#endif
+a_handler("10.23.58.26", "1183", "data")
 {
+    #ifndef LAPTOP
     a_FLModule.updateDrivePID(0.001, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
 
@@ -32,10 +35,12 @@ a_canHandler(canMakeIn2020())
 
     a_BRModule.updateDrivePID(0.001, 0, 0);
     a_BRModule.updateSteerPID(2.0, 0, 0.01);
+    #endif
 }
 
 void Robot::RobotInit() 
 {
+    #ifndef LAPTOP
     frc::SmartDashboard::init();
     a_Gyro.Init();
     a_Gyro.Cal();
@@ -43,10 +48,12 @@ void Robot::RobotInit()
 
     a_LimeyLight.ledOff();
     a_LimeyLight.cameraMode(0);
+    #endif
 }
 
 void Robot::RobotPeriodic()
 {
+    #ifndef LAPTOP
     a_Gyro.Update(); 
     // handler.update();
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
@@ -61,18 +68,23 @@ void Robot::RobotPeriodic()
 
     frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());
     frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
+    #endif
 }
 
 void Robot::AutonomousInit() 
 {
+    #ifndef LAPTOP
     a_JAutonomous.Init();
     a_JAutonomous.DecidePath(0);
     a_JAutonomous.StartPathMaster();
+    #endif
 }
 
 void Robot::AutonomousPeriodic() 
 {
+    #ifndef LAPTOP
     a_JAutonomous.PeriodicPathMaster();
+    #endif
 }
 
 void Robot::TeleopInit() 
@@ -84,7 +96,7 @@ void Robot::TeleopPeriodic() // main loop
 {
 
 
-
+    #ifndef LAPTOP
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
     float z = -1 * joystickOne.GetRawAxis(2);
@@ -239,7 +251,7 @@ void Robot::TeleopPeriodic() // main loop
         
         
     }
-
+    #endif
 }
 
 void Robot::TestInit() 
@@ -250,6 +262,7 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
+    #ifndef LAPTOP
     if(joystickOne.GetRawButton(4)) {
         a_JAutonomous.RootyTootyShooty(2);
     } else {
@@ -298,7 +311,7 @@ void Robot::TestPeriodic()
 
     */ 
 
-
+    #endif
 }
 
 

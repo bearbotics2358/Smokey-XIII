@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include "SwerveModule.h"
@@ -59,3 +59,4 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         frc::AnalogEncoder BL_Encoder; 
         frc::AnalogEncoder BR_Encoder; */
 };
+#endif

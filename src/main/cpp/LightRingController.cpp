@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include <LightRingController.h>
 #include <Prefs.h>
 
@@ -37,3 +37,4 @@ bool LightRingController::SetFlash(int device, bool set) {
 		return SetColor(device, 0, 0, 0);
 	}
 }
+#endif

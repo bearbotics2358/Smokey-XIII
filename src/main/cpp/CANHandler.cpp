@@ -1,3 +1,4 @@
+#ifndef LAPTOP
 #include "CANHandler.h"
 
 CANHandler::CANHandler (std::vector<struct arduino> in)
@@ -98,3 +99,4 @@ std::vector<struct arduino> canMakeIn2020 ()
     can_in.push_back (ard);
     return can_in;
 }
+#endif

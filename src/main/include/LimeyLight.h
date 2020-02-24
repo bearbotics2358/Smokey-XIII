@@ -1,3 +1,4 @@
+#ifndef LAPTOP
 #pragma once
 
 #include <networktables/NetworkTable.h>
@@ -33,3 +34,4 @@ class LimeyLight
         nt::NetworkTableInstance table;
         frc2::PIDController lemonLight; 
 };
+#endif

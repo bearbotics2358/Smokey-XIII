@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include <frc/I2C.h>
@@ -12,3 +12,4 @@ public:
 private:
 	frc::I2C a_I2C;
 };
+#endif

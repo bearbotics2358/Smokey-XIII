@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include "SwerveDrive.h"
 
 SwerveDrive::SwerveDrive(SwerveModule *FL_Ptr, SwerveModule *FR_Ptr, SwerveModule *BL_Ptr, SwerveModule *BR_Ptr):
@@ -340,3 +340,4 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 BL_Module->setDriveSpeed(speed);
 	 BR_Module->setDriveSpeed(speed);
  }
+#endif

@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include "Prefs.h"
 #include <frc/DigitalInput.h>
 
@@ -15,3 +15,4 @@ private:
     frc::DigitalInput a_Input; 
 
 };
+#endif

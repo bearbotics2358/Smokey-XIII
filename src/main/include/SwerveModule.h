@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include <rev/CANSparkMax.h>
@@ -50,3 +50,4 @@ class SwerveModule // Handles steering and driving of each Swerve Module
 
         
 };
+#endif

@@ -1,3 +1,4 @@
+#ifndef LAPTOP
 #pragma once
 
 #include <string>
@@ -41,3 +42,4 @@ class CANHandler
 inline void set_vals (std::vector<struct dataField> *in, int id, unsigned char bits, float multiplier);
 
 std::vector<struct arduino> canMakeIn2020 ();
+#endif

@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include "JrimmyGyro.h"
 
 const uint8_t JrimmyGyro::kPowerMgmRegister;
@@ -189,3 +189,4 @@ void JrimmyGyro::Zero() {
 std::string JrimmyGyro::GetSmartDashboardType() {
 	return "3AxisAccelerometer";
 }
+#endif

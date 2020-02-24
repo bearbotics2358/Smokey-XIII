@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include <ctre/Phoenix.h>
@@ -70,3 +70,4 @@ class CFS
 
         
 };
+#endif

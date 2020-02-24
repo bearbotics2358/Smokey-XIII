@@ -29,6 +29,7 @@ class Robot : public frc::TimedRobot
     void TestInit();
     void TestPeriodic();
   private: 
+    #ifndef LAPTOP
     JrimmyGyro a_Gyro;
     SwerveModule a_FLModule;
     SwerveModule a_FRModule;
@@ -50,6 +51,7 @@ class Robot : public frc::TimedRobot
 
     Autonomous a_JAutonomous;
 
-    MQTTHandler a_handler;
     CANHandler a_canHandler;
+    #endif
+    MQTTHandler a_handler;
 };

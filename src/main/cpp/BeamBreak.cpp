@@ -1,3 +1,4 @@
+#ifndef LAPTOP
 #include "BeamBreak.h"
 
     BeamBreak::BeamBreak(int port): 
@@ -21,3 +22,4 @@
     */
 
 
+#endif

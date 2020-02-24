@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include <frc/I2C.h>
@@ -58,3 +58,4 @@ private:
 	double angleBias[3];
 	double lastUpdate;
 };
+#endif

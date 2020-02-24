@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include "CFS.h"
 
 
@@ -170,3 +170,4 @@ void CFS::setArmAngle(float angle)
     float temp = std::clamp(-1 * armAnglePID.Calculate(VoltToAngle(), angle), -0.3, 0.3);
     a_Pivot.Set(temp);
 }
+#endif

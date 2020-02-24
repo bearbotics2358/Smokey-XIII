@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 
 #pragma once
 
@@ -146,3 +146,4 @@ class Autonomous
 
 
 };
+#endif

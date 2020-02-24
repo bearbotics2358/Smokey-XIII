@@ -1,4 +1,5 @@
 
+#ifndef LAPTOP
 #include <math.h>
 #include "Autonomous.h"
 
@@ -521,3 +522,4 @@ bool Autonomous::RootyTootyShooty(int count){
 
     
 }
+#endif

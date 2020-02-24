@@ -1,3 +1,4 @@
+#ifndef LAPTOP
 #include "LimeyLight.h"
 
  //std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
@@ -134,3 +135,4 @@ float LimeyLight::calcZAxis() {
     }
     return 0;
 }
+#endif

@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #pragma once
 
 #include <rev/CANSparkMax.h>
@@ -19,3 +19,4 @@ class Climby // Class to handle the kinematics of Swerve Drive
 
         
 };
+#endif

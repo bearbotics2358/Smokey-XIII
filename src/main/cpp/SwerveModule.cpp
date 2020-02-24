@@ -1,4 +1,4 @@
-
+#ifndef LAPTOP
 #include "SwerveModule.h"
 
 SwerveModule::SwerveModule(int driveID, int steerID, int steerEncID):
@@ -137,3 +137,4 @@ bool SwerveModule::adjustAngle(float targetAngle) {
         o specify wether or not the direction need to be reversed  
         o still move even if angle doesn't need to be adjusted
 */ 
+#endif
