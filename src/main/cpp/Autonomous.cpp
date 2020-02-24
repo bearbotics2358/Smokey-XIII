@@ -347,7 +347,7 @@ void Autonomous::AutonomousPeriodic3(){
     float angle_in;
     float angle_out;
     bool temp = false;
-    static unsigned char timeCount = 0;
+    static unsigned short timeCount = 0;
     switch (a_AutoState3)
     {
         case kAutoIdle3:
@@ -398,22 +398,21 @@ void Autonomous::AutonomousPeriodic3(){
             break;
         case kDriveBack3:
             // Drive back to original distance that we shot at during 3 ball auto
-            if (DriveDist(100, 0)) // Changed distance for 3 ball auto
+            /* if (DriveDist(100, 0)) // Changed distance for 3 ball auto
             {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
             break;
+            */
 
-
-            /*
             if (a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
             {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
             a_SwerveDrive->crabDriveUpdate (0, AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
-            */
+            
 
             /*
             if(!IHaveAProposal(AUTO_DRIVE_SPEED, 0, 100)) { // Need to test distance
@@ -434,16 +433,22 @@ void Autonomous::AutonomousPeriodic3(){
             // Skip because no work
         case kprime3:
             // DO NOT USE, BEAM BREAK NEEDS TO BE RECTIFIED
-            if (timeCount == 0)
+            if (timeCount >= 0 &&  timeCount < 250)
+            {
+                a_CFS->FeedVelocity (100);
+            }
+            else if (timeCount >= 250 && timeCount < 500)
             {
                 a_CFS->FeedVelocity (-100);
+            
             }
-            if (timeCount >= 25)
+            else
             {
                 a_CFS->FeedVelocity (0);
                 a_AutoState3 = kShoot3;
             }
-            timeCount ++;
+
+            timeCount += 20;
             break;
 
         case kShoot3:
