@@ -1,11 +1,5 @@
 #include "MQTTHandler.h"
 
-struct
-{
-    float distance;
-    float angle;
-} data;
-
 void sigpipeHandler (int signal)
 {
     printf ("Recieved signal SIGPIPE");
@@ -46,9 +40,10 @@ int MQTTHandler::open_nb_socket (const char *addr, const char *port)
     return sockfd;
 }
 
-void MQTTHandler::publish_callback (void** unused, struct mqtt_response_publish *published) 
+void MQTTHandler::publish_callback (void** state, struct mqtt_response_publish *published) 
 {    
-    sscanf ((char *) published->application_message, "%f %f", &(data.distance), &(data.angle));
+    MQTTHandler *h_instance = (MQTTHandler *) *state;
+    sscanf ((char *) published->application_message, "%f %f", &(h_instance->distance), &(h_instance->angle));
 }
 
 void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
@@ -94,7 +89,7 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     rcdata.recvbuf = recvbuf;
     rcdata.recvbuf_size = sizeof(recvbuf);
 
-    mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback);
+    mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback, this);
 
     mqtt_sync (&client);
 
@@ -130,16 +125,6 @@ int MQTTHandler::mqttPublish (std::string msg, std::string topic)
         return -1;
     }
     return 0;
-}
-
-float MQTTHandler::getDistance ()
-{
-    return data.distance;
-}
-
-float MQTTHandler::getAngle ()
-{
-    return data.angle;
 }
 
 void MQTTHandler::injectError ()

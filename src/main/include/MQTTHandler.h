@@ -33,8 +33,8 @@ class MQTTHandler
         bool noErrors () const;
         int mqttPublish (std::string msg, std::string topic);
 	    void injectError ();
-        static float getDistance ();
-        static float getAngle ();
+        float distance;
+        float angle;
     private:
         static int open_nb_socket (const char *addr, const char *port);
         static void publish_callback (void **unused, struct mqtt_response_publish *published);

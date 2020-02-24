@@ -131,7 +131,8 @@ enum MQTTErrors mqtt_init(struct mqtt_client *client,
 void mqtt_init_reconnect(struct mqtt_client *client,
                          void (*reconnect)(struct mqtt_client *, void**),
                          void *reconnect_state,
-                         void (*publish_response_callback)(void** state, struct mqtt_response_publish *publish))
+                         void (*publish_response_callback)(void** state, struct mqtt_response_publish *publish),
+			             void *publish_callback_state) //MODIFIED
 {
     /* initialize mutex */
     MQTT_PAL_MUTEX_INIT(&client->mutex);
@@ -156,6 +157,8 @@ void mqtt_init_reconnect(struct mqtt_client *client,
     client->inspector_callback = NULL;
     client->reconnect_callback = reconnect;
     client->reconnect_state = reconnect_state;
+
+    client->publish_response_callback_state = publish_callback_state; //MODIFIED
 }
 
 void mqtt_reinit(struct mqtt_client* client,
