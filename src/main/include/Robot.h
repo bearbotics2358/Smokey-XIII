@@ -1,7 +1,9 @@
 
 #pragma once
 
+#include <vector>
 #include "MQTTHandler.h"
+#include "CANHandler.h"
 #include <frc/TimedRobot.h> // "Timed Robot" template
 #include "SwerveModule.h" // Swerve modules
 #include <frc/Joystick.h> // Joystick 
@@ -48,4 +50,6 @@ class Robot : public frc::TimedRobot
 
     Autonomous a_JAutonomous;
 
+    MQTTHandler a_handler;
+    CANHandler a_canHandler;
 };

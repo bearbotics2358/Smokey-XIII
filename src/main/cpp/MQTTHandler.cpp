@@ -70,7 +70,7 @@ void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
 
     printf ("before reconnect");
 
-    mqtt_connect (client, NULL, NULL, NULL, 0, NULL, NULL, MQTT_CONNECT_CLEAN_SESSION, 400);
+    mqtt_connect (client, NULL, NULL, NULL, 0, NULL, NULL, MQTT_CONNECT_CLEAN_SESSION, 5);
 
     printf ("before subscribe");
 

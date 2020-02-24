@@ -117,3 +117,16 @@ BR:
 #define TH2_COS2_ANGLE 31.47152872
 // sin (2 * shooter angle)
 #define SIN_2ANGLE 0.819152044
+
+/* ============= CAN ============= */
+
+#define ARDUINO_L_CAN 20
+#define ARDUINO_R_CAN 21
+
+#define FL_SWERVE_D 0
+#define FR_SWERVE_D 1
+#define BL_SWERVE_D 2
+#define BR_SWERVE_D 3
+#define F_TOF_D 4
+#define B_TOF_D 5
+#define ARM_D 6

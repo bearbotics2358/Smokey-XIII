@@ -17,7 +17,9 @@ a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 // handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM),
-a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS)
+a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
+a_handler("10.23.58.26", "1183", "data"),
+a_canHandler(canMakeIn2020())
 {
     a_FLModule.updateDrivePID(0.001, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -170,6 +172,12 @@ void Robot::TeleopPeriodic() // main loop
     a_LimeyLight.printValues();
 
     /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
+
+    // reconnect to pi
+    if(joystickOne.GetRawButton(6))
+    {
+        a_handler.injectError();
+    }
 
     if(joystickOne.GetRawButton(5))
     {
