@@ -291,7 +291,7 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.ShootVelocity(slowVel); 
         
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.90 * slowVel)
+        if(avg >= 0.75 * slowVel)
         {
             a_CFS.FeedVelocity(1000);
         }

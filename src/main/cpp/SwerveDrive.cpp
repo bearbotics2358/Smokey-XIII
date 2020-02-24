@@ -86,7 +86,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     	BR_Speed /= max;
     }
 
-	float scalar = 0.8; // scalar to adjust if speed is too high
+	float scalar = 0.90; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -99,7 +99,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
 	
 	float deadzoneCheck = sqrt(xIn * xIn + yIn * yIn);
 
-	if(deadzoneCheck < 0.15 && fabs(zIn) < 0.01)
+	if(deadzoneCheck < JOYSTICK_DEADZONE && fabs(zIn) < 0.01)
 	{
 		FL_Speed = 0;
 		FR_Speed = 0;
@@ -233,7 +233,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn)
     	BR_Speed /= max;
     }
 
-	float scalar = 0.8; // scalar to adjust if speed is too high
+	float scalar = 0.9; // scalar to adjust if speed is too high
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -246,7 +246,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn)
 	
 	float deadzoneCheck = sqrt(xIn * xIn + yIn * yIn);
 
-	if(deadzoneCheck < 0.15 && fabs(zInput) < 0.1)
+	if(deadzoneCheck < JOYSTICK_DEADZONE && fabs(zInput) < 0.1)
 	{
 		FL_Speed = 0;
 		FR_Speed = 0;
