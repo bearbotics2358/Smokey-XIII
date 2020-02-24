@@ -31,7 +31,7 @@ class MQTTHandler
         int init (std::string addrin, std::string portin, std::string topicin);
         bool update ();
         bool noErrors () const;
-        int mqttPublish (std::string msg, std::string topic);
+        int publish (std::string msg, std::string topic);
 	    void injectError ();
         float distance;
         float angle;

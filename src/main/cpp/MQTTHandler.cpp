@@ -116,7 +116,7 @@ bool MQTTHandler::noErrors () const
     return errorF;
 }
 
-int MQTTHandler::mqttPublish (std::string msg, std::string topic)
+int MQTTHandler::publish (std::string msg, std::string topic)
 {
     const char *ctopic = (const char *) topic.c_str();
     void *cmsg = (void *) msg.c_str();
