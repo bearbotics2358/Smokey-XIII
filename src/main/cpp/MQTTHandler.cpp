@@ -40,8 +40,8 @@ int MQTTHandler::open_nb_socket (const char *addr, const char *port)
 
 	poll (&mfd, 1, 100);
 
-	int flags = fcntl (sockfd, F_GETFL, 0);
-	int ret2 = fcntl (sockfd, F_SETFL, flags & (~O_NONBLOCK));
+	// int flags = fcntl (sockfd, F_GETFL, 0);
+	// int ret2 = fcntl (sockfd, F_SETFL, flags & (~O_NONBLOCK));
 
     return sockfd;
 }
@@ -86,8 +86,6 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
 int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
-    signal (SIGPIPE, sigpipeHandler);
-
     strncpy ((char *) &rcdata.addres, addrin.c_str (), 15);
     strncpy ((char *) &rcdata.port, portin.c_str (), 7);
     strncpy ((char *) &rcdata.topic, topicin.c_str (), 1023);

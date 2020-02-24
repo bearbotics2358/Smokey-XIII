@@ -21,7 +21,8 @@ a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
 a_canHandler(canMakeIn2020()),
 #endif
-a_handler("10.23.58.26", "1183", "data")
+a_handler("10.23.58.26", "1183", "data"),
+syncSafe(true)
 {
     #ifndef LAPTOP
     a_FLModule.updateDrivePID(0.001, 0, 0);
@@ -49,13 +50,25 @@ void Robot::RobotInit()
     a_LimeyLight.ledOff();
     a_LimeyLight.cameraMode(0);
     #endif
+
+    if (signal (SIGPIPE, sigpipeHandler) == SIG_ERR)
+    {
+        printf ("Connecting SIGPIPE handler failed");
+        syncSafe = false;
+    }
 }
 
 void Robot::RobotPeriodic()
 {
+    // if signal handler for sigpipe didn't succeed, don't run or else robot code will crash if pi crashes
+    if (syncSafe)
+    {
+        a_handler.update ();
+    }
+
     #ifndef LAPTOP
     a_Gyro.Update(); 
-    // handler.update();
+    
     frc::SmartDashboard::PutNumber("Wheel Speed L: ", a_CFS.GetWheelSpeedL());
     frc::SmartDashboard::PutNumber("Wheel Speed R: ", a_CFS.GetWheelSpeedR());
 

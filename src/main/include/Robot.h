@@ -54,4 +54,5 @@ class Robot : public frc::TimedRobot
     CANHandler a_canHandler;
     #endif
     MQTTHandler a_handler;
+    bool syncSafe;
 };

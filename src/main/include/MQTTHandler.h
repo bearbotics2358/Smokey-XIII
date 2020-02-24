@@ -21,6 +21,8 @@ typedef struct
     size_t recvbuf_size;
 } reconnect_data;
 
+void sigpipeHandler (int signal);
+
 class MQTTHandler
 {
     public:
