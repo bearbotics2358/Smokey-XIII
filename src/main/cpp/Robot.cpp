@@ -3,6 +3,7 @@
 #include "Prefs.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <stdio.h>
+#include <string>
 /*~~ hi :) ~~ */
 Robot::Robot():
 #ifndef LAPTOP
@@ -21,7 +22,7 @@ a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
 a_canHandler(canMakeIn2020()),
 #endif
-a_handler("10.23.58.26", "1183", "data"),
+a_handler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
 syncSafe(true)
 {
     #ifndef LAPTOP
@@ -63,6 +64,7 @@ void Robot::RobotPeriodic()
     // if signal handler for sigpipe didn't succeed, don't run or else robot code will crash if pi crashes
     if (syncSafe)
     {
+        a_handler.mqttPublish(std::to_string(a_handler.angle) + " " + std::to_string(a_handler.distance), "data");
         a_handler.update ();
     }
 

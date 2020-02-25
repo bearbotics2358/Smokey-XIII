@@ -13,6 +13,8 @@
 #include "CFS.h"
 #include "Autonomous.h"
 
+#define LAPTOP
+
 class Robot : public frc::TimedRobot 
 {
   public:
