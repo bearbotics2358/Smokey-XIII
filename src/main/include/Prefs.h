@@ -109,6 +109,8 @@ BR:
 
 /* ============= Vision ============= */
 
+#define LOOKUP_TABLE_LEN 16
+
 #define CONTROL_VELOCITY
 // TARGET_HEIGHT 20
 // COS2_ANGLE 0.786788218
