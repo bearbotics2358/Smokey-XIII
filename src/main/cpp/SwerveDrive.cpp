@@ -6,7 +6,7 @@ FL_Module(FL_Ptr),
 FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
-anglePID(2, 0.0 , 0.0),
+anglePID(0.03, 0.0 , 0.0),
 jenkinsTheCrabPID(5, 0.0, 0.0)
 /* FL_Input(0),
 FR_Input(1),
@@ -288,18 +288,45 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) //
 }
 
 void SwerveDrive::driveDistance(float dist, float direction)
-{
+{ 
 	float dist2ElectricBoogalo = dist / INCHES_PER_TICK;
 
-	FL_Module->steerToAng(direction);
-	FR_Module->steerToAng(direction);
-	BL_Module->steerToAng(direction);
-	BR_Module->steerToAng(direction);
+	/*
+	if(FL_Module->adjustAngle(direction)) {
+		FL_Module->goToPosition(-1.0 * dist2ElectricBoogalo);
+	} else {
+		FL_Module->goToPosition(dist2ElectricBoogalo);
+	}
 	
-	FL_Module->goToPosition(dist2ElectricBoogalo);
-	FR_Module->goToPosition(dist2ElectricBoogalo);
-	BL_Module->goToPosition(dist2ElectricBoogalo);
-	BR_Module->goToPosition(dist2ElectricBoogalo);
+	if(FR_Module->adjustAngle(direction)) {
+		FR_Module->goToPosition(-1.0 * dist2ElectricBoogalo);
+	} else {
+		FR_Module->goToPosition(dist2ElectricBoogalo);
+	}
+
+	if(BL_Module->adjustAngle(direction)) {
+		BL_Module->goToPosition(-1.0 * dist2ElectricBoogalo);
+	} else {
+		BL_Module->goToPosition(dist2ElectricBoogalo);
+	}
+
+	if(BR_Module->adjustAngle(direction)) {
+		BR_Module->goToPosition(-1.0 * dist2ElectricBoogalo);
+	} else {
+		BR_Module->goToPosition(dist2ElectricBoogalo);
+	}
+	*/
+    	
+  		FL_Module->steerToAng(direction);
+		FR_Module->steerToAng(direction);
+		BL_Module->steerToAng(direction);
+		BR_Module->steerToAng(direction);
+		
+		FL_Module->goToPosition(dist2ElectricBoogalo);
+		FR_Module->goToPosition(dist2ElectricBoogalo);
+		BL_Module->goToPosition(dist2ElectricBoogalo);
+		BR_Module->goToPosition(dist2ElectricBoogalo); 
+	
 
 }
 
@@ -312,11 +339,22 @@ void SwerveDrive::resetDrive() {
 
 float SwerveDrive::getAvgDistance(void)
 {
-	float ret = (FL_Module->getDistance() + FR_Module->getDistance() + BL_Module->getDistance() + BR_Module ->getDistance())/4.0;
+	float ret = (fabs(FL_Module->getDistance()) + fabs(FR_Module->getDistance()) + fabs(BL_Module->getDistance()) + fabs(BR_Module ->getDistance()))/4.0;
 	return ret * INCHES_PER_TICK;
 }
 
 void SwerveDrive::turnToAngle(float gyro, float angle) {
+
+	if(gyro < 0)
+    {
+        gyro = fmod(gyro, -360);
+        gyro += 360;
+    }
+    else
+    {
+        gyro = fmod(gyro, 360);
+    }
+
 	 FL_Module->steerToAng(45);
 	 FR_Module->steerToAng(135);
 	 BL_Module->steerToAng(225);
