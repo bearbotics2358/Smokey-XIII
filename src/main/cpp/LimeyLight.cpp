@@ -8,7 +8,7 @@ lemonLight(0.05, 0.0, 0.0)
     for (int i = 0; i < LOOKUP_TABLE_LEN - 1; i ++)
     {
         tableSlope[i].dist = tableVals[i].dist;
-        tableSlope[i].value = (tableVals[i + 1].value - tableVals[i].value) / (tableVals[i + 1].dist - tableVals[i].diat);
+        tableSlope[i].value = (tableVals[i + 1].value - tableVals[i].value) / (tableVals[i + 1].dist - tableVals[i].dist);
     }
 }
 
@@ -141,7 +141,7 @@ float LimeyLight::calcZAxis() {
     return 0;
 }
 
-void LimeyLight::setTableValue (const int index, const float dist, const float value)
+void LimeyLight::setTableVal (const int index, const float dist, const float value)
 {
     tableVals[index].dist = dist;
     tableVals[index].value = value;

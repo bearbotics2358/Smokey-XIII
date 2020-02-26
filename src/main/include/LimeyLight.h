@@ -13,7 +13,7 @@ struct tableVal
 {
     float dist;
     float value;
-}
+};
 
 class LimeyLight
 {
