@@ -1,8 +1,6 @@
 #ifndef LAPTOP
 #include "LimeyLight.h"
 
- //std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
 lemonLight(0.05, 0.0, 0.0)
@@ -141,5 +139,11 @@ float LimeyLight::calcZAxis() {
         return shinyRowlet;
     }
     return 0;
+}
+
+void LimeyLight::setTableValue (const int index, const float dist, const float value)
+{
+    tableVals[index].dist = dist;
+    tableVals[index].value = value;
 }
 #endif

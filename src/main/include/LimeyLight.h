@@ -39,6 +39,7 @@ class LimeyLight
     private:
         nt::NetworkTableInstance table;
         frc2::PIDController lemonLight; 
+        void setTableVal (const int index, const float dist, const float value);
         struct tableVal tableVals[LOOKUP_TABLE_LEN];
         struct tableVal tableSlope[LOOKUP_TABLE_LEN - 1];
 };
