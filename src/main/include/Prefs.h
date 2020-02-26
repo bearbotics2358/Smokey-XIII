@@ -66,9 +66,9 @@ BR:
 
 
 #define VOLTS_MAX 1.783 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
-#define VOLTS_MIN 2.69 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MIN 2.67 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
 #define ANGLE_MAX 90
-#define ANGLE_MIN 20
+#define ANGLE_MIN 24
 
 
 #define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
@@ -96,6 +96,7 @@ BR:
 #define FEED_2 44
 #define COLLECT 45
 #define PIVOT 46
+#define CLIMBER 47
 
 // int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot
 

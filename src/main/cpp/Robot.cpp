@@ -17,7 +17,7 @@ a_xBoxController(XBOX_CONTROLLER),
 a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
-a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, BROKEN_BEAM, REESES_BEAM),
+a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, CLIMBER, BROKEN_BEAM, REESES_BEAM),
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
 a_canHandler(canMakeIn2020()),
 #endif
@@ -77,19 +77,34 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
     
     frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
-    frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.VoltToAngle());
+    frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.GetArmAngle());
     frc::SmartDashboard::PutBoolean("Limelight Target?", a_LimeyLight.isTarget());
 
     frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());
     frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
+
+    frc::SmartDashboard::PutNumber("Distance Driven: ", a_swerveyDrive.getAvgDistance());
+    frc::SmartDashboard::PutNumber("angle??????????: ", a_Gyro.GetAngle(0));
     #endif
+}
+
+void Robot::DisabledInit()
+{
+    #ifndef LAPTOP
+    a_swerveyDrive.resetDrive();
+    #endif
+}
+
+void Robot::DisabledPeriodic()
+{
+
 }
 
 void Robot::AutonomousInit() 
 {
     #ifndef LAPTOP
     a_JAutonomous.Init();
-    a_JAutonomous.DecidePath(0);
+    a_JAutonomous.DecidePath(5);
     a_JAutonomous.StartPathMaster();
     #endif
 }
@@ -260,11 +275,11 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(6))
         {
-            a_CFS.FeedVelocity(800); // positive is intake
+            a_CFS.FeedVelocity(1000); // positive is intake
         }
         else
         {
-            a_CFS.Feed(0.5 * a_xBoxController.GetRawAxis(1));
+            a_CFS.Feed(a_xBoxController.GetRawAxis(1));
         }
         
         
@@ -287,6 +302,8 @@ void Robot::TestPeriodic()
         a_CFS.ShootVelocity(0);
         a_CFS.FeedVelocity(0);
     }
+
+    a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
     
 
     /* 

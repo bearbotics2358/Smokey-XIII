@@ -3,7 +3,7 @@
 
 
 
-CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int beam1, int beam2):
+CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, int climb, int beam1, int beam2):
     a_ShootLeft(shoot1),
     a_ShootRight(shoot2),
     a_FeedTop(feed1),
@@ -12,6 +12,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_BrokenBeam(beam1),
     a_TopBeam(beam2),
     a_Pivot(pivot, rev::CANSparkMaxLowLevel::MotorType::kBrushless),  
+    a_Climber(climb, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
     pivotInput(0),
     a_PivotEncoder(pivotInput),
     armAnglePID(0.05, 0, 0)
@@ -35,15 +36,15 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_FeedBot.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     a_FeedTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
 
-    a_FeedBot.Config_kP(0, 0.09, 0);
+    a_FeedBot.Config_kP(0, 0.12, 0);
     a_FeedBot.Config_kI(0, 0, 0);
     a_FeedBot.Config_kD(0, 0, 0);
-    a_FeedBot.Config_kF(0, 0.405, 0);
+    a_FeedBot.Config_kF(0, 0.91, 0); // 1.3
 
-    a_FeedTop.Config_kP(0, 0.09, 0);
+    a_FeedTop.Config_kP(0, 0.12, 0);
     a_FeedTop.Config_kI(0, 0, 0);
     a_FeedTop.Config_kD(0, 0, 0); 
-    a_FeedTop.Config_kF(0, 0.515, 0); 
+    a_FeedTop.Config_kF(0, 0.94, 0); // 1.5
 
     
 }
@@ -147,7 +148,7 @@ float CFS::GetPivotPosition()
     return ret;
 }
 
-float CFS::VoltToAngle()
+float CFS::GetArmAngle()
 {
     float volts = GetPivotPosition();
 
@@ -167,7 +168,14 @@ float CFS::GetFeedSpeedBot(void)
 
 void CFS::setArmAngle(float angle)
 {
-    float temp = std::clamp(-1 * armAnglePID.Calculate(VoltToAngle(), angle), -0.3, 0.3);
+    float temp = std::clamp(-1 * armAnglePID.Calculate(GetArmAngle(), angle), -0.3, 0.3);
     a_Pivot.Set(temp);
+}
+
+void CFS::ClimbQuestionMark(float speed)
+{
+
+    a_Climber.Set(speed);
+
 }
 #endif

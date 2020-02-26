@@ -22,6 +22,9 @@ class Robot : public frc::TimedRobot
     void RobotInit();
     void RobotPeriodic();
 
+    void DisabledInit();
+    void DisabledPeriodic();
+
     void AutonomousInit();
     void AutonomousPeriodic();
 
