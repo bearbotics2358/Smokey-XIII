@@ -9,6 +9,12 @@
 
 #define GET_LIMELIGHT_VALUE(table, key) (table).GetTable("limelight")->GetNumber((key), 0.0f)
 
+struct tableVal
+{
+    float dist;
+    float value;
+};
+
 class LimeyLight
 {
     public:
@@ -33,5 +39,8 @@ class LimeyLight
     private:
         nt::NetworkTableInstance table;
         frc2::PIDController lemonLight; 
+        void setTableVal (const int index, const float dist, const float value);
+        struct tableVal tableVals[LOOKUP_TABLE_LEN];
+        struct tableVal tableSlope[LOOKUP_TABLE_LEN - 1];
 };
 #endif

@@ -1,13 +1,15 @@
 #ifndef LAPTOP
 #include "LimeyLight.h"
 
- //std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
 lemonLight(0.05, 0.0, 0.0)
 {
-
+    for (int i = 0; i < LOOKUP_TABLE_LEN - 1; i ++)
+    {
+        tableSlope[i].dist = tableVals[i].dist;
+        tableSlope[i].value = (tableVals[i + 1].value - tableVals[i].value) / (tableVals[i + 1].dist - tableVals[i].dist);
+    }
 }
 
 LimeyLight::~LimeyLight ()
@@ -49,11 +51,14 @@ float LimeyLight::getYAngleShooter () const
 
 float LimeyLight::getVelocityShooter () const
 {
-    /* velocity = (distance * sqrt(g)) /
-    sqrt(-2 * height * cos^2(shooter angle) + 2 * distance * sin(shooter angle) cos(shooter angle)) */
-    // constants are wrong right now
-    float distance = getDist ();
-    return ((3.130495168 * distance) / sqrt (distance * SIN_2ANGLE - TH2_COS2_ANGLE));
+    float dist = getDist ();
+    int i = 0;
+    while (dist < tableVals[i].dist && i < LOOKUP_TABLE_LEN)
+    {
+        i ++;
+    }
+    int tempi = i > LOOKUP_TABLE_LEN - 1 ? LOOKUP_TABLE_LEN - 2 : i;
+    return tableVals[i].dist + (tableSlope[tempi].value * (dist - tableVals[i].dist));
 }
 
 bool LimeyLight::isTarget () const
@@ -134,5 +139,11 @@ float LimeyLight::calcZAxis() {
         return shinyRowlet;
     }
     return 0;
+}
+
+void LimeyLight::setTableVal (const int index, const float dist, const float value)
+{
+    tableVals[index].dist = dist;
+    tableVals[index].value = value;
 }
 #endif
