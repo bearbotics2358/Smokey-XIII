@@ -469,7 +469,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
         case kDriveBack5:
-           if(!DriveDist(115, 180)){
+           if(!IHaveAProposal(AUTO_SPEED_MAYBE, 180.0, ARBITRARY_DIST_BACKWARDS)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -617,5 +617,30 @@ bool Autonomous::TurnTaAngle(float angle){
 
 
 
+
+}
+
+
+bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is done, false is not done
+
+    if(fabs(a_SwerveDrive->getAvgDistance()) < dist){
+
+        if (a_SwerveDrive->getAvgDistance() > (0.50 * (dist))){
+		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->getAngle(0));
+
+		} else {
+            a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->getAngle(0));
+		
+        }
+        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        return false;
+
+    } else {
+        a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+        frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
+        return true;
+
+    }
+            
 
 }

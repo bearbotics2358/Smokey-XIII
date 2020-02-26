@@ -166,7 +166,7 @@ float SwerveDrive::lockZ(float gyro)
 	return ret;
 }
 
-void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) // 
+void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn)
 {
 	if(!crab)
 	{
@@ -377,4 +377,25 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 FR_Module->setDriveSpeed(speed);	 
 	 BL_Module->setDriveSpeed(speed);
 	 BR_Module->setDriveSpeed(speed);
+ }
+
+ void SwerveDrive::GoToTheDon(float speed, float direction, float distance, float gyro)
+ {
+	if(getAvgDistance() <= dist)
+	{
+		float radians = direction * M_PI / 180.0;
+		
+		float x = -speed * cos(radians);
+		float y = -speed * sin(radians);
+		
+		crab = true;
+		holdAngle = 0;
+
+		crabDriveUpdate(x, y, gyro);
+	}
+	else
+	{
+		swerveUpdate(0, 0, 0, gyro, false);
+	}
+	 
  }

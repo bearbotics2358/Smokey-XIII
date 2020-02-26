@@ -255,6 +255,70 @@ void Robot::TestInit()
 
 void Robot::TestPeriodic() 
 {
+
+
+
+    float x = -1 * joystickOne.GetRawAxis(0);
+    float y = -1 * joystickOne.GetRawAxis(1);
+    float z = -1 * joystickOne.GetRawAxis(2);
+    float gyro = a_Gyro.GetAngle(0);
+
+    if(fabs(x) < 0.10)
+    {
+        x = 0;
+    }
+    if(fabs(y) < 0.10)
+    {
+        y = 0;
+    }
+    if(fabs(z) < 0.10)
+    {
+        z = 0;
+    }
+    
+    if(gyro < 0)
+    {
+        gyro = fmod(gyro, -360);
+        gyro += 360;
+    }
+    else
+    {
+        gyro = fmod(gyro, 360);
+    }
+    
+    bool fieldOreo = true; // field oriented? - yes
+
+    frc::SmartDashboard::PutNumber("Chase: ", z);
+    bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < JOYSTICK_DEADZONE)) ? true : false); // Checks joystick deadzones
+
+    if(!inDeadzone) {
+        if(joystickOne.GetRawButton(1)) 
+        {
+            if(joystickOne.GetRawButton(2)) 
+            {
+                a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, false);
+            } 
+            else
+            {
+                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, fieldOreo);
+            }
+        } 
+        else 
+        {
+           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+        }
+    } 
+    else 
+    {
+        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+    }
+
+    frc::SmartDashboard::PutNumber("Gyro: ", gyro);
+
+
+
+
+
     if(joystickOne.GetRawButton(4)) {
         a_JAutonomous.RootyTootyShooty(2);
     } else {
@@ -262,8 +326,25 @@ void Robot::TestPeriodic()
         a_CFS.FeedVelocity(0);
     }
 
-    a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    {
+        a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+    }
+    else
+    {
+        a_CFS.ClimbQuestionMark(0);
+    }
     
+
+    if(a_xBoxController.GetRawButton(5))
+    {
+        a_CFS.setArmAngle(89);
+    }
+    else
+    {
+        a_CFS.ArmMove(0);
+    }
+
 
     /* 
 
