@@ -281,7 +281,7 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
 	    case kArmMove0:
-	    	if(!MoveDaArm(ARM_DEFAULT_POSITION)){
+	    	if(false) {// !MoveDaArm(ARM_DEFAULT_POSITION)){
                 MoveDaArm(ARM_DEFAULT_POSITION);
 
             } else {
@@ -294,7 +294,7 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
-           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180)){
+           if(!IHaveAProposal(0.3, 30.0, ARBITRARY_DIST_BACKWARDS)) {//DriveDist(ARBITRARY_DIST_BACKWARDS, 180)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -469,7 +469,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
         case kDriveBack5:
-           if(!IHaveAProposal(AUTO_SPEED_MAYBE, 180.0, ARBITRARY_DIST_BACKWARDS)){
+           if(!IHaveAProposal(0.3, 180.0, ARBITRARY_DIST_BACKWARDS)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -626,10 +626,10 @@ bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is 
     if(fabs(a_SwerveDrive->getAvgDistance()) < dist){
 
         if (a_SwerveDrive->getAvgDistance() > (0.50 * (dist))){
-		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->getAngle(0));
+		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->GetAngle(0));
 
 		} else {
-            a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->getAngle(0));
+            a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->GetAngle(0));
 		
         }
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());

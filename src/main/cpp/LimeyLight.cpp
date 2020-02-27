@@ -4,7 +4,7 @@
 
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
-lemonLight(0.05, 0.0, 0.0)
+lemonLight(0.02, 0.0, 0.0)
 {
 
 }

@@ -77,7 +77,7 @@ void Robot::DisabledPeriodic()
 void Robot::AutonomousInit() 
 {
     a_JAutonomous.Init();
-    a_JAutonomous.DecidePath(5);
+    a_JAutonomous.DecidePath(5); // path number we are using
     a_JAutonomous.StartPathMaster();
 }
 
@@ -225,7 +225,7 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(5))
         {
-            a_CFS.setArmAngle(45);
+            a_CFS.setArmAngle(89);
         }
         else
         {
@@ -240,6 +240,15 @@ void Robot::TeleopPeriodic() // main loop
         else
         {
             a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+        }
+
+        if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+        {
+            a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+        }
+        else
+        {
+            a_CFS.ClimbQuestionMark(0);
         }
         
         
@@ -291,12 +300,17 @@ void Robot::TestPeriodic()
     frc::SmartDashboard::PutNumber("Chase: ", z);
     bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < JOYSTICK_DEADZONE)) ? true : false); // Checks joystick deadzones
 
-    if(!inDeadzone) {
+
+
+
+    if(joystickOne.GetRawButton(3)) {
+        a_swerveyDrive.turnToAngle(gyro, 180.0);
+    } else if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) 
         {
             if(joystickOne.GetRawButton(2)) 
             {
-                a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, false);
+                a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
             } 
             else
             {
@@ -304,13 +318,21 @@ void Robot::TestPeriodic()
             }
         } 
         else 
+        
         {
            a_swerveyDrive.crabDriveUpdate(x, y, gyro);
         }
     } 
     else 
     {
-        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        if(joystickOne.GetRawButton(2)) 
+        {
+            a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
+        } 
+        else
+        {
+            a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        }
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);

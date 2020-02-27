@@ -32,7 +32,7 @@ class SwerveDrive // Class to handle the kinematics of Swerve Drive
         
         void makeShiftTurn(float speed);
 
-        void GoToTheDon(float speed, float direction, float distance);
+        void GoToTheDon(float speed, float direction, float distance, float gyro);
     private:
 
         SwerveModule *FL_Module;
