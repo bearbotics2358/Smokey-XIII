@@ -36,7 +36,7 @@ void Robot::RobotInit()
 {
     frc::SmartDashboard::init();
     a_Gyro.Init();
-    a_Gyro.Cal();
+    // sa_Gyro.Cal();
     a_Gyro.Zero();
 
     a_LimeyLight.ledOff();

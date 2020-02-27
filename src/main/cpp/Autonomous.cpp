@@ -469,7 +469,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
         case kDriveBack5:
-           if(!IHaveAProposal(0.3, 180.0, ARBITRARY_DIST_BACKWARDS)){
+           if(!IHaveAProposal(0.4, 180.0, ARBITRARY_DIST_BACKWARDS)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -480,7 +480,7 @@ void Autonomous::AutonomousPeriodic5(){
 
             break;
         case kTurntoShoot5:
-           if(!TurnTaAngle(24)){
+           if(!TurnTaAngle(15)){
             
 
            } else {
@@ -584,7 +584,16 @@ bool Autonomous::RootyTootyShooty(int count){
     }
     else if(BallsShot < ((2 * count))){
         a_CFS->ShootVelocity(462.5);
-        a_CFS->FeedVelocity(1000);
+        float avg = (fabs(a_CFS->GetWheelSpeedL()) + fabs(a_CFS->GetWheelSpeedR())) / 2.0;
+        if(avg >= 400)
+        {
+            a_CFS->FeedVelocity(1000);
+        }
+        else
+        {
+            a_CFS->FeedVelocity(0); 
+        }
+        
         return false;
     }
     else{

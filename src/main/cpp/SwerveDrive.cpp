@@ -6,7 +6,7 @@ FL_Module(FL_Ptr),
 FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
-anglePID(0.01, 0.0 , 0.0),
+anglePID(0.014, 0.0 , 0.0),
 jenkinsTheCrabPID(5, 0.0, 0.0)
 /* FL_Input(0),
 FR_Input(1),
