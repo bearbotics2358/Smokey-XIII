@@ -16,14 +16,20 @@ a_fields ()
             {
                 int temp = in[i].data[j].bits;
                 bitsum += temp;
-                if (bitsum > 64)
+                if (bitsum > 64 || temp > 32)
                 {
                     break;
+                }
+                int temp2 = 0;
+                for (int k = 0; k < temp; k ++)
+                {
+                    temp2 |= 1 << k;
                 }
                 struct field temp_d
                 {
                     in[i].data[j].id,
                     temp,
+                    temp2,
                     in[i].data[j].multiplier,
                     0
                 };
@@ -33,7 +39,7 @@ a_fields ()
     }
 }
 
-float CANHandler::getData (const int which)
+float CANHandler::getData (const int which) const
 {
     for (int i = 0; i < a_fields.size (); i ++)
     {
@@ -53,14 +59,13 @@ void CANHandler::update ()
     for (int i = 0; i < a_cans.size (); i ++)
     {
         if (a_cans[i].ReadPacketNew (0, &data))
-        {
-            int biti = 0;
+        {   
+            uint64_t in = *((uint64_t *) data.data);
             for (int j = 0; j < a_fields[i].size (); j ++)
             {
-                int num = pow (2, biti) - 1;
                 struct field datas = a_fields[i][j];
-                datas.data = num & (*((long *) data.data));
-                biti += datas.bits;
+                datas.data = in & datas.bitnum;
+                in >>= datas.bits;
             }
         }
     }
