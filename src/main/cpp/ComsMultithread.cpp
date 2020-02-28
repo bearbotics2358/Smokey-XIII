@@ -34,7 +34,7 @@ float ComsMultithread::getCanData (const int which)
     return out;
 }
 
-void ComsMultithread::operator() ()
+void ComsMultithread::thread_func ()
 {
     for (;;)
     {

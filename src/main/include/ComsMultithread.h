@@ -17,7 +17,7 @@ class ComsMultithread
         void sendVMsg (std::string msg, std::string topic);
         float getCanData (const int which);
     private:
-        void operator() ();
+        void thread_func ();
         MQTTHandler *a_mqttHandler;
         CANHandler *a_canHandler;
         std::mutex mqttMutex;
