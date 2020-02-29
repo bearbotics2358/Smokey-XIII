@@ -74,7 +74,7 @@ void CANHandler::update ()
             data.data[6] = data.data[7];
             data.data[7] = temp;
             uint64_t in = *((uint64_t *) data.data);*/
-            for (int j = 0; j < a_fields[i].size (); j += 2)
+            for (int j = 0; j / 2 < a_fields[i].size (); j += 2)
             {
                 struct field datas = a_fields[i][j];
                 /*datas.data = in & datas.bitnum;

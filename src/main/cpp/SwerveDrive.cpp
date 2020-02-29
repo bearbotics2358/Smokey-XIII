@@ -6,7 +6,7 @@ FL_Module(FL_Ptr),
 FR_Module(FR_Ptr),
 BL_Module(BL_Ptr),
 BR_Module(BR_Ptr),
-anglePID(0.03, 0.0 , 0.0),
+anglePID(0.014, 0.0 , 0.0),
 jenkinsTheCrabPID(5, 0.0, 0.0)
 /* FL_Input(0),
 FR_Input(1),
@@ -166,7 +166,7 @@ float SwerveDrive::lockZ(float gyro)
 	return ret;
 }
 
-void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn) // 
+void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn)
 {
 	if(!crab)
 	{
@@ -355,8 +355,8 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
         gyro = fmod(gyro, 360);
     }
 
-	 FL_Module->steerToAng(45);
-	 FR_Module->steerToAng(135);
+	 FL_Module->steerToAng(135);
+	 FR_Module->steerToAng(45);
 	 BL_Module->steerToAng(225);
 	 BR_Module->steerToAng(315);
 
@@ -368,8 +368,8 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
  }
 
  void SwerveDrive::makeShiftTurn(float speed) {
-	 FL_Module->steerToAng(45);
-	 FR_Module->steerToAng(135);
+	 FL_Module->steerToAng(135);
+	 FR_Module->steerToAng(45);
 	 BL_Module->steerToAng(225);
 	 BR_Module->steerToAng(315);
 
@@ -377,5 +377,28 @@ void SwerveDrive::turnToAngle(float gyro, float angle) {
 	 FR_Module->setDriveSpeed(speed);	 
 	 BL_Module->setDriveSpeed(speed);
 	 BR_Module->setDriveSpeed(speed);
+
+
  }
-#endif
+
+ void SwerveDrive::GoToTheDon(float speed, float direction, float distance, float gyro)
+ {
+	if(getAvgDistance() <= distance)
+	{
+		float radians = direction * M_PI / 180.0;
+		
+		float x = -speed * sin(radians);
+		float y = speed * cos(radians);
+		
+		crab = true;
+		holdAngle = 0;
+
+		crabDriveUpdate(x, y, gyro);
+	}
+	else
+	{
+		swerveUpdate(0, 0, 0, gyro, false);
+	}
+	 
+ }
+ #endif

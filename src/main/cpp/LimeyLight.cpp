@@ -3,7 +3,7 @@
 
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
-lemonLight(0.05, 0.0, 0.0)
+lemonLight(0.02, 0.0, 0.0)
 {
     for (int i = 0; i < LOOKUP_TABLE_LEN - 1; i ++)
     {

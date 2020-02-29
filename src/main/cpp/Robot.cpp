@@ -47,7 +47,7 @@ void Robot::RobotInit()
     #ifndef LAPTOP
     frc::SmartDashboard::init();
     a_Gyro.Init();
-    a_Gyro.Cal();
+    // sa_Gyro.Cal();
     a_Gyro.Zero();
 
     a_LimeyLight.ledOff();
@@ -107,7 +107,7 @@ void Robot::AutonomousInit()
 {
     #ifndef LAPTOP
     a_JAutonomous.Init();
-    a_JAutonomous.DecidePath(5);
+    a_JAutonomous.DecidePath(5); // path number we are using
     a_JAutonomous.StartPathMaster();
     #endif
 }
@@ -268,7 +268,7 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(5))
         {
-            a_CFS.setArmAngle(45);
+            a_CFS.setArmAngle(89);
         }
         else
         {
@@ -283,6 +283,15 @@ void Robot::TeleopPeriodic() // main loop
         else
         {
             a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+        }
+
+        if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+        {
+            a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+        }
+        else
+        {
+            a_CFS.ClimbQuestionMark(0);
         }
         
         
@@ -299,6 +308,82 @@ void Robot::TestInit()
 void Robot::TestPeriodic() 
 {
     #ifndef LAPTOP
+
+
+
+    float x = -1 * joystickOne.GetRawAxis(0);
+    float y = -1 * joystickOne.GetRawAxis(1);
+    float z = -1 * joystickOne.GetRawAxis(2);
+    float gyro = a_Gyro.GetAngle(0);
+
+    if(fabs(x) < 0.10)
+    {
+        x = 0;
+    }
+    if(fabs(y) < 0.10)
+    {
+        y = 0;
+    }
+    if(fabs(z) < 0.10)
+    {
+        z = 0;
+    }
+    
+    if(gyro < 0)
+    {
+        gyro = fmod(gyro, -360);
+        gyro += 360;
+    }
+    else
+    {
+        gyro = fmod(gyro, 360);
+    }
+    
+    bool fieldOreo = true; // field oriented? - yes
+
+    frc::SmartDashboard::PutNumber("Chase: ", z);
+    bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < JOYSTICK_DEADZONE)) ? true : false); // Checks joystick deadzones
+
+
+
+
+    if(joystickOne.GetRawButton(3)) {
+        a_swerveyDrive.turnToAngle(gyro, 180.0);
+    } else if(!inDeadzone) {
+        if(joystickOne.GetRawButton(1)) 
+        {
+            if(joystickOne.GetRawButton(2)) 
+            {
+                a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
+            } 
+            else
+            {
+                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, fieldOreo);
+            }
+        } 
+        else 
+        
+        {
+           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+        }
+    } 
+    else 
+    {
+        if(joystickOne.GetRawButton(2)) 
+        {
+            a_swerveyDrive.makeShiftTurn(a_LimeyLight.calcZAxis());
+        } 
+        else
+        {
+            a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        }
+    }
+
+    frc::SmartDashboard::PutNumber("Gyro: ", gyro);
+
+
+
+
     if(joystickOne.GetRawButton(4)) {
         a_JAutonomous.RootyTootyShooty(2);
     } else {
@@ -306,8 +391,25 @@ void Robot::TestPeriodic()
         a_CFS.FeedVelocity(0);
     }
 
-    a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    {
+        a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+    }
+    else
+    {
+        a_CFS.ClimbQuestionMark(0);
+    }
     
+
+    if(a_xBoxController.GetRawButton(5))
+    {
+        a_CFS.setArmAngle(89);
+    }
+    else
+    {
+        a_CFS.ArmMove(0);
+    }
+
 
     /* 
 

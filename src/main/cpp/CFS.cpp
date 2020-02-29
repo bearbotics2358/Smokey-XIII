@@ -191,7 +191,7 @@ void CFS::setArmAngle(float angle)
 void CFS::ClimbQuestionMark(float speed)
 {
 
-    a_Climber.Set(speed);
+    a_Climber.Set(-1 * speed);
 
 }
 #endif
