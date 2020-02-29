@@ -397,7 +397,7 @@ void Robot::TestPeriodic()
 
 
     if(joystickOne.GetRawButton(4)) {
-        a_JAutonomous.RootyTootyShooty(2);
+        a_JAutonomous.RootyTootyShooty(2, 462.5);
     } else {
         a_CFS.ShootVelocity(0);
         a_CFS.FeedVelocity(0);

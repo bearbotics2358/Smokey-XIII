@@ -285,7 +285,7 @@ void Autonomous::AutonomousPeriodic1(){
 
 
         case kShoot1:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 462.5)){
                // RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
@@ -383,10 +383,10 @@ void Autonomous::AutonomousPeriodic4() {
             
             if (!a_handler->noErrors ())
             {
-                a_AutoState4 = kShoot4;
+                a_AutoState4 = kTurntoShoot4;
             }
 
-            // signs might not br right
+            // signs might not be right
             angle_in = a_handler->angle;
             angle_out = 0;
             if ((angle_in < 0 ? -angle_in : angle_in) > 5)
@@ -396,7 +396,17 @@ void Autonomous::AutonomousPeriodic4() {
             a_SwerveDrive->crabDriveUpdate (angle_out, -0.2, a_Gyro->GetAngle ());
             a_CFS->AutoCollect ();
             break;
+        case kTurntoShoot4:
+            if (TurnTaAngle (22)) // temp angle
+            {
+                a_AutoState4 = kShoot4;
+            }
+            break;
         case kShoot4: // attempt to shoot
+            if (RootyTootyShooty (3, 500.0)) // temp speed
+            {
+                a_AutoState4 = kAutoIdle4;
+            }
             break;
         default:
             break;
@@ -461,7 +471,7 @@ void Autonomous::AutonomousPeriodic5(){
         
 
         case kShootBalls5:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 462.5)){
                
            } else {
 
@@ -541,7 +551,7 @@ bool Autonomous::CheckBallPos(){
 }
 
 
-bool Autonomous::RootyTootyShooty(int count){
+bool Autonomous::RootyTootyShooty(int count, float velocity){
     currbeam = CheckBallPos();
     
     
@@ -551,7 +561,7 @@ bool Autonomous::RootyTootyShooty(int count){
         return false;
     }
     else if(BallsShot < ((2 * count))){
-        a_CFS->ShootVelocity(462.5);
+        a_CFS->ShootVelocity(velocity);
         float avg = (fabs(a_CFS->GetWheelSpeedL()) + fabs(a_CFS->GetWheelSpeedR())) / 2.0;
         if(avg >= 400)
         {

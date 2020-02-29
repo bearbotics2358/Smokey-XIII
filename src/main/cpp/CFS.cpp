@@ -134,6 +134,7 @@ void CFS::AutoCollect() {
  void CFS::ShootVelocity(float speed) {
      a_ShootLeft.Set(ControlMode::Velocity, speed);
      a_ShootRight.Set(ControlMode::Velocity, -speed); 
+     count = 0;
  }
 
  void CFS::FeedVelocity(float speed)

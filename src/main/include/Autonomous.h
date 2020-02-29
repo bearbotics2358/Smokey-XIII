@@ -81,6 +81,7 @@ enum AutoState4 { // Uses vision
 	kAutoDo54,
 	kAutoTurnBack4,
 	kCollectBalls4,
+	kTurntoShoot4,
 	kShoot4
 };
 
@@ -140,7 +141,7 @@ class Autonomous
 	bool MoveDaArm(double angle); // arm move to angle
 	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
 	bool CheckBallPos();
-	bool RootyTootyShooty(int count); // Shooting balls 
+	bool RootyTootyShooty(int count, float speed); // Shooting balls 
 	bool TurnTaAngle(float angle);
 	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, but janky
 
