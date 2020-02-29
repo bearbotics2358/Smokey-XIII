@@ -50,10 +50,11 @@ void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
 {
     reconnect_data *rcdata = *((reconnect_data **) state);
 
-    if (client->error != MQTT_ERROR_INITIAL_RECONNECT)
+    if (client->socketfd != 0)
     {
         close (client->socketfd);
     }
+    client->socketfd = 0;
 
     printf ("address %s", rcdata->addres);
     printf ("befor socket");
@@ -89,6 +90,7 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     rcdata.recvbuf = recvbuf;
     rcdata.recvbuf_size = sizeof(recvbuf);
 
+    client.socketfd = 0;
     mqtt_init_reconnect (&client, reconnect_callback, &rcdata, publish_callback);
     client.publish_response_callback_state = this;
 

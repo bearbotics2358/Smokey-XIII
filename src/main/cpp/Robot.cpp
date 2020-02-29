@@ -129,6 +129,44 @@ void Robot::TeleopPeriodic() // main loop
 
 
     #ifndef LAPTOP
+    
+    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+    static bool on = false;
+    if(joystickOne.GetRawButton(7)) {
+        if (!on)
+        {
+            on = true;
+            a_LimeyLight.ledOn ();
+            frc::SmartDashboard::PutNumber("Limelight: ", 1);
+            a_CFS.ShootVelocity (a_LimeyLight.getVelocityShooter ());
+        }
+        else
+        {
+            on = false;
+            a_LimeyLight.ledOff();
+            frc::SmartDashboard::PutNumber("Limelight: ", 0);
+        }
+    }
+    
+    if(joystickOne.GetRawButton(10)) {
+        a_LimeyLight.cameraMode(0);
+        //  turn on vision
+    } else if(joystickOne.GetRawButton(12)) {
+        a_LimeyLight.cameraMode(1); 
+        // turn on remote viewing 
+    }
+
+    /*
+        cameraMode 0: Vision processing
+        cameraMode 1: Remote viewing 
+        :)
+    */  
+       
+    a_LimeyLight.printValues();
+
+    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
+    
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
     float z = -1 * joystickOne.GetRawAxis(2);
@@ -165,7 +203,7 @@ void Robot::TeleopPeriodic() // main loop
     if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) 
         {
-            if(joystickOne.GetRawButton(2)) 
+            if(on) 
             {
                 a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, false);
             } 
@@ -187,37 +225,9 @@ void Robot::TeleopPeriodic() // main loop
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
 
 
-    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-        
-    if(joystickOne.GetRawButton(7)) {
-        a_LimeyLight.ledOn(); 
-        frc::SmartDashboard::PutNumber("Limelight: ", 1); 
-        // *gasp* turns led on
-    } else if(joystickOne.GetRawButton(9)) {
-        a_LimeyLight.ledOff();
-        frc::SmartDashboard::PutNumber("Limelight: ", 0);
-        // *even bigger gasp* turns led off 
-    }
-    
-    if(joystickOne.GetRawButton(10)) {
-        a_LimeyLight.cameraMode(0);
-        //  turn on vision
-    } else if(joystickOne.GetRawButton(12)) {
-        a_LimeyLight.cameraMode(1); 
-        // turn on remote viewing 
-    }
+    // PI stuff
 
-    /*
-        cameraMode 0: Vision processing
-        cameraMode 1: Remote viewing 
-        :)
-    */  
-       
-    a_LimeyLight.printValues();
-
-    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
-
-    // reconnect to pi
+    // force reconnect to pi and connect signal handler if failed
     if(joystickOne.GetRawButton(6))
     {
         if (!syncSafe && signal (SIGPIPE, sigpipeHandler) != SIG_ERR)
@@ -226,6 +236,8 @@ void Robot::TeleopPeriodic() // main loop
         }
         a_mqttHandler.injectError();
     }
+
+    // end PI stuff
 
     if(joystickOne.GetRawButton(5))
     {
