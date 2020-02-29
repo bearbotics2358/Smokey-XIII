@@ -19,9 +19,12 @@ a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, CLIMBER, BROKEN_BEAM, REESES_BEAM),
 a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
-a_canHandler(canMakeIn2020()),
 #endif
-a_handler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
+a_mqttHandler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
+#ifndef LAPTOP
+a_canHandler(canMakeIn2020()),
+a_coms(&a_mqttHandler, &a_canHandler),
+#endif
 syncSafe(true)
 {
     #ifndef LAPTOP
@@ -63,8 +66,8 @@ void Robot::RobotPeriodic()
     // if signal handler for sigpipe didn't succeed, don't run or else robot code will crash if pi crashes
     if (syncSafe)
     {
-        a_handler.mqttPublish(std::to_string(a_handler.angle) + " " + std::to_string(a_handler.distance), "data");
-        a_handler.update ();
+        a_mqttHandler.publish(std::to_string(a_mqttHandler.angle) + " " + std::to_string(a_mqttHandler.distance), "data");
+        a_mqttHandler.update ();
     }
 
     #ifndef LAPTOP
@@ -221,7 +224,7 @@ void Robot::TeleopPeriodic() // main loop
         {
             syncSafe = true;
         }
-        a_handler.injectError();
+        a_mqttHandler.injectError();
     }
 
     if(joystickOne.GetRawButton(5))

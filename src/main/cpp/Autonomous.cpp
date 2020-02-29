@@ -6,8 +6,9 @@
 
 
 
-Autonomous::Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS):
+Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS):
     a_Gyro(Gyro),
+    a_handler(),
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
     a_CFS(CFS),
@@ -83,56 +84,12 @@ void Autonomous::DecidePath(int intent){
 }
 
 int Autonomous::GetCurrentPath(){
-    
+
     return autoPathMaster;
 }
 
 void Autonomous::StartPathMaster(){
-	
-    switch(autoPathMaster){
-		
-        case -1:
-			// Error!
-			frc::SmartDashboard::PutBoolean("Auto Started", false);
-		
-        	break;
-		
-        case 0:
-			frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart0();
-		
-        	break;
-		
-        case 1:
-			frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart1();
-		
-        	break;
-		
-        case 2:
-			frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart2();
-		
-        	break;
-		
-        case 3:
-			frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart3();
-		
-        	break;
-		
-        case 4:
-			frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart4();
-		
-        	break;
-		
-        case 5:
-            frc::SmartDashboard::PutBoolean("Auto Started", true);
-			AutonomousStart5();
-
-			break;
-	}
+	Autonomous::StartPathMaster(autoPathMaster);
 }
 
 void Autonomous::StartPathMaster(int path){
@@ -186,40 +143,7 @@ void Autonomous::StartPathMaster(int path){
 }
 
 void Autonomous::PeriodicPathMaster(){
-	switch(autoPathMaster){
-		case -1:
-			// Error!
-			break;
-		case 0:
-			AutonomousPeriodic0();
-
-			break;
-
-		case 1:
-			AutonomousPeriodic1();
-			
-            break;
-		
-        case 2:
-			AutonomousPeriodic2();
-			
-            break;
-		
-        case 3:
-			AutonomousPeriodic3();
-			
-            break;
-		
-        case 4:
-            AutonomousPeriodic4();
-			
-            break;
-		
-        case 5: 
-            AutonomousPeriodic5();
-			
-            break;
-	}
+    Autonomous::PeriodicPathMaster(autoPathMaster);
 }
 
 void Autonomous::PeriodicPathMaster(int path){
@@ -421,19 +345,28 @@ void Autonomous::AutonomousPeriodic3(){
 
 
 void Autonomous::AutonomousStart4(){
-
-
-
-
+    a_AutoState0 = kArmMove0;
+    a_Gyro->Zero();
+    internalState = 0;
 }
 
 
 
-void Autonomous::AutonomousPeriodic4(){
+void Autonomous::AutonomousPeriodic4() {
+    // Call initial drive stuff and shooting
+    if(internalState == 0) {
+        
+    }
 
-
-
-
+    // Drive to Closest balls until we have 3 in ball count
+    if(internalState == 1) {
+        
+    }
+    
+    // Attempt to shoot
+    if(internalState == 2) {
+        
+    }
 }
 
 void Autonomous::AutonomousStart5(){

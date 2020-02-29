@@ -1,6 +1,7 @@
 #ifndef LAPTOP
 #pragma once
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 #include <frc/CAN.h>
@@ -15,7 +16,7 @@ struct arduino
 struct dataField
 {
     int id;
-    unsigned char bits;
+    uint8_t bits;
     float multiplier;
 };
 
@@ -23,16 +24,17 @@ struct dataField
 struct field
 {
     int id;
-    unsigned char bits;
+    uint8_t bits;
+    uint32_t bitnum;
     float multiplier;
-    long data;
+    int32_t data;
 };
 
 class CANHandler
 {
     public:
         CANHandler (std::vector<struct arduino> in);
-        float getData (const int which);
+        float getData (const int which) const;
         void update ();
     private:
         std::vector<frc::CAN> a_cans;

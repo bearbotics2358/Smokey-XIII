@@ -4,6 +4,7 @@
 #include <signal.h>
 #include "MQTTHandler.h"
 #include "CANHandler.h"
+#include "ComsMultithread.h"
 #include <frc/TimedRobot.h> // "Timed Robot" template
 #include "SwerveModule.h" // Swerve modules
 #include <frc/Joystick.h> // Joystick 
@@ -55,9 +56,14 @@ class Robot : public frc::TimedRobot
     CFS a_CFS; 
 
     Autonomous a_JAutonomous;
-
-    CANHandler a_canHandler;
     #endif
-    MQTTHandler a_handler;
+    
+    MQTTHandler a_mqttHandler;
+
+    #ifndef LAPTOP
+    CANHandler a_canHandler;
+    ComsMultithread a_coms;
+    #endif
+
     bool syncSafe;
 };

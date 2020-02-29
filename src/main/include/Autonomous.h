@@ -10,6 +10,7 @@
 #include <frc/Timer.h>
 #include <Prefs.h>
 #include <JrimmyGyro.h>
+#include <MQTTHandler.h>
 
 
 
@@ -89,7 +90,7 @@ enum AutoState5 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS);
+	Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -141,6 +142,7 @@ class Autonomous
 	frc::Joystick *a_ButtonBox;
 	SwerveDrive *a_SwerveDrive;
 	CFS *a_CFS;
+	MQTTHandler *a_handler;
 	frc::Timer a_Anticipation;
 
 
@@ -156,6 +158,7 @@ class Autonomous
 	int BallsShot;
 	bool prevbeam;
 	bool currbeam;
+	int internalState;
 
 
 };
