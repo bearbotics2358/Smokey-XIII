@@ -60,12 +60,26 @@ void CANHandler::update ()
     {
         if (a_cans[i].ReadPacketNew (0, &data))
         {   
-            uint64_t in = *((uint64_t *) data.data);
-            for (int j = 0; j < a_fields[i].size (); j ++)
+            /*uint8_t temp;
+            temp = data.data[0];
+            data.data[0] = data.data[1];
+            data.data[1] = temp;
+            temp = data.data[2];
+            data.data[2] = data.data[3];
+            data.data[3] = temp;
+            temp = data.data[4];
+            data.data[4] = data.data[5];
+            data.data[5] = temp;
+            temp = data.data[6];
+            data.data[6] = data.data[7];
+            data.data[7] = temp;
+            uint64_t in = *((uint64_t *) data.data);*/
+            for (int j = 0; j < a_fields[i].size (); j += 2)
             {
                 struct field datas = a_fields[i][j];
-                datas.data = in & datas.bitnum;
-                in >>= datas.bits;
+                /*datas.data = in & datas.bitnum;
+                in >>= datas.bits;*/
+                datas.data = (data.data[j] << 8) | data.data[j + 1];
             }
         }
     }

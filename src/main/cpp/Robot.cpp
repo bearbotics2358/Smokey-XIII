@@ -18,12 +18,12 @@ a_buttonbox(BUTTON_BOX),
 a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, CLIMBER, BROKEN_BEAM, REESES_BEAM),
-a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS),
 #endif
 a_mqttHandler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
 #ifndef LAPTOP
 a_canHandler(canMakeIn2020()),
-a_coms(&a_mqttHandler, &a_canHandler),
+// a_coms(&a_mqttHandler, &a_canHandler),
+a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS),
 #endif
 syncSafe(true)
 {

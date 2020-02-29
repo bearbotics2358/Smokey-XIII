@@ -64,6 +64,7 @@ enum AutoState3 {
 };
 */
 
+/*
 enum AutoState4 { // Uses vision
 	kAutoIdle4 = 0,
 	kArmMove4,
@@ -73,6 +74,16 @@ enum AutoState4 { // Uses vision
     kMoveAway4,
     kSecondShoot4
 };
+*/
+
+enum AutoState4 { // Uses vision
+	kAutoIdle4 = 0,
+	kAutoDo54,
+	kAutoTurnBack4,
+	kCollectBalls4,
+	kShoot4
+};
+
 
 enum AutoState5 { // Uses vision
 	kAutoIdle5 = 0,
@@ -139,10 +150,10 @@ class Autonomous
 
 	
 	JrimmyGyro *a_Gyro;
+	MQTTHandler *a_handler;
 	frc::Joystick *a_ButtonBox;
 	SwerveDrive *a_SwerveDrive;
 	CFS *a_CFS;
-	MQTTHandler *a_handler;
 	frc::Timer a_Anticipation;
 
 
@@ -158,7 +169,6 @@ class Autonomous
 	int BallsShot;
 	bool prevbeam;
 	bool currbeam;
-	int internalState;
 
 
 };

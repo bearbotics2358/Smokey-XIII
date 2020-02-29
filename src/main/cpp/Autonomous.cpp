@@ -345,27 +345,61 @@ void Autonomous::AutonomousPeriodic3(){
 
 
 void Autonomous::AutonomousStart4(){
-    a_AutoState0 = kArmMove0;
+    AutonomousStart5 ();
+    a_AutoState4 = kAutoDo54;
     a_Gyro->Zero();
-    internalState = 0;
 }
 
 
 
 void Autonomous::AutonomousPeriodic4() {
     // Call initial drive stuff and shooting
-    if(internalState == 0) {
-        
-    }
+    float angle_in;
+    float angle_out;
+    switch (a_AutoState4)
+    {
+        case kAutoIdle4:
+            IDontLikeExercise ();
+            break;
+        case kAutoDo54:
+            AutonomousPeriodic5 ();
+            if (a_AutoState5 == kAutoIdle5)
+            {
+                a_AutoState4 = kCollectBalls4;
+            }
+            break;
+        case kAutoTurnBack4:
+            if (TurnTaAngle (0))
+            {
+                a_AutoState4 = kCollectBalls4;
+            }
+            break;
+        case kCollectBalls4: // get 3 balls
+            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 12345) // temp distance
+            {
+                a_handler->publish ("view", "/camera/control/claw");
+                a_AutoState4 = kShoot4;
+            }
+            
+            if (!a_handler->noErrors ())
+            {
+                a_AutoState4 = kShoot4;
+            }
 
-    // Drive to Closest balls until we have 3 in ball count
-    if(internalState == 1) {
-        
-    }
-    
-    // Attempt to shoot
-    if(internalState == 2) {
-        
+            // signs might not br right
+            angle_in = a_handler->angle;
+            angle_out = 0;
+            if ((angle_in < 0 ? -angle_in : angle_in) > 5)
+            {
+                angle_out = angle_in < 0 ? 0.3 : -0.3;
+            }
+            a_SwerveDrive->crabDriveUpdate (angle_out, -0.2, a_Gyro->GetAngle ());
+            a_CFS->AutoCollect ();
+            break;
+        case kShoot4: // attempt to shoot
+            break;
+        default:
+            break;
     }
 }
 
@@ -539,8 +573,6 @@ bool Autonomous::TurnTaAngle(float angle){
         a_SwerveDrive->turnToAngle(a_Gyro->GetAngle(0), angle);
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
         return false;
-
-
     } else {
         a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
         frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());

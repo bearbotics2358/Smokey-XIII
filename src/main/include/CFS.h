@@ -49,7 +49,7 @@ class CFS
 
         void ClimbQuestionMark(float speed);
 
-
+        unsigned char count;
 
     private:
     
@@ -70,7 +70,6 @@ class CFS
 
     frc2::PIDController armAnglePID;
 
-    
 
 
 

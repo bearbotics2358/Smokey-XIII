@@ -14,8 +14,6 @@
 #include "CFS.h"
 #include "Autonomous.h"
 
-#define LAPTOP
-
 class Robot : public frc::TimedRobot 
 {
   public:
@@ -62,7 +60,7 @@ class Robot : public frc::TimedRobot
 
     #ifndef LAPTOP
     CANHandler a_canHandler;
-    ComsMultithread a_coms;
+    // ComsMultithread a_coms;
     #endif
 
     bool syncSafe;

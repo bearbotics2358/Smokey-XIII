@@ -15,7 +15,8 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_Climber(climb, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
     pivotInput(0),
     a_PivotEncoder(pivotInput),
-    armAnglePID(0.05, 0, 0)
+    armAnglePID(0.05, 0, 0),
+    count(0)
 {
 
     a_ShootLeft.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder, 0, 0);
@@ -52,11 +53,13 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
  void CFS::Shoot() {
         a_ShootLeft.Set(ControlMode::PercentOutput, -SHOOT_VOLTS);
         a_ShootRight.Set(ControlMode::PercentOutput, SHOOT_VOLTS);
+        count = 0;
     }
 
  void CFS::Shoot(float speed) {
         a_ShootLeft.Set(ControlMode::PercentOutput, -speed);
         a_ShootRight.Set(ControlMode::PercentOutput, speed);
+        count = 0;
  }
 
  void CFS::Collect() {
@@ -78,14 +81,21 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
  }
 
 void CFS::AutoCollect() {
+    static bool temp = true;
     if(!a_TopBeam.beamBroken()) // less than 4
     {
         Collect(-0.40);
         if(a_BrokenBeam.beamBroken()) {
             // Feed(-0.55);
             FeedVelocity(1200);
+            if (temp)
+            {
+                count ++;
+                temp = false;
+            }
         } else {
             Feed(0);
+            temp = true;
         }
     }
     else // 4+
@@ -95,11 +105,17 @@ void CFS::AutoCollect() {
         {
             // Feed(-0.70);
             Collect(0);
+            if (temp)
+            {
+                count ++;
+                temp = false;
+            }
         }
         else
         {
             // Feed(0);
             Collect(-0.40);
+            temp = true;
         }
     }
 }
