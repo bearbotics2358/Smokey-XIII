@@ -351,7 +351,8 @@ void Autonomous::AutonomousPeriodic3(){
             IDontLikeExercise ();
             break;
         case kAutoDo53:
-            AutonomousPeriodic5 ();
+            //AutonomousPeriodic5 ();
+            a_AutoState3 = kAutoTurnBack3;
             if (a_AutoState5 == kAutoIdle5)
             {
                 a_AutoState3 = kAutoTurnBack3;
@@ -382,7 +383,7 @@ void Autonomous::AutonomousPeriodic3(){
         case kTurntoShoot3:
             if (TurnLime ()) // temp angle
             {
-                a_AutoState3 = kShoot3;
+                a_AutoState3 = kAutoIdle3;
             }
             break;
         case kShoot3: // attempt to shoot
