@@ -3,7 +3,7 @@
 
 LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
-lemonLight(0.02, 0.0, 0.0)
+lemonLight(0.015, 0.0, 0.0)
 {
     for (int i = 0; i < LOOKUP_TABLE_LEN - 1; i ++)
     {
@@ -99,12 +99,12 @@ float LimeyLight::getWidth () const
     3: Turn LED On
 */ 
 
-void LimeyLight::ledOff () 
+void LimeyLight::ledOff() 
 {
     nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 1); 
 }
 
-void LimeyLight::ledOn ()
+void LimeyLight::ledOn()
 {
     nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", 3);
 }
@@ -114,7 +114,7 @@ void LimeyLight::cameraMode(int whichCam)
     nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("camMode", whichCam);
 } 
 
-void LimeyLight::printValues () 
+void LimeyLight::printValues() 
 {
     // reading values form the lime light
     double angleX = getAngleX(); // offset in degrees (x)

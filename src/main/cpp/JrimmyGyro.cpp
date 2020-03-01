@@ -44,7 +44,7 @@ void JrimmyGyro::WaitForValues()
 	do {
 		result = Read(kIntStatus, 1, &stat);
 		now = frc::Timer::GetFPGATimestamp();
-	} while( (((stat&5) != 5) || (result == 0)) && ((now-start) < 0.500));
+	} while( (((stat&5) != 5) || (result == 0)) && ((now-start) < 0.100));
 	// TODO: report errors/timeouts
 }
 

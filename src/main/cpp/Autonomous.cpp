@@ -6,12 +6,13 @@
 
 
 
-Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS):
+Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS, LimeyLight *Lime):
     a_Gyro(Gyro),
     a_handler(),
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
     a_CFS(CFS),
+    a_Lime(Lime),
     a_Anticipation(),
     a_AutoState0(kAutoIdle0),
     a_AutoState1(kAutoIdle1),
@@ -26,6 +27,9 @@ Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *Bu
     BallsShot = 0;
     prevbeam = false;
     currbeam = true;
+    limeangle = 0.0;
+    drivestart = 0.0;
+    look = true;
 
 }
 
@@ -206,8 +210,8 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
 	    case kArmMove0:
-	    	if(false) {// !MoveDaArm(ARM_DEFAULT_POSITION)){
-                MoveDaArm(ARM_DEFAULT_POSITION);
+	    	if(!MoveDaArm(24)) {// !MoveDaArm(ARM_DEFAULT_POSITION)){
+                
 
             } else {
 
@@ -331,61 +335,40 @@ void Autonomous::AutonomousPeriodic2(){
 
 
 void Autonomous::AutonomousStart3(){
-
-
-
-}
-
-
-void Autonomous::AutonomousPeriodic3(){
-
-
-
-}
-
-
-void Autonomous::AutonomousStart4(){
     AutonomousStart5 ();
-    a_AutoState4 = kAutoDo54;
+    a_AutoState3 = kAutoDo53;
     a_Gyro->Zero();
 }
 
 
-
-void Autonomous::AutonomousPeriodic4() {
+void Autonomous::AutonomousPeriodic3(){
     // Call initial drive stuff and shooting
     float angle_in;
     float angle_out;
-    switch (a_AutoState4)
+    switch (a_AutoState3)
     {
-        case kAutoIdle4:
+        case kAutoIdle3:
             IDontLikeExercise ();
             break;
-        case kAutoDo54:
+        case kAutoDo53:
             AutonomousPeriodic5 ();
             if (a_AutoState5 == kAutoIdle5)
             {
-                a_AutoState4 = kCollectBalls4;
+                a_AutoState3 = kCollectBalls3;
             }
             break;
-        case kAutoTurnBack4:
+        case kAutoTurnBack3:
             if (TurnTaAngle (0))
             {
-                a_AutoState4 = kCollectBalls4;
+                a_AutoState3 = kCollectBalls3;
             }
             break;
-        case kCollectBalls4: // get 3 balls
-            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 12345) // temp distance
+        case kCollectBalls3: // get 3 balls
+            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 12345 || !a_handler->noErrors ()) // temp distance
             {
                 a_handler->publish ("view", "/camera/control/claw");
-                a_AutoState4 = kShoot4;
+                a_AutoState3 = kTurntoShoot3;
             }
-            
-            if (!a_handler->noErrors ())
-            {
-                a_AutoState4 = kTurntoShoot4;
-            }
-
             // signs might not be right
             angle_in = a_handler->angle;
             angle_out = 0;
@@ -396,16 +379,16 @@ void Autonomous::AutonomousPeriodic4() {
             a_SwerveDrive->crabDriveUpdate (angle_out, -0.2, a_Gyro->GetAngle ());
             a_CFS->AutoCollect ();
             break;
-        case kTurntoShoot4:
+        case kTurntoShoot3:
             if (TurnTaAngle (22)) // temp angle
             {
-                a_AutoState4 = kShoot4;
+                a_AutoState3 = kShoot3;
             }
             break;
-        case kShoot4: // attempt to shoot
+        case kShoot3: // attempt to shoot
             if (RootyTootyShooty (3, 500.0)) // temp speed
             {
-                a_AutoState4 = kAutoIdle4;
+                a_AutoState3 = kAutoIdle3;
             }
             break;
         default:
@@ -413,10 +396,119 @@ void Autonomous::AutonomousPeriodic4() {
     }
 }
 
+
+void Autonomous::AutonomousStart4(){
+    a_AutoState4 = kArmMove4;
+    a_Gyro->Zero();
+    a_Lime->ledOn();
+
+
+}
+
+
+
+void Autonomous::AutonomousPeriodic4(){
+
+AutoState4 nextState = a_AutoState4;
+
+    switch(a_AutoState4){
+
+	    case kAutoIdle4:
+		    IDontLikeExercise();
+
+		    break;
+
+	    case kArmMove4:
+	    	// if(!MoveDaArm(25)){
+                //MoveDaArm(ARM_DEFAULT_POSITION);
+
+           // } else {
+
+            drivestart = a_SwerveDrive->getAvgDistance();
+            nextState = kDriveBack4;
+
+          //  }
+
+
+		    break;
+
+        case kDriveBack4:
+           if(!IHaveAProposal(0.4, 180.0, ARBITRARY_DIST_BACKWARDS)){
+               // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
+
+           } else {
+               
+
+            limeangle = a_Lime->getAngleX();
+
+            nextState = kTurntoShoot4;
+
+           }
+
+            break;
+      
+        case kTurntoShoot4:
+           if(!TurnLime()){
+            
+
+           } else {
+
+            nextState = kShootBalls4;
+
+           }
+
+            break;
+        
+
+        case kShootBalls4:
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 464)){
+               
+           } else {
+
+            nextState = kTurnBackToStraight4;
+
+           }
+
+            break;
+        
+
+        case kTurnBackToStraight4:
+           if(!TurnTaAngle(0)){
+               
+           } else {
+
+            nextState = kDriveBackAgain4;
+
+           }
+
+            break;
+
+
+        case kDriveBackAgain4:
+           if(!GoToMcDonalds(.4, 180, 2)){
+               
+           } else {
+
+            nextState = kAutoIdle4;
+
+           }
+
+            break;
+        
+
+	}
+
+	a_AutoState4 = nextState;
+
+}
+
+
+
 void Autonomous::AutonomousStart5(){
 
     a_AutoState5 = kArmMove5;
     a_Gyro->Zero();
+    a_Lime->ledOn();
 
 }
 
@@ -434,14 +526,15 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
 	    case kArmMove5:
-	    	// if(!MoveDaArm(25)){
+	        if(!MoveDaArm(45)){
                 //MoveDaArm(ARM_DEFAULT_POSITION);
 
-           // } else {
+           } else {
 
+            drivestart = a_SwerveDrive->getAvgDistance();
             nextState = kDriveBack5;
 
-          //  }
+          }
 
 
 		    break;
@@ -451,14 +544,18 @@ void Autonomous::AutonomousPeriodic5(){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
+               
+
+            limeangle = a_Lime->getAngleX();
 
             nextState = kTurntoShoot5;
 
            }
 
             break;
+      
         case kTurntoShoot5:
-           if(!TurnTaAngle(15)){
+           if(!TurnLime()){
             
 
            } else {
@@ -471,7 +568,7 @@ void Autonomous::AutonomousPeriodic5(){
         
 
         case kShootBalls5:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 462.5)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 464)){
                
            } else {
 
@@ -518,11 +615,17 @@ void Autonomous::waitplz(double anticipate){
 
 bool Autonomous::MoveDaArm(double angle){
 
-    double current = a_CFS->GetArmAngle();
-    // frc::SmartDashboard::PutNumber("ArM pOsItIoN", a_CFS->GetArmAngle());
-    a_CFS->ArmMovePos(angle);
+ if(fabs(a_CFS->GetArmAngle() - angle) >= 1){
+        a_CFS->setArmAngle(angle);
+        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        return false;
 
-    return fabs(current - angle) < 0.8;
+
+    } else {
+        a_CFS->ArmMove(0);
+        frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
+        return true;
+    }
 
 }
 
@@ -599,23 +702,68 @@ bool Autonomous::TurnTaAngle(float angle){
 
     }
 
-
-
-
-
 }
 
 
 bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is done, false is not done
 
-    if(fabs(a_SwerveDrive->getAvgDistance()) < dist){
+    if(fabs(a_SwerveDrive->getAvgDistance()) < (dist + drivestart)){
 
-        if (a_SwerveDrive->getAvgDistance() > (0.50 * (dist))){
+        if (a_SwerveDrive->getAvgDistance() > (0.80 * (dist + drivestart))){
 		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->GetAngle(0));
-
+            a_CFS->ShootVelocity(464);
 		} else {
             a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->GetAngle(0));
-		
+            a_CFS->ShootVelocity(0);
+        }
+        frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+        return false;
+
+    } else {
+        a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+        frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
+        return true;
+
+    }
+            
+
+}
+
+bool Autonomous::TurnLime(){
+    
+    if(a_Lime->isTarget()){
+        if(fabs((a_Lime->getAngleX())) >= 2){
+            a_SwerveDrive->makeShiftTurn(a_Lime->calcZAxis());
+            frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+            return false;
+
+
+        } else {
+            a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+            frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
+            a_Lime->ledOff();
+            return true;
+
+        }
+    } else {
+        a_SwerveDrive->makeShiftTurn(.1);
+        return false;
+    }
+
+
+}
+
+bool Autonomous::GoToMcDonalds(float speed, float dir, float dist){ // true is done, false is not done
+
+    if(fabs(a_SwerveDrive->getAvgDistance()) < (dist + drivestart)){
+
+        if (a_SwerveDrive->getAvgDistance() > (0.80 * (dist + drivestart))){
+		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->GetAngle(0));
+            a_CFS->ShootVelocity(464);
+            a_CFS->AutoCollect();
+		} else {
+            a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->GetAngle(0));
+            a_CFS->AutoCollect();
         }
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
         return false;

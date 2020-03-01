@@ -27,7 +27,6 @@ class CFS
         void AutoCollect(); 
 
         void ArmMove(float speed);
-        void ArmMovePos(float pos);
 
         void ShootVelocity(float speed); // check prefs; positive speed is shooting
         void FeedVelocity(float speed); // run the bands in a velocity loop

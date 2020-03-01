@@ -23,7 +23,7 @@ a_mqttHandler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
 #ifndef LAPTOP
 a_canHandler(canMakeIn2020()),
 // a_coms(&a_mqttHandler, &a_canHandler),
-a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS),
+a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight),
 #endif
 syncSafe(true)
 {
@@ -250,7 +250,7 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(260); 
+        a_CFS.ShootVelocity(420); 
     }
     else {
         a_CFS.ShootVelocity(0);
@@ -280,7 +280,7 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(5))
         {
-            a_CFS.setArmAngle(89);
+            a_CFS.setArmAngle(70);
         }
         else
         {
@@ -415,7 +415,7 @@ void Robot::TestPeriodic()
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(89);
+        a_CFS.setArmAngle(45);
     }
     else
     {
