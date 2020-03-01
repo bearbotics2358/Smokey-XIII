@@ -5,6 +5,12 @@ LimeyLight::LimeyLight ()
 : table(nt::NetworkTableInstance::GetDefault()),
 lemonLight(0.015, 0.0, 0.0)
 {
+    setTableVal (0, 180, 470);
+    setTableVal (1, 216, 462.5);
+    setTableVal (2, 248, 464);
+    setTableVal (3, 276, 440);
+    setTableVal (4, 327, 440);
+
     for (int i = 0; i < LOOKUP_TABLE_LEN - 1; i ++)
     {
         tableSlope[i].dist = tableVals[i].dist;
@@ -34,7 +40,7 @@ float LimeyLight::getDist () const
 {
     // distance in feet
     float temp = GET_LIMELIGHT_VALUE(table, "ts") * (M_PI / 180.0f);
-    return ((58.0f / (GET_LIMELIGHT_VALUE(table, "thor"))) / cos(temp)) * 191.0f; //Temporary Constants
+    return ((58.0f / (GET_LIMELIGHT_VALUE(table, "thor"))) / cos(temp)) * 191.0f;
 }
 
 float LimeyLight::getXAngleShooter (const std::vector<float> velocity, const float gyro) const

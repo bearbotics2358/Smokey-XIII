@@ -110,7 +110,7 @@ BR:
 
 /* ============= Vision ============= */
 
-#define LOOKUP_TABLE_LEN 16
+#define LOOKUP_TABLE_LEN 5
 
 #define CONTROL_VELOCITY
 // TARGET_HEIGHT 20

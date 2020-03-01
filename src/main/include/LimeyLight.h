@@ -15,6 +15,8 @@ struct tableVal
     float value;
 };
 
+inline void setDistVals (struct tableVal *tableValIn, float dist, float val);
+
 class LimeyLight
 {
     public:

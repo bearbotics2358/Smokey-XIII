@@ -289,7 +289,7 @@ void Autonomous::AutonomousPeriodic1(){
 
 
         case kShoot1:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 462.5)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, 464)){
                // RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
@@ -354,7 +354,7 @@ void Autonomous::AutonomousPeriodic3(){
             AutonomousPeriodic5 ();
             if (a_AutoState5 == kAutoIdle5)
             {
-                a_AutoState3 = kCollectBalls3;
+                a_AutoState3 = kAutoTurnBack3;
             }
             break;
         case kAutoTurnBack3:
@@ -364,7 +364,7 @@ void Autonomous::AutonomousPeriodic3(){
             }
             break;
         case kCollectBalls3: // get 3 balls
-            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 12345 || !a_handler->noErrors ()) // temp distance
+            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 200 || !a_handler->noErrors ()) // temp distance
             {
                 a_handler->publish ("view", "/camera/control/claw");
                 a_AutoState3 = kTurntoShoot3;
@@ -380,7 +380,7 @@ void Autonomous::AutonomousPeriodic3(){
             a_CFS->AutoCollect ();
             break;
         case kTurntoShoot3:
-            if (TurnTaAngle (22)) // temp angle
+            if (TurnLime ()) // temp angle
             {
                 a_AutoState3 = kShoot3;
             }
