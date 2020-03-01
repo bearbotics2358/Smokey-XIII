@@ -17,7 +17,7 @@ a_swerveyDrive(&a_FLModule, &a_FRModule, &a_BLModule, &a_BRModule),
 a_LimeyLight(),
 // handler("169.254.179.144", "1185", "data"),
 a_CFS(SHOOT_1, SHOOT_2, FEED_1, FEED_2, COLLECT, PIVOT, CLIMBER, BROKEN_BEAM, REESES_BEAM),
-a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS)
+a_JAutonomous(&a_Gyro, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight)
 {
     a_FLModule.updateDrivePID(0.001, 0, 0);
     a_FLModule.updateSteerPID(2.0, 0, 0.02);
@@ -195,7 +195,7 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(260); 
+        a_CFS.ShootVelocity(420); 
     }
     else {
         a_CFS.ShootVelocity(0);
@@ -225,7 +225,7 @@ void Robot::TeleopPeriodic() // main loop
 
         if(a_xBoxController.GetRawButton(5))
         {
-            a_CFS.setArmAngle(89);
+            a_CFS.setArmAngle(70);
         }
         else
         {
@@ -360,7 +360,7 @@ void Robot::TestPeriodic()
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(89);
+        a_CFS.setArmAngle(45);
     }
     else
     {

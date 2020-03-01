@@ -10,6 +10,7 @@
 #include <frc/Timer.h>
 #include <Prefs.h>
 #include <JrimmyGyro.h>
+#include <LimeyLight.h>
 
 
 
@@ -63,17 +64,18 @@ enum AutoState3 {
 };
 */
 
-enum AutoState4 { // Uses vision
+enum AutoState4 { //
 	kAutoIdle4 = 0,
 	kArmMove4,
-	kShoot4,
-    kTurnToTruss4,
-    kDrivetoBalls4,
-    kMoveAway4,
+	kDriveBack4,
+    kTurntoShoot4,
+    kShootBalls4,
+	kTurnBackToStraight4,
+    kDriveBackAgain4,
     kSecondShoot4
 };
 
-enum AutoState5 { // Uses vision
+enum AutoState5 { // 
 	kAutoIdle5 = 0,
 	kArmMove5,
 	kDriveBack5,
@@ -89,7 +91,7 @@ enum AutoState5 { // Uses vision
 class Autonomous
 {
  public:
-	Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS);
+	Autonomous(JrimmyGyro *Gyro, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS, LimeyLight *Lime);
 	void Init();
 	//void UpdateGameData();
 	void DecidePath();
@@ -131,7 +133,8 @@ class Autonomous
 	bool RootyTootyShooty(int count); // Shooting balls 
 	bool TurnTaAngle(float angle);
 	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, but janky
-
+	bool TurnLime(); 
+	bool GoToMcDonalds(float speed, float dir, float dist);
 
 
 
@@ -142,6 +145,7 @@ class Autonomous
 	frc::Joystick *a_ButtonBox;
 	SwerveDrive *a_SwerveDrive;
 	CFS *a_CFS;
+	LimeyLight *a_Lime;
 	frc::Timer a_Anticipation;
 
 
@@ -157,6 +161,9 @@ class Autonomous
 	int BallsShot;
 	bool prevbeam;
 	bool currbeam;
+	float limeangle;
+	float drivestart;
+	bool look;
 
 
 };
