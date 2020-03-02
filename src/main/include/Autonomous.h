@@ -67,12 +67,10 @@ enum AutoState3 {
 enum AutoState4 { //
 	kAutoIdle4 = 0,
 	kArmMove4,
-	kDriveBack4,
+	kDriveBackLonger4,
     kTurntoShoot4,
-    kShootBalls4,
-	kTurnBackToStraight4,
-    kDriveBackAgain4,
-    kSecondShoot4
+	kPrime4,
+    kShootBalls4
 };
 
 enum AutoState5 { // 
@@ -130,7 +128,7 @@ class Autonomous
 	bool MoveDaArm(double angle); // arm move to angle
 	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
 	bool CheckBallPos();
-	bool RootyTootyShooty(int count); // Shooting balls 
+	bool RootyTootyShooty(int count, float vel); // Shooting balls 
 	bool TurnTaAngle(float angle);
 	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, but janky
 	bool TurnLime(); 

@@ -36,7 +36,7 @@ void Robot::RobotInit()
 {
     frc::SmartDashboard::init();
     a_Gyro.Init();
-    // sa_Gyro.Cal();
+    // a_Gyro.Cal();
     a_Gyro.Zero();
 
     a_LimeyLight.ledOff();
@@ -71,7 +71,7 @@ void Robot::DisabledInit()
 
 void Robot::DisabledPeriodic()
 {
-
+   
 }
 
 void Robot::AutonomousInit() 
@@ -342,7 +342,7 @@ void Robot::TestPeriodic()
 
 
     if(joystickOne.GetRawButton(4)) {
-        a_JAutonomous.RootyTootyShooty(2);
+        a_JAutonomous.RootyTootyShooty(2, AUTO_SHOOT_VELOCITY);
     } else {
         a_CFS.ShootVelocity(0);
         a_CFS.FeedVelocity(0);

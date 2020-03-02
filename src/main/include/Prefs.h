@@ -60,23 +60,27 @@ BR:
 #define INCHES_PER_TICK (2.0 / 5) * M_PI // inches
 
 /* ============= AUTO VALUES 4 Jason yoyoyo =========== */
-#define ARBITRARY_DIST_BACKWARDS 115 // inches
+#define TO_TRENCH_FROM_LINE 65 // inches
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
+#define TO_BALL2_FROM_LINE 160 // inches
 
 
-#define VOLTS_MAX 1.65 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
-#define VOLTS_MIN 2.52 //CHANGE PLZ CHANGE PLA WHEN WE KNOW
+#define VOLTS_MAX 1.65 //Subject to change cause movement
+#define VOLTS_MIN 2.52 //Subject to change cause movement
 #define ANGLE_MAX 90
 #define ANGLE_MIN 24
 
-
 #define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
 
-#define ARM_DEFAULT_POSITION 90 //degrees???? CHANGE WHEN ACTUALLY FOUND
-#define AUTO_ARM_FINAL_POS 23 //degrees???? CHANGE WHEN ACTUALLY FOUND
-#define AUTO_SHOOT_VELOCITY 400 // RPM, change after PID tuned and Tested
-#define AUTO_FEED_VAL 600 // wowowowow
+#define ARM_DEFAULT_POSITION 89 //degrees???? GOOD!
+#define AUTO_ARM_FINAL_POS 45 //degrees???? GOOD!
+#define AUTO_SHOOT_VELOCITY 464 // RPM, GOOOD!
+#define AUTO_SHOOT_VELOCITY5BALL 440 // could change
+#define AUTO_FEED_VAL 1000 // wowowowow
+#define AUTO_ANGLE_DRIVESTRAIGHT 180 //Degrees
+#define AUTO_DRIVE_SPEED .4
+
 
 
 

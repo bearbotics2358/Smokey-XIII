@@ -298,7 +298,7 @@ void Autonomous::AutonomousPeriodic0(){
 		    break;
 
         case kDriveAway0:
-           if(!IHaveAProposal(0.3, 30.0, ARBITRARY_DIST_BACKWARDS)) {//DriveDist(ARBITRARY_DIST_BACKWARDS, 180)){
+           if(!IHaveAProposal(0.3, 30.0, TO_TRENCH_FROM_LINE)) {//DriveDist(ARBITRARY_DIST_BACKWARDS, 180)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -364,7 +364,7 @@ void Autonomous::AutonomousPeriodic1(){
 
 
         case kShoot1:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, AUTO_SHOOT_VELOCITY)){
                // RootyTootyShooty(AUTO_START_BALL_NUM);
 
            } else {
@@ -377,7 +377,7 @@ void Autonomous::AutonomousPeriodic1(){
 
 
         case kDriveAway1:
-           if(!DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0)){
+           if(!DriveDist(TO_TRENCH_FROM_LINE, 180.0)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
 
            } else {
@@ -446,21 +446,20 @@ AutoState4 nextState = a_AutoState4;
 		    break;
 
 	    case kArmMove4:
-	    	// if(!MoveDaArm(25)){
-                //MoveDaArm(ARM_DEFAULT_POSITION);
+            if(!MoveDaArm(35)){
 
-           // } else {
+
+            } else {
 
             drivestart = a_SwerveDrive->getAvgDistance();
-            nextState = kDriveBack4;
+            nextState = kDriveBackLonger4;
 
-          //  }
-
+            }
 
 		    break;
 
-        case kDriveBack4:
-           if(!IHaveAProposal(0.4, 180.0, ARBITRARY_DIST_BACKWARDS)){
+        case kDriveBackLonger4:
+           if(!GoToMcDonalds(0.4, 180.0, TO_BALL2_FROM_LINE)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -485,37 +484,24 @@ AutoState4 nextState = a_AutoState4;
            }
 
             break;
+        case kPrime4:
+           if(CheckBallPos()){
+               a_CFS->Feed(-100);
+
+            } else {
+               nextState = kShootBalls4;
+
+            }
+
+            break;
         
 
         case kShootBalls4:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+           if(!RootyTootyShooty(5, AUTO_SHOOT_VELOCITY5BALL)){
                
            } else {
 
-            nextState = kTurnBackToStraight4;
-
-           }
-
-            break;
-        
-
-        case kTurnBackToStraight4:
-           if(!TurnTaAngle(0)){
-               
-           } else {
-
-            nextState = kDriveBackAgain4;
-
-           }
-
-            break;
-
-
-        case kDriveBackAgain4:
-           if(!GoToMcDonalds(.4, 180, 2)){
-               
-           } else {
-
+          
             nextState = kAutoIdle4;
 
            }
@@ -554,21 +540,21 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
 	    case kArmMove5:
-	        if(!MoveDaArm(45)){
-                //MoveDaArm(ARM_DEFAULT_POSITION);
+	        if(!MoveDaArm(AUTO_ARM_FINAL_POS)){
 
-           } else {
+
+            } else {
 
             drivestart = a_SwerveDrive->getAvgDistance();
             nextState = kDriveBack5;
 
-          }
+            }
 
 
 		    break;
 
         case kDriveBack5:
-           if(!IHaveAProposal(0.4, 180.0, ARBITRARY_DIST_BACKWARDS)){
+           if(!IHaveAProposal(AUTO_DRIVE_SPEED, AUTO_ANGLE_DRIVESTRAIGHT, TO_TRENCH_FROM_LINE)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -596,7 +582,7 @@ void Autonomous::AutonomousPeriodic5(){
         
 
         case kShootBalls5:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM)){
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, AUTO_SHOOT_VELOCITY)){
                
            } else {
 
@@ -623,6 +609,10 @@ void Autonomous::AutonomousPeriodic5(){
 void Autonomous::IDontLikeExercise(){
 
     a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
+    a_CFS->Shoot(0);
+    a_CFS->Feed(0);
+    a_CFS->Collect(0);
+    a_CFS->ArmMove(0);
 
 }
 
@@ -643,7 +633,7 @@ void Autonomous::waitplz(double anticipate){
 
 bool Autonomous::MoveDaArm(double angle){
 
- if(fabs(a_CFS->GetArmAngle() - angle) >= 1){
+    if(fabs(a_CFS->GetArmAngle() - angle) >= 1){
         a_CFS->setArmAngle(angle);
         frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
         return false;
@@ -682,21 +672,21 @@ bool Autonomous::CheckBallPos(){
 }
 
 
-bool Autonomous::RootyTootyShooty(int count){
+bool Autonomous::RootyTootyShooty(int count, float vel){
     currbeam = CheckBallPos();
     
     
-    if(BallsShot < ((2 * count)) && currbeam != prevbeam){
+    if(BallsShot < ((2 * count)) + 1 && currbeam != prevbeam){
         BallsShot++;
         prevbeam = currbeam;
         return false;
     }
-    else if(BallsShot < ((2 * count))){
-        a_CFS->ShootVelocity(464);
+    else if(BallsShot < ((2 * count)) + 1){
+        a_CFS->ShootVelocity(vel);
         float avg = (fabs(a_CFS->GetWheelSpeedL()) + fabs(a_CFS->GetWheelSpeedR())) / 2.0;
         if(avg >= 400)
         {
-            a_CFS->FeedVelocity(1000);
+            a_CFS->FeedVelocity(vel);
         }
         else
         {
@@ -741,7 +731,7 @@ bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is 
 
         if (a_SwerveDrive->getAvgDistance() > (0.80 * (dist + drivestart))){
 		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->GetAngle(0));
-            a_CFS->ShootVelocity(464);
+            a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
 		} else {
             a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->GetAngle(0));
             a_CFS->ShootVelocity(0);
@@ -789,7 +779,7 @@ bool Autonomous::GoToMcDonalds(float speed, float dir, float dist){ // true is d
 
         if (a_SwerveDrive->getAvgDistance() > (0.80 * (dist + drivestart))){
 		    a_SwerveDrive->GoToTheDon(speed / 2, dir, dist, a_Gyro->GetAngle(0));
-            a_CFS->ShootVelocity(464);
+            a_CFS->ShootVelocity(AUTO_SHOOT_VELOCITY);
             a_CFS->AutoCollect();
 		} else {
             a_SwerveDrive->GoToTheDon(speed, dir, dist, a_Gyro->GetAngle(0));
