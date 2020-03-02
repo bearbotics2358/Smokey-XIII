@@ -70,9 +70,11 @@ void MQTTHandler::reconnect_callback (struct mqtt_client *client, void **state)
     mqtt_subscribe (client, rcdata->topic, 0);
 }
 
+// unsafe, dont use
 MQTTHandler::MQTTHandler ()
 {
-
+    syncSafe = false;
+    retrySignal ();
 }
 
 MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
@@ -82,6 +84,9 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
 int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
+    syncSafe = false;
+    retrySignal ();
+
     strncpy ((char *) &rcdata.addres, addrin.c_str (), 15);
     strncpy ((char *) &rcdata.port, portin.c_str (), 7);
     strncpy ((char *) &rcdata.topic, topicin.c_str (), 1023);
@@ -102,8 +107,29 @@ int MQTTHandler::init (std::string addrin, std::string portin, std::string topic
     return 0;
 }
 
+bool MQTTHandler::retrySignal ()
+{
+    if (!syncSafe)
+    {
+        if (signal (SIGPIPE, sigpipeHandler) != SIG_ERR)
+        {
+             syncSafe = true;
+             return true;
+        }
+        else
+        {
+             return false;
+        }
+    }
+    return true;
+}
+
 bool MQTTHandler::update ()
 {
+    if (!syncSafe)
+    {
+        return false;
+    }
     mqtt_sync (&client);
     if (client.error != MQTT_OK)
     {
@@ -115,11 +141,15 @@ bool MQTTHandler::update ()
 
 bool MQTTHandler::noErrors () const
 {
-    return errorF;
+    return errorF || !syncSafe;
 }
 
 int MQTTHandler::publish (std::string msg, std::string topic)
 {
+    if (!syncSafe)
+    {
+        return -1;
+    }
     const char *ctopic = (const char *) topic.c_str();
     void *cmsg = (void *) msg.c_str();
 

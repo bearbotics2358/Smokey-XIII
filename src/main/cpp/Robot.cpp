@@ -53,22 +53,14 @@ void Robot::RobotInit()
     a_LimeyLight.ledOff();
     a_LimeyLight.cameraMode(0);
     #endif
-
-    if (signal (SIGPIPE, sigpipeHandler) == SIG_ERR)
-    {
-        printf ("Connecting SIGPIPE handler failed");
-        syncSafe = false;
-    }
 }
 
 void Robot::RobotPeriodic()
 {
     // if signal handler for sigpipe didn't succeed, don't run or else robot code will crash if pi crashes
-    if (syncSafe)
-    {
-        a_mqttHandler.publish(std::to_string(a_mqttHandler.angle) + " " + std::to_string(a_mqttHandler.distance), "data");
-        a_mqttHandler.update ();
-    }
+    a_mqttHandler.publish(std::to_string(a_mqttHandler.angle) + " " + std::to_string(a_mqttHandler.distance), "data");
+    a_mqttHandler.update ();
+    
 
     #ifndef LAPTOP
     a_Gyro.Update(); 
@@ -100,14 +92,18 @@ void Robot::DisabledInit()
 
 void Robot::DisabledPeriodic()
 {
-
+    #ifndef LAPTOP
+    if(joystickOne.GetRawButton(5)) {
+         a_Gyro.Cal();
+    }
+    #endif
 }
 
 void Robot::AutonomousInit() 
 {
     #ifndef LAPTOP
     a_JAutonomous.Init();
-    a_JAutonomous.DecidePath(5); // path number we are using
+    a_JAutonomous.DecidePath(3); // path number we are using
     a_JAutonomous.StartPathMaster();
     #endif
 }
@@ -230,10 +226,7 @@ void Robot::TeleopPeriodic() // main loop
     // force reconnect to pi and connect signal handler if failed
     if(joystickOne.GetRawButton(6))
     {
-        if (!syncSafe && signal (SIGPIPE, sigpipeHandler) != SIG_ERR)
-        {
-            syncSafe = true;
-        }
+        a_mqttHandler.retrySignal();
         a_mqttHandler.injectError();
     }
 

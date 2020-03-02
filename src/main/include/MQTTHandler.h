@@ -26,13 +26,14 @@ void sigpipeHandler (int signal);
 class MQTTHandler
 {
     public:
-        MQTTHandler ();
+        MQTTHandler (); //unsafe, don't use
         MQTTHandler (std::string addrin, std::string portin, std::string topicin);
         int init (std::string addrin, std::string portin, std::string topicin);
+        bool retrySignal ();
         bool update ();
         bool noErrors () const;
         int publish (std::string msg, std::string topic);
-	    void injectError ();
+        void injectError ();
         float distance;
         float angle;
     private:
@@ -45,4 +46,5 @@ class MQTTHandler
         uint8_t recvbuf[RECV_BUF_LEN];
         int sockfd;
         bool errorF;
+        bool syncSafe;
 };

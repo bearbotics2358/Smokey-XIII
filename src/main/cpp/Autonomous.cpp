@@ -8,7 +8,7 @@
 
 Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *ButtonBox, SwerveDrive *SwerveDrive, CFS *CFS, LimeyLight *Lime):
     a_Gyro(Gyro),
-    a_handler(),
+    a_handler(handler),
     a_ButtonBox(ButtonBox),
     a_SwerveDrive(SwerveDrive),
     a_CFS(CFS),
@@ -335,8 +335,8 @@ void Autonomous::AutonomousPeriodic2(){
 
 
 void Autonomous::AutonomousStart3(){
-    AutonomousStart5 ();
-    a_AutoState3 = kAutoDo53;
+    // AutonomousStart5 ();
+    a_AutoState3 = kAutoTurnBack3;
     a_Gyro->Zero();
 }
 
@@ -351,8 +351,7 @@ void Autonomous::AutonomousPeriodic3(){
             IDontLikeExercise ();
             break;
         case kAutoDo53:
-            //AutonomousPeriodic5 ();
-            a_AutoState3 = kAutoTurnBack3;
+            AutonomousPeriodic5 ();
             if (a_AutoState5 == kAutoIdle5)
             {
                 a_AutoState3 = kAutoTurnBack3;
@@ -370,24 +369,23 @@ void Autonomous::AutonomousPeriodic3(){
                 a_handler->publish ("view", "/camera/control/claw");
                 a_AutoState3 = kTurntoShoot3;
             }
-            // signs might not be right
             angle_in = a_handler->angle;
             angle_out = 0;
             if ((angle_in < 0 ? -angle_in : angle_in) > 5)
             {
-                angle_out = angle_in < 0 ? 0.3 : -0.3;
+                angle_out = angle_in < 0 ? 0.1 : -0.1;
             }
-            a_SwerveDrive->crabDriveUpdate (angle_out, -0.2, a_Gyro->GetAngle ());
+            a_SwerveDrive->crabDriveUpdate (angle_out, -0.3, a_Gyro->GetAngle (0));
             a_CFS->AutoCollect ();
             break;
         case kTurntoShoot3:
-            if (TurnLime ()) // temp angle
+            if (TurnLime ())
             {
-                a_AutoState3 = kAutoIdle3;
+                a_AutoState3 = kShoot3;
             }
             break;
-        case kShoot3: // attempt to shoot
-            if (RootyTootyShooty (3, 500.0)) // temp speed
+        case kShoot3:
+            if (RootyTootyShooty (3, 440.0))
             {
                 a_AutoState3 = kAutoIdle3;
             }
