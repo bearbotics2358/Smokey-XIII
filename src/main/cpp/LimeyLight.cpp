@@ -40,7 +40,8 @@ float LimeyLight::getDist () const
 {
     // distance in feet
     float temp = GET_LIMELIGHT_VALUE(table, "ts") * (M_PI / 180.0f);
-    return ((58.0f / (GET_LIMELIGHT_VALUE(table, "thor"))) / cos(temp)) * 191.0f;
+    // return (58.0f / (GET_LIMELIGHT_VALUE(table, "thor") / cos(temp))) * 191.0f;
+    return 11078.0f / (GET_LIMELIGHT_VALUE(table, "thor") / cos(temp));
 }
 
 float LimeyLight::getXAngleShooter (const std::vector<float> velocity, const float gyro) const
