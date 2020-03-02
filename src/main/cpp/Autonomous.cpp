@@ -554,7 +554,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
 	    case kArmMove5:
-	        if(!MoveDaArm(45)){
+	        if(!MoveDaArm(35)){
                 //MoveDaArm(ARM_DEFAULT_POSITION);
 
            } else {
@@ -568,7 +568,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
         case kDriveBack5:
-           if(!IHaveAProposal(0.4, 180.0, ARBITRARY_DIST_BACKWARDS)){
+           if(!IHaveAProposal(0.4, 180.0, 65)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -764,13 +764,13 @@ bool Autonomous::TurnLime(){
     if(a_Lime->isTarget()){
         if(fabs((a_Lime->getAngleX())) >= 2){
             a_SwerveDrive->makeShiftTurn(a_Lime->calcZAxis());
-            frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
+            // frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
             return false;
 
 
         } else {
             a_SwerveDrive->swerveUpdate(0, 0, 0, a_Gyro->GetAngle(0), true);
-            frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
+            // frc::SmartDashboard::PutNumber("We done????? ", a_SwerveDrive->getAvgDistance());
             a_Lime->ledOff();
             return true;
 
