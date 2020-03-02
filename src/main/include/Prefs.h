@@ -74,8 +74,8 @@ BR:
 #define AUTO_START_BALL_NUM 3 // KNOWN FACT ITS WHAT WE START WITH!!!!!
 
 #define ARM_DEFAULT_POSITION 89 //degrees???? GOOD!
-#define AUTO_ARM_FINAL_POS 45 //degrees???? GOOD!
-#define AUTO_SHOOT_VELOCITY 464 // RPM, GOOOD!
+#define AUTO_ARM_FINAL_POS 35 //degrees???? GOOD!
+#define AUTO_SHOOT_VELOCITY 463 // RPM, GOOOD!
 #define AUTO_SHOOT_VELOCITY5BALL 440 // could change
 #define AUTO_FEED_VAL 1000 // wowowowow
 #define AUTO_ANGLE_DRIVESTRAIGHT 180 //Degrees
