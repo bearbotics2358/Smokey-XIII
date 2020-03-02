@@ -4,7 +4,6 @@
 
 // #include <frc/WPILib.h>
 #include <SwerveDrive.h>
-#include <Climby.h>
 #include <CFS.h>
 #include <frc/Joystick.h> 
 #include <frc/Timer.h>
@@ -77,12 +76,10 @@ enum AutoState3 {
 enum AutoState4 { //
 	kAutoIdle4 = 0,
 	kArmMove4,
-	kDriveBack4,
+	kDriveBackLonger4,
     kTurntoShoot4,
-    kShootBalls4,
-	kTurnBackToStraight4,
-    kDriveBackAgain4,
-    kSecondShoot4
+	kPrime4,
+    kShootBalls4
 };
 
 

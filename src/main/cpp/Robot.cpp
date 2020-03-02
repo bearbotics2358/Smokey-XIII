@@ -47,7 +47,7 @@ void Robot::RobotInit()
     #ifndef LAPTOP
     frc::SmartDashboard::init();
     a_Gyro.Init();
-    // sa_Gyro.Cal();
+    // a_Gyro.Cal();
     a_Gyro.Zero();
 
     a_LimeyLight.ledOff();
@@ -71,15 +71,17 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
     frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
     
-    frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
+    // frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
     frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.GetArmAngle());
     frc::SmartDashboard::PutBoolean("Limelight Target?", a_LimeyLight.isTarget());
+    frc::SmartDashboard::PutNumber("Distance Limelight: ", a_LimeyLight.getDist());
 
-    frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());
-    frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
+    // frc::SmartDashboard::PutNumber("Feeder Top: ", a_CFS.GetFeedSpeedTop());
+    // frc::SmartDashboard::PutNumber("Feeder Bot: ", a_CFS.GetFeedSpeedBot());
 
     frc::SmartDashboard::PutNumber("Distance Driven: ", a_swerveyDrive.getAvgDistance());
     frc::SmartDashboard::PutNumber("angle??????????: ", a_Gyro.GetAngle(0));
+    frc::SmartDashboard::PutNumber("Gyro Angle: ", a_Gyro.GetAngle(0));
     #endif
 }
 
@@ -126,42 +128,6 @@ void Robot::TeleopPeriodic() // main loop
 
     #ifndef LAPTOP
     
-    /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-
-    static bool on = false;
-    if(joystickOne.GetRawButton(7)) {
-        if (!on)
-        {
-            on = true;
-            a_LimeyLight.ledOn ();
-            frc::SmartDashboard::PutNumber("Limelight: ", 1);
-            a_CFS.ShootVelocity (a_LimeyLight.getVelocityShooter ());
-        }
-        else
-        {
-            on = false;
-            a_LimeyLight.ledOff();
-            frc::SmartDashboard::PutNumber("Limelight: ", 0);
-        }
-    }
-    
-    if(joystickOne.GetRawButton(10)) {
-        a_LimeyLight.cameraMode(0);
-        //  turn on vision
-    } else if(joystickOne.GetRawButton(12)) {
-        a_LimeyLight.cameraMode(1); 
-        // turn on remote viewing 
-    }
-
-    /*
-        cameraMode 0: Vision processing
-        cameraMode 1: Remote viewing 
-        :)
-    */  
-       
-    a_LimeyLight.printValues();
-
-    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
     
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
@@ -196,30 +162,97 @@ void Robot::TeleopPeriodic() // main loop
     frc::SmartDashboard::PutNumber("Chase: ", z);
     bool inDeadzone = (((sqrt(x * x + y * y) < JOYSTICK_DEADZONE) && (fabs(z) < JOYSTICK_DEADZONE)) ? true : false); // Checks joystick deadzones
 
-    if(!inDeadzone) {
-        if(joystickOne.GetRawButton(1)) 
+    if(joystickOne.GetRawButton(5))
+    {
+        a_Gyro.Cal();
+        a_Gyro.Zero();
+    }
+
+    if(joystickOne.GetRawButton(4))
+    {
+        a_LimeyLight.ledOn();
+    }
+    else
+    {
+        a_LimeyLight.ledOff();
+    }
+    if(joystickOne.GetRawButton(4) && a_LimeyLight.isTarget()) // can see a target and toggled on
+    {
+        if(!inDeadzone) 
         {
-            if(on) 
+            a_swerveyDrive.swerveUpdate(x, y, a_LimeyLight.calcZAxis(), gyro, true);
+        }
+        else
+        {
+            a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, true);
+        }   
+    }
+    else if(joystickOne.GetRawButton(3))
+    {
+        if(!inDeadzone) 
+        {
+            if(joystickOne.GetRawButton(1)) 
             {
-                a_swerveyDrive.swerveUpdate(0, 0, a_LimeyLight.calcZAxis(), gyro, false);
+                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, false);
             } 
-            else
+            else 
             {
-                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, fieldOreo);
+                a_swerveyDrive.crabDriveUpdate(x, y, gyro);
             }
         } 
         else 
         {
-           a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+            a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, false);
         }
-    } 
-    else 
+    }
+    else
     {
-        a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        if(!inDeadzone) 
+        {
+            if(joystickOne.GetRawButton(1)) 
+            {
+                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, fieldOreo);
+            } 
+            else 
+            {
+                a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+            }
+        } 
+        else 
+        {
+            a_swerveyDrive.swerveUpdate(0, 0, 0, gyro, fieldOreo);
+        }
     }
 
-    frc::SmartDashboard::PutNumber("Gyro: ", gyro);
+ /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=- Limelight Stuffs -=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+        
+    if(joystickOne.GetRawButton(7)) {
+        a_LimeyLight.ledOn(); 
+        frc::SmartDashboard::PutNumber("Limelight: ", 1); 
+        // *gasp* turns led on
+    } else if(joystickOne.GetRawButton(9)) {
+        a_LimeyLight.ledOff();
+        frc::SmartDashboard::PutNumber("Limelight: ", 0);
+        // *even bigger gasp* turns led off 
+    }
+    
+    if(joystickOne.GetRawButton(10)) {
+        a_LimeyLight.cameraMode(0);
+        //  turn on vision
+    } else if(joystickOne.GetRawButton(12)) {
+        a_LimeyLight.cameraMode(1); 
+        // turn on remote viewing 
+    }
 
+    /*
+        cameraMode 0: Vision processing
+        cameraMode 1: Remote viewing 
+        :)
+    */  
+       
+    a_LimeyLight.printValues();
+
+    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
 
     // PI stuff
 
@@ -232,24 +265,37 @@ void Robot::TeleopPeriodic() // main loop
 
     // end PI stuff
 
-    if(joystickOne.GetRawButton(5))
-    {
-        a_Gyro.Cal();
-        a_Gyro.Zero();
-    }
+    
 
-    if(a_xBoxController.GetRawButton(1)) {
-        a_CFS.ShootVelocity(SHOOT_VELOCITY); 
+    if(a_xBoxController.GetRawButton(1)) 
+    {
+        a_CFS.ShootVelocity(440); 
+
+        float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
+        if(avg >= 0.98 * 440)
+        {
+            a_CFS.FeedVelocity(1000);
+        }
+        else
+        {
+            a_CFS.FeedVelocity(0); 
+        }
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(420); 
+        a_CFS.ShootVelocity(300); 
+        
+        float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
+        if(avg >= 0.60 * 300)
+        {
+            a_CFS.FeedVelocity(1000);
+        }
+        else
+        {
+            a_CFS.FeedVelocity(0); 
+        }
     }
-    else {
-        a_CFS.ShootVelocity(0);
-    }
-
-    if(a_xBoxController.GetRawButton(2))
+    else if(a_xBoxController.GetRawButton(2))
     {
         a_CFS.AutoCollect();
     }
@@ -271,36 +317,40 @@ void Robot::TeleopPeriodic() // main loop
             a_CFS.Collect(0);
         }
 
-        if(a_xBoxController.GetRawButton(5))
-        {
-            a_CFS.setArmAngle(70);
-        }
-        else
-        {
-            a_CFS.ArmMove(0.2 * a_xBoxController.GetRawAxis(5));
-        }
-        
+        a_CFS.ShootVelocity(0);
+        a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+    }
 
-        if(a_xBoxController.GetRawButton(6))
-        {
-            a_CFS.FeedVelocity(1000); // positive is intake
-        }
-        else
-        {
-            a_CFS.Feed(a_xBoxController.GetRawAxis(1));
-        }
 
-        if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    if(a_xBoxController.GetRawButton(5))
+    {
+        a_CFS.setArmAngle(70);
+    }
+    else if(a_xBoxController.GetRawButton(6))
+    {
+        a_CFS.setArmAngle(35);
+    }
+    else
+    {
+        a_CFS.ArmMove(0.2 * a_xBoxController.GetRawAxis(5));
+    }
+
+    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    {
+        if(a_CFS.GetArmAngle() > 60)
         {
             a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
         }
         else
         {
             a_CFS.ClimbQuestionMark(0);
-        }
-        
-        
+        } 
     }
+    else
+    {
+        a_CFS.ClimbQuestionMark(0);
+    }    
+
     #endif
 }
 
@@ -385,16 +435,6 @@ void Robot::TestPeriodic()
     }
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
-
-
-
-
-    if(joystickOne.GetRawButton(4)) {
-        a_JAutonomous.RootyTootyShooty(2, 464);
-    } else {
-        a_CFS.ShootVelocity(0);
-        a_CFS.FeedVelocity(0);
-    }
 
     if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
     {
