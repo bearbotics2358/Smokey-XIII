@@ -41,7 +41,7 @@ BR:
 
 /* ========== Joystick Ports ========= */
 #define JOYSTICK_PORT 1
-#define JOYSTICK_DEADZONE 0.15
+#define JOYSTICK_DEADZONE 0.12
 
 #define BUTTON_BOX 3
 #define XBOX_CONTROLLER 5
@@ -66,8 +66,8 @@ BR:
 #define TO_BALL2_FROM_LINE 160 // inches
 
 
-#define VOLTS_MAX 1.65 //Subject to change cause movement
-#define VOLTS_MIN 2.52 //Subject to change cause movement
+#define VOLTS_MAX 1.388 //Subject to change cause movement
+#define VOLTS_MIN 2.245 //Subject to change cause movement
 #define ANGLE_MAX 90
 #define ANGLE_MIN 24
 

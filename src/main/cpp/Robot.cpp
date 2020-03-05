@@ -71,7 +71,7 @@ void Robot::RobotPeriodic()
     frc::SmartDashboard::PutBoolean("Bottom Beam Break: ", a_CFS.GetBottomBeam());
     frc::SmartDashboard::PutBoolean("Top Beam Break: ", a_CFS.GetTopBeam());
     
-    // frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
+    frc::SmartDashboard::PutNumber("Pivot Voltage: ", a_CFS.GetPivotPosition());
     frc::SmartDashboard::PutNumber("Pivot Angle: ", a_CFS.GetArmAngle());
     frc::SmartDashboard::PutBoolean("Limelight Target?", a_LimeyLight.isTarget());
     frc::SmartDashboard::PutNumber("Distance Limelight: ", a_LimeyLight.getDist());
@@ -121,7 +121,7 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-
+    a_LimeyLight.ledOff();
 }
 
 void Robot::TeleopPeriodic() // main loop
@@ -320,7 +320,7 @@ void Robot::TeleopPeriodic() // main loop
         }
 
         a_CFS.ShootVelocity(0);
-        float temp = !a_xBoxController.GetRawButton(4) ? a_xBoxController.GetRawAxis(1) : 0; // if not climbing, run
+        float temp = a_xBoxController.GetRawButton(4) ? a_xBoxController.GetRawAxis(1) : 0; // if not climbing, run
         a_CFS.Feed(temp);
     }
 
@@ -338,9 +338,9 @@ void Robot::TeleopPeriodic() // main loop
             a_CFS.ArmMove(0);
         }
     }
-    else if(a_xBoxController.GetRawButton(4))
+    else if(a_xBoxController.GetRawButton(6))
     {
-        a_CFS.setArmAngle(35);
+        a_CFS.setArmAngle(89);
     }
     else
     {
@@ -349,7 +349,7 @@ void Robot::TeleopPeriodic() // main loop
 
     /* -=-=-=-=-=-=-=-=-=- Climber Controls -=-=-=-=-=-=-=-=-=-=- */
 
-    if(a_xBoxController.GetRawButton(6) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
+    if(!a_xBoxController.GetRawButton(4) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
     {
         if(a_CFS.GetArmAngle() > 60)
         {

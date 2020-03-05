@@ -531,7 +531,7 @@ void Autonomous::AutonomousStart5(){
 
     a_AutoState5 = kArmMove5;
     a_Gyro->Zero();
-    a_Lime->ledOn();
+    
 
 }
 
@@ -568,7 +568,7 @@ void Autonomous::AutonomousPeriodic5(){
 
            } else {
                
-
+            a_Lime->ledOn();
             limeangle = a_Lime->getAngleX();
 
             nextState = kTurntoShoot5;
