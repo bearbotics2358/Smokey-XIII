@@ -66,8 +66,8 @@ BR:
 #define TO_BALL2_FROM_LINE 160 // inches
 
 
-#define VOLTS_MAX 1.388 //Subject to change cause movement
-#define VOLTS_MIN 2.245 //Subject to change cause movement
+#define VOLTS_MAX 1.418 //Subject to change cause movement
+#define VOLTS_MIN 2.280 //Subject to change cause movement
 #define ANGLE_MAX 90
 #define ANGLE_MIN 24
 

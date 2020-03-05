@@ -366,6 +366,7 @@ void Autonomous::AutonomousPeriodic3(){
             if (TurnTaAngle (0))
             {
                 a_AutoState3 = kCollectBalls3;
+                a_SwerveDrive->resetDrive();
             }
             break;
         case kCollectBalls3: // get 3 balls
@@ -373,11 +374,12 @@ void Autonomous::AutonomousPeriodic3(){
             // Got rid of MQTT Error check as we have not tested it
             // Bring it back in later:
             // || !a_handler->noErrors ()
-            if (a_CFS->count >= 4 || a_SwerveDrive->getAvgDistance () > 100) // Changed distance for 3 ball auto
+
+            if (a_CFS->count >= 4 || a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
             {
                 // Change to remote viewing
+                a_SwerveDrive->resetDrive();
                 a_handler->publish ("view", "/camera/control/claw");
-
                 a_AutoState3 = kDriveBack3;
             }
             // Read new angle
@@ -392,6 +394,7 @@ void Autonomous::AutonomousPeriodic3(){
             // Update crab drive stafing and auto collect
             a_SwerveDrive->crabDriveUpdate (angle_out, -1 * AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
             a_CFS->AutoCollect ();
+            
             break;
         case kDriveBack3:
             // Drive back to original distance that we shot at during 3 ball auto
@@ -462,7 +465,7 @@ AutoState4 nextState = a_AutoState4;
 
             } else {
 
-            drivestart = a_SwerveDrive->getAvgDistance();
+            
             nextState = kDriveBackLonger4;
 
             }
@@ -555,7 +558,7 @@ void Autonomous::AutonomousPeriodic5(){
 
             } else {
 
-            drivestart = a_SwerveDrive->getAvgDistance();
+            
             nextState = kDriveBack5;
 
             }
@@ -571,7 +574,6 @@ void Autonomous::AutonomousPeriodic5(){
                
             a_Lime->ledOn();
             limeangle = a_Lime->getAngleX();
-
             nextState = kTurntoShoot5;
 
            }
