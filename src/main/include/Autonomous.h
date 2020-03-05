@@ -144,7 +144,7 @@ class Autonomous
 	bool RootyTootyShooty(int count, float speed); // Shooting balls 
 	bool TurnTaAngle(float angle);
 	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, but janky
-	bool TurnLime(); 
+	bool TurnLime(bool dir); 
 	bool GoToMcDonalds(float speed, float dir, float dist);
 
 
