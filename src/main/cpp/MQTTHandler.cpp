@@ -84,6 +84,7 @@ MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string to
 
 int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
 {
+    errorF = false;
     syncSafe = false;
     retrySignal ();
 
@@ -136,12 +137,20 @@ bool MQTTHandler::update ()
         errorF = false;
         return false;
     }
+    else
+    {
+        errorF = true;
+    }
     return true;
 }
 
 bool MQTTHandler::noErrors () const
 {
+<<<<<<< HEAD
     return !errorF || syncSafe;
+=======
+    return errorF && syncSafe;
+>>>>>>> f139484ade732917ef3b8cc478ee25e3de6566e9
 }
 
 int MQTTHandler::publish (std::string msg, std::string topic)
