@@ -72,7 +72,8 @@ void Robot::DisabledInit()
 
 void Robot::DisabledPeriodic()
 {
-   
+    a_LimeyLight.ledOff();
+    a_LimeyLight.cameraMode(0);
 }
 
 void Robot::AutonomousInit() 
@@ -95,7 +96,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic() // main loop
 {
 
-
+    /* =-=-=-=-=-=-=-=-=-=-= Joystick Controls =-=-=-=-=-=-=-=-=-=-= */
 
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
@@ -221,9 +222,7 @@ void Robot::TeleopPeriodic() // main loop
        
     a_LimeyLight.printValues();
 
-    /* -=-=-=-=-=-=-=-=-=- End Of Lime Light Stuff -=-=-=-=-=-=-=-=-=-=- */
-
-    
+    /* -=-=-=-=-=-=-=-=-=- Collectashoot Controls -=-=-=-=-=-=-=-=-=-=- */
 
     if(a_xBoxController.GetRawButton(2)) 
     {
@@ -246,7 +245,7 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.ShootVelocity(slowVel); 
         
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.95 * slowVel)
+        if(avg >= 0.90 * slowVel)
         {
             a_CFS.FeedVelocity(1000);
         }
@@ -260,11 +259,8 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.AutoCollect();
     }
     else
-    {   if(a_xBoxController.GetRawButton(4))
-        {
-            a_CFS.Collect(-0.4);
-        }
-        else if(fabs(a_xBoxController.GetRawAxis(3)) > 0.1)
+    {   
+        if(fabs(a_xBoxController.GetRawAxis(3)) > 0.1)
         {
             a_CFS.Collect(a_xBoxController.GetRawAxis(3));
         }
@@ -282,6 +278,7 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.Feed(temp);
     }
 
+    /* -=-=-=-=-=-=-=-=-=- Arm Controls -=-=-=-=-=-=-=-=-=-=- */
 
     if(a_xBoxController.GetRawButton(5))
     {
@@ -295,7 +292,7 @@ void Robot::TeleopPeriodic() // main loop
             a_CFS.ArmMove(0);
         }
     }
-    else if(a_xBoxController.GetRawButton(6))
+    else if(a_xBoxController.GetRawButton(4))
     {
         a_CFS.setArmAngle(35);
     }
@@ -304,7 +301,9 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.ArmMove(0.2 * a_xBoxController.GetRawAxis(5));
     }
 
-    if(a_xBoxController.GetRawButton(4) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
+    /* -=-=-=-=-=-=-=-=-=- Climber Controls -=-=-=-=-=-=-=-=-=-=- */
+
+    if(a_xBoxController.GetRawButton(6) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
     {
         if(a_CFS.GetArmAngle() > 60)
         {
