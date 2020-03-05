@@ -149,7 +149,7 @@ class Autonomous
 	
 	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, at input speed and direction between 0-360
 	
-	bool TurnLime(); // Uses limelight to face target; if no target, turn until found
+	bool TurnLime(bool dir); // Uses limelight to face target; if no target, turn until found
 	
 	bool GoToMcDonalds(float speed, float dir, float dist); // Driving in a direction while collecting
 
