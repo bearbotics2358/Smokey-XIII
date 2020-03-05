@@ -398,12 +398,31 @@ void Autonomous::AutonomousPeriodic3(){
             break;
         case kDriveBack3:
             // Drive back to original distance that we shot at during 3 ball auto
+            if (DriveDist(100, 0)) // Changed distance for 3 ball auto
+            {
+                a_AutoState3 = kTurntoShoot3;
+                a_Lime->ledOn();
+            }
+            
+
+
+            /*
+            if (a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
+            {
+                a_AutoState3 = kTurntoShoot3;
+                a_Lime->ledOn();
+            }
+            a_SwerveDrive->crabDriveUpdate (0, AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
+            */
+
+            /*
             if(!IHaveAProposal(AUTO_DRIVE_SPEED, 0, 100)) { // Need to test distance
                 
             } else {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
+            */
         case kTurntoShoot3:
             // Turn to angle and face the target using limelight
             if (TurnLime (true))
@@ -429,6 +448,7 @@ void Autonomous::AutonomousPeriodic3(){
             if (RootyTootyShooty (3, 464.0)) // 3 Ball auto velocity
             {
                 a_AutoState3 = kAutoIdle3;
+                a_Lime->ledOff();
             }
             
             break;
