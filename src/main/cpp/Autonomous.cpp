@@ -34,7 +34,8 @@ Autonomous::Autonomous(JrimmyGyro *Gyro, MQTTHandler *handler, frc::Joystick *Bu
 }
 
 void Autonomous::Init(){
-	// a_Gyro->Zero();
+	a_Gyro->Zero();
+    a_Gyro->Cal();
     a_Anticipation.Start();
 }
 
@@ -345,13 +346,14 @@ void Autonomous::AutonomousPeriodic3(){
     // Call initial drive stuff and shooting
     float angle_in;
     float angle_out;
+    bool temp = false;
     switch (a_AutoState3)
     {
         case kAutoIdle3:
             IDontLikeExercise ();
             break;
         case kAutoDo53:
-            AutonomousPeriodic5 ();
+            // AutonomousPeriodic5 ();
             if (a_AutoState5 == kAutoIdle5)
             {
                 a_AutoState3 = kAutoTurnBack3;
@@ -361,34 +363,56 @@ void Autonomous::AutonomousPeriodic3(){
             if (TurnTaAngle (0))
             {
                 a_AutoState3 = kCollectBalls3;
+                printf("test\n");
+                fflush(stdout);
+
             }
             break;
         case kCollectBalls3: // get 3 balls
-            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 200 || !a_handler->noErrors ()) // temp distance
+            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 150) // temp distance
             {
                 a_handler->publish ("view", "/camera/control/claw");
-                a_AutoState3 = kTurntoShoot3;
+                a_Lime->ledOn();
+                a_AutoState3 = kDriveBack3;
             }
             angle_in = a_handler->angle;
             angle_out = 0;
             if ((angle_in < 0 ? -angle_in : angle_in) > 5)
             {
-                angle_out = angle_in < 0 ? 0.1 : -0.1;
+                angle_out = angle_in < 0 ? 0.2 : -0.2;
             }
-            a_SwerveDrive->crabDriveUpdate (angle_out, -0.3, a_Gyro->GetAngle (0));
+            a_SwerveDrive->crabDriveUpdate (angle_out, -0.65, a_Gyro->GetAngle (0));
             a_CFS->AutoCollect ();
             break;
+        case kDriveBack3:
+            if(!IHaveAProposal(-0.65, 0, 40)) {
+                
+            } else {
+                a_AutoState3 = kTurntoShoot3;
+            }
         case kTurntoShoot3:
             if (TurnLime ())
             {
-                a_AutoState3 = kShoot3;
+                a_AutoState3 = kprime3;
             }
             break;
+        case kprime3:
+            if (CheckBallPos())
+            {
+                a_CFS->FeedVelocity(-100);
+            } else {
+                a_AutoState3 = kShoot3;
+                a_CFS->Feed(0);
+            }
+            break;
+
         case kShoot3:
-            if (RootyTootyShooty (3, 440.0))
+            
+            if (RootyTootyShooty (5, 440.0))
             {
                 a_AutoState3 = kAutoIdle3;
             }
+            
             break;
         default:
             break;
@@ -458,7 +482,7 @@ AutoState4 nextState = a_AutoState4;
             break;
         case kPrime4:
            if(CheckBallPos()){
-               a_CFS->Feed(-100);
+               a_CFS->FeedVelocity(-100);
 
             } else {
                nextState = kShootBalls4;
@@ -655,9 +679,9 @@ bool Autonomous::RootyTootyShooty(int count, float velocity){
     else if(BallsShot < ((2 * count))){
         a_CFS->ShootVelocity(velocity);
         float avg = (fabs(a_CFS->GetWheelSpeedL()) + fabs(a_CFS->GetWheelSpeedR())) / 2.0;
-        if(avg >= 400)
+        if(avg >= .98 * velocity)
         {
-            a_CFS->FeedVelocity(velocity);
+            a_CFS->FeedVelocity(1000);
         }
         else
         {
@@ -721,7 +745,7 @@ bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is 
 bool Autonomous::TurnLime(){
     
     if(a_Lime->isTarget()){
-        if(fabs((a_Lime->getAngleX())) >= 2){
+        if(fabs((a_Lime->getAngleX())) >= 1.5){
             a_SwerveDrive->makeShiftTurn(a_Lime->calcZAxis());
             // frc::SmartDashboard::PutNumber("Encoder average?????", a_SwerveDrive->getAvgDistance());
             return false;

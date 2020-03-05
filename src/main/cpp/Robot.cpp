@@ -267,7 +267,7 @@ void Robot::TeleopPeriodic() // main loop
 
     
 
-    if(a_xBoxController.GetRawButton(1)) 
+    if(a_xBoxController.GetRawButton(2)) 
     {
         a_CFS.ShootVelocity(440); 
 
@@ -295,7 +295,7 @@ void Robot::TeleopPeriodic() // main loop
             a_CFS.FeedVelocity(0); 
         }
     }
-    else if(a_xBoxController.GetRawButton(2))
+    else if(a_xBoxController.GetRawButton(1))
     {
         a_CFS.AutoCollect();
     }

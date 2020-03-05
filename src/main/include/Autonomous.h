@@ -56,7 +56,9 @@ enum AutoState3 { // Uses vision
 	kAutoDo53,
 	kAutoTurnBack3,
 	kCollectBalls3,
+	kDriveBack3,
 	kTurntoShoot3,
+	kprime3,
 	kShoot3
 };
 

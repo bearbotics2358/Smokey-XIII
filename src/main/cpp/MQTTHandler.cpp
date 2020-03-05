@@ -141,7 +141,7 @@ bool MQTTHandler::update ()
 
 bool MQTTHandler::noErrors () const
 {
-    return errorF || !syncSafe;
+    return !errorF || syncSafe;
 }
 
 int MQTTHandler::publish (std::string msg, std::string topic)
