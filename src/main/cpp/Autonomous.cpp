@@ -337,7 +337,7 @@ void Autonomous::AutonomousPeriodic2(){
 
 void Autonomous::AutonomousStart3(){
     AutonomousStart5 ();
-    a_AutoState3 = kAutoTurnBack3;
+    a_AutoState3 = kAutoDo53;
     a_Gyro->Zero();
 }
 
@@ -375,9 +375,9 @@ void Autonomous::AutonomousPeriodic3(){
             // || !a_handler->noErrors ()
             if (a_CFS->count >= 4 || a_SwerveDrive->getAvgDistance () > 100) // Changed distance for 3 ball auto
             {
-                // Change to remote viewing and turn limelight off
+                // Change to remote viewing
                 a_handler->publish ("view", "/camera/control/claw");
-                a_Lime->ledOn();
+
                 a_AutoState3 = kDriveBack3;
             }
             // Read new angle
@@ -399,6 +399,7 @@ void Autonomous::AutonomousPeriodic3(){
                 
             } else {
                 a_AutoState3 = kTurntoShoot3;
+                a_Lime->ledOn();
             }
         case kTurntoShoot3:
             // Turn to angle and face the target using limelight
