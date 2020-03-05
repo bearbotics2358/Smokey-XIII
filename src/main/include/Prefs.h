@@ -60,7 +60,7 @@ BR:
 #define INCHES_PER_TICK (2.0 / 5) * M_PI // inches
 
 /* ============= AUTO VALUES 4 Jason yoyoyo =========== */
-#define TO_TRENCH_FROM_LINE 65 // inches
+#define TO_TRENCH_FROM_LINE 60 // inches
 #define TOF_TO_WALL 27.0 // inches
 #define LINE_TO_BALL_FAR 192.66 // inches
 #define TO_BALL2_FROM_LINE 160 // inches
@@ -79,7 +79,7 @@ BR:
 #define AUTO_SHOOT_VELOCITY5BALL 440 // could change
 #define AUTO_FEED_VAL 1000 // wowowowow
 #define AUTO_ANGLE_DRIVESTRAIGHT 180 //Degrees
-#define AUTO_DRIVE_SPEED .4
+#define AUTO_DRIVE_SPEED .65
 
 
 

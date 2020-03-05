@@ -336,7 +336,7 @@ void Autonomous::AutonomousPeriodic2(){
 
 
 void Autonomous::AutonomousStart3(){
-    // AutonomousStart5 ();
+    AutonomousStart5 ();
     a_AutoState3 = kAutoTurnBack3;
     a_Gyro->Zero();
 }
@@ -353,50 +353,64 @@ void Autonomous::AutonomousPeriodic3(){
             IDontLikeExercise ();
             break;
         case kAutoDo53:
-            // AutonomousPeriodic5 ();
+            // Runs through Jason Auto (3 ball)
+            AutonomousPeriodic5 ();
             if (a_AutoState5 == kAutoIdle5)
             {
                 a_AutoState3 = kAutoTurnBack3;
             }
             break;
         case kAutoTurnBack3:
+            a_Lime->ledOff();
+            // Turn to 0 degrees after shooting
             if (TurnTaAngle (0))
             {
                 a_AutoState3 = kCollectBalls3;
-                printf("test\n");
-                fflush(stdout);
-
             }
             break;
         case kCollectBalls3: // get 3 balls
-            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 150 || !a_handler->noErrors ()) // temp distance
+            // Checks to see if we need to move out of collecting mode
+            // Got rid of MQTT Error check as we have not tested it
+            // Bring it back in later:
+            // || !a_handler->noErrors ()
+            if (a_CFS->count >= 4 || a_SwerveDrive->getAvgDistance () > 100) // Changed distance for 3 ball auto
             {
+                // Change to remote viewing and turn limelight off
                 a_handler->publish ("view", "/camera/control/claw");
                 a_Lime->ledOn();
                 a_AutoState3 = kDriveBack3;
             }
+            // Read new angle
             angle_in = a_handler->angle;
             angle_out = 0;
+            // Direction Changing Logic:
+            // angle_in < 0, go Right; angle_in > 0, go Left
             if ((angle_in < 0 ? -angle_in : angle_in) > 5)
             {
                 angle_out = angle_in < 0 ? 0.2 : -0.2;
             }
-            a_SwerveDrive->crabDriveUpdate (angle_out, -0.65, a_Gyro->GetAngle (0));
+            // Update crab drive stafing and auto collect
+            a_SwerveDrive->crabDriveUpdate (angle_out, -1 * AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
             a_CFS->AutoCollect ();
             break;
         case kDriveBack3:
-            if(!IHaveAProposal(-0.65, 0, 40)) {
+            // Drive back to original distance that we shot at during 3 ball auto
+            if(!IHaveAProposal(AUTO_DRIVE_SPEED, 0, 100)) { // Need to test distance
                 
             } else {
                 a_AutoState3 = kTurntoShoot3;
             }
         case kTurntoShoot3:
-            if (TurnLime ())
-            {
-                a_AutoState3 = kprime3;
+            // Turn to angle and face the target using limelight
+            if (TurnLime (true))
+            {   
+                a_AutoState3 = kShoot3;
+                // a_AutoState3 = kprime3;
             }
             break;
+            // Skip because no work
         case kprime3:
+            // DO NOT USE, BEAM BREAK NEEDS TO BE RECTIFIED
             if (CheckBallPos())
             {
                 a_CFS->FeedVelocity(-100);
@@ -407,8 +421,8 @@ void Autonomous::AutonomousPeriodic3(){
             break;
 
         case kShoot3:
-            
-            if (RootyTootyShooty (5, 440.0))
+            // Shoot at same velocity as 3 ball, as we are in roughly same spot
+            if (RootyTootyShooty (3, 464.0)) // 3 Ball auto velocity
             {
                 a_AutoState3 = kAutoIdle3;
             }
@@ -470,7 +484,7 @@ AutoState4 nextState = a_AutoState4;
             break;
       
         case kTurntoShoot4:
-           if(!TurnLime()){
+           if(!TurnLime(true)){
             
 
            } else {
@@ -564,7 +578,7 @@ void Autonomous::AutonomousPeriodic5(){
             break;
       
         case kTurntoShoot5:
-           if(!TurnLime()){
+           if(!TurnLime(true)){
             
 
            } else {
@@ -742,7 +756,9 @@ bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is 
 
 }
 
-bool Autonomous::TurnLime(){
+// Turn to target with limelight
+// False = CW, True = CCW
+bool Autonomous::TurnLime(bool dir){
     
     if(a_Lime->isTarget()){
         if(fabs((a_Lime->getAngleX())) >= 1.5){
@@ -759,7 +775,13 @@ bool Autonomous::TurnLime(){
 
         }
     } else {
-        a_SwerveDrive->makeShiftTurn(.1);
+        // Changes direction based on boolean
+        if(dir) {
+            a_SwerveDrive->makeShiftTurn(.1);
+        } else {
+            a_SwerveDrive->makeShiftTurn(-.1);
+        }
+        
         return false;
     }
 
