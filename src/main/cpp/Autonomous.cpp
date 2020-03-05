@@ -369,7 +369,7 @@ void Autonomous::AutonomousPeriodic3(){
             }
             break;
         case kCollectBalls3: // get 3 balls
-            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 150) // temp distance
+            if (a_CFS->count >= 3 || a_SwerveDrive->getAvgDistance () > 150 || !a_handler->noErrors ()) // temp distance
             {
                 a_handler->publish ("view", "/camera/control/claw");
                 a_Lime->ledOn();
