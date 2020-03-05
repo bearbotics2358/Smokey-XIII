@@ -225,12 +225,13 @@ void Robot::TeleopPeriodic() // main loop
 
     
 
-    if(a_xBoxController.GetRawButton(1)) 
+    if(a_xBoxController.GetRawButton(2)) 
     {
-        a_CFS.ShootVelocity(440); 
+       float fastVel = 462;
+        a_CFS.ShootVelocity(fastVel); 
 
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.98 * 440)
+        if(avg >= 0.98 * fastVel)
         {
             a_CFS.FeedVelocity(1000);
         }
@@ -241,10 +242,11 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(300); 
+        float slowVel = 386; // ideal velocity to go up against the goal
+        a_CFS.ShootVelocity(slowVel); 
         
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.60 * 300)
+        if(avg >= 0.95 * slowVel)
         {
             a_CFS.FeedVelocity(1000);
         }
@@ -253,7 +255,7 @@ void Robot::TeleopPeriodic() // main loop
             a_CFS.FeedVelocity(0); 
         }
     }
-    else if(a_xBoxController.GetRawButton(2))
+    else if(a_xBoxController.GetRawButton(1))
     {
         a_CFS.AutoCollect();
     }
@@ -276,13 +278,22 @@ void Robot::TeleopPeriodic() // main loop
         }
 
         a_CFS.ShootVelocity(0);
-        a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+        float temp = !a_xBoxController.GetRawButton(4) ? a_xBoxController.GetRawAxis(1) : 0; // if not climbing, run
+        a_CFS.Feed(temp);
     }
 
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(70);
+        float ang = 77.3;
+        if(fabs(a_CFS.GetArmAngle() - ang) >= 0.4)
+        {
+            a_CFS.setArmAngle(ang);
+        }
+        else
+        {
+            a_CFS.ArmMove(0);
+        }
     }
     else if(a_xBoxController.GetRawButton(6))
     {
@@ -293,7 +304,7 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.ArmMove(0.2 * a_xBoxController.GetRawAxis(5));
     }
 
-    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    if(a_xBoxController.GetRawButton(4) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
     {
         if(a_CFS.GetArmAngle() > 60)
         {
@@ -392,7 +403,7 @@ void Robot::TestPeriodic()
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
 
-    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    if(a_xBoxController.GetRawButton(4) && fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
     {
         a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
     }
@@ -404,7 +415,15 @@ void Robot::TestPeriodic()
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(45);
+        if(fabs(a_CFS.GetArmAngle() - 75.0) > 1)
+        {
+            a_CFS.setArmAngle(75);
+        }
+        else
+        {
+            a_CFS.ArmMove(0);
+        }
+
     }
     else
     {
