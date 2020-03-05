@@ -138,14 +138,20 @@ class Autonomous
 
 	void IDontLikeExercise(); // IDLE
 	void waitplz(double anticipate); // Wait
+
 	bool MoveDaArm(double angle); // arm move to angle
 	bool DriveDist(double dist, double angle); // Drive a distance based off encoders
-	bool CheckBallPos();
-	bool RootyTootyShooty(int count, float speed); // Shooting balls 
-	bool TurnTaAngle(float angle);
-	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, but janky
-	bool TurnLime(bool dir); 
-	bool GoToMcDonalds(float speed, float dir, float dist);
+
+	bool CheckBallPos(); // Returns true if top beam break is broken
+	bool RootyTootyShooty(int count, float vel); // Shoots specified number of balls (call over and over)
+	
+	bool TurnTaAngle(float angle); // turns to a specific angle
+	
+	bool IHaveAProposal(float speed, float dir, float dist); /// drive to distance, at input speed and direction between 0-360
+	
+	bool TurnLime(); // Uses limelight to face target; if no target, turn until found
+	
+	bool GoToMcDonalds(float speed, float dir, float dist); // Driving in a direction while collecting
 
 
 

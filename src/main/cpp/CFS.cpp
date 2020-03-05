@@ -15,7 +15,7 @@ CFS::CFS(int shoot1, int shoot2, int feed1, int feed2, int collect, int pivot, i
     a_Climber(climb, rev::CANSparkMaxLowLevel::MotorType::kBrushless),
     pivotInput(0),
     a_PivotEncoder(pivotInput),
-    armAnglePID(0.05, 0, 0),
+    armAnglePID(0.02, 0, 0),
     count(0)
 {
 

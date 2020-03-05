@@ -98,6 +98,8 @@ void Robot::DisabledPeriodic()
     if(joystickOne.GetRawButton(5)) {
          a_Gyro.Cal();
     }
+    a_LimeyLight.ledOff();
+    a_LimeyLight.cameraMode(0);
     #endif
 }
 
@@ -124,11 +126,11 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic() // main loop
 {
-
-
     #ifndef LAPTOP
     
     
+    /* =-=-=-=-=-=-=-=-=-=-= Joystick Controls =-=-=-=-=-=-=-=-=-=-= */
+
     float x = -1 * joystickOne.GetRawAxis(0);
     float y = -1 * joystickOne.GetRawAxis(1);
     float z = -1 * joystickOne.GetRawAxis(2);
@@ -266,13 +268,15 @@ void Robot::TeleopPeriodic() // main loop
     // end PI stuff
 
     
+    /* -=-=-=-=-=-=-=-=-=- Collectashoot Controls -=-=-=-=-=-=-=-=-=-=- */
 
     if(a_xBoxController.GetRawButton(2)) 
     {
-        a_CFS.ShootVelocity(440); 
+       float fastVel = 462;
+        a_CFS.ShootVelocity(fastVel); 
 
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.98 * 440)
+        if(avg >= 0.98 * fastVel)
         {
             a_CFS.FeedVelocity(1000);
         }
@@ -283,10 +287,11 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(a_xBoxController.GetRawButton(3))
     {
-        a_CFS.ShootVelocity(300); 
+        float slowVel = 386; // ideal velocity to go up against the goal
+        a_CFS.ShootVelocity(slowVel); 
         
         float avg = (fabs(a_CFS.GetWheelSpeedL()) + fabs(a_CFS.GetWheelSpeedR())) / 2.0;
-        if(avg >= 0.60 * 300)
+        if(avg >= 0.90 * slowVel)
         {
             a_CFS.FeedVelocity(1000);
         }
@@ -300,11 +305,8 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.AutoCollect();
     }
     else
-    {   if(a_xBoxController.GetRawButton(4))
-        {
-            a_CFS.Collect(-0.4);
-        }
-        else if(fabs(a_xBoxController.GetRawAxis(3)) > 0.1)
+    {   
+        if(fabs(a_xBoxController.GetRawAxis(3)) > 0.1)
         {
             a_CFS.Collect(a_xBoxController.GetRawAxis(3));
         }
@@ -318,15 +320,25 @@ void Robot::TeleopPeriodic() // main loop
         }
 
         a_CFS.ShootVelocity(0);
-        a_CFS.Feed(a_xBoxController.GetRawAxis(1));
+        float temp = !a_xBoxController.GetRawButton(4) ? a_xBoxController.GetRawAxis(1) : 0; // if not climbing, run
+        a_CFS.Feed(temp);
     }
 
+    /* -=-=-=-=-=-=-=-=-=- Arm Controls -=-=-=-=-=-=-=-=-=-=- */
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(70);
+        float ang = 77.3;
+        if(fabs(a_CFS.GetArmAngle() - ang) >= 0.4)
+        {
+            a_CFS.setArmAngle(ang);
+        }
+        else
+        {
+            a_CFS.ArmMove(0);
+        }
     }
-    else if(a_xBoxController.GetRawButton(6))
+    else if(a_xBoxController.GetRawButton(4))
     {
         a_CFS.setArmAngle(35);
     }
@@ -335,7 +347,9 @@ void Robot::TeleopPeriodic() // main loop
         a_CFS.ArmMove(0.2 * a_xBoxController.GetRawAxis(5));
     }
 
-    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    /* -=-=-=-=-=-=-=-=-=- Climber Controls -=-=-=-=-=-=-=-=-=-=- */
+
+    if(a_xBoxController.GetRawButton(6) && fabs(a_xBoxController.GetRawAxis(1)) > 0.1) // only climb if y is hit
     {
         if(a_CFS.GetArmAngle() > 60)
         {
@@ -436,7 +450,7 @@ void Robot::TestPeriodic()
 
     frc::SmartDashboard::PutNumber("Gyro: ", gyro);
 
-    if(fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
+    if(a_xBoxController.GetRawButton(4) && fabs(a_xBoxController.GetRawAxis(1)) < 0.1)
     {
         a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
     }
@@ -448,7 +462,15 @@ void Robot::TestPeriodic()
 
     if(a_xBoxController.GetRawButton(5))
     {
-        a_CFS.setArmAngle(45);
+        if(fabs(a_CFS.GetArmAngle() - 75.0) > 1)
+        {
+            a_CFS.setArmAngle(75);
+        }
+        else
+        {
+            a_CFS.ArmMove(0);
+        }
+
     }
     else
     {
