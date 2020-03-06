@@ -347,6 +347,7 @@ void Autonomous::AutonomousPeriodic3(){
     float angle_in;
     float angle_out;
     bool temp = false;
+    static unsigned char timeCount = 0;
     switch (a_AutoState3)
     {
         case kAutoIdle3:
@@ -361,7 +362,6 @@ void Autonomous::AutonomousPeriodic3(){
             }
             break;
         case kAutoTurnBack3:
-            a_Lime->ledOff();
             // Turn to 0 degrees after shooting
             if (TurnTaAngle (0))
             {
@@ -375,7 +375,7 @@ void Autonomous::AutonomousPeriodic3(){
             // Bring it back in later:
             // || !a_handler->noErrors ()
 
-            if (a_CFS->count >= 4 || a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
+            if (a_SwerveDrive->getAvgDistance () > 100) // Changed distance for 3 ball auto
             {
                 // Change to remote viewing
                 a_SwerveDrive->resetDrive();
@@ -427,20 +427,23 @@ void Autonomous::AutonomousPeriodic3(){
             // Turn to angle and face the target using limelight
             if (TurnLime (true))
             {   
-                a_AutoState3 = kShoot3;
+                a_AutoState3 = kprime3;
                 // a_AutoState3 = kprime3;
             }
             break;
             // Skip because no work
         case kprime3:
             // DO NOT USE, BEAM BREAK NEEDS TO BE RECTIFIED
-            if (CheckBallPos())
+            if (timeCount == 0)
             {
-                a_CFS->FeedVelocity(-100);
-            } else {
-                a_AutoState3 = kShoot3;
-                a_CFS->Feed(0);
+                a_CFS->FeedVelocity (-100);
             }
+            if (timeCount >= 25)
+            {
+                a_CFS->FeedVelocity (0);
+                a_AutoState3 = kShoot3;
+            }
+            timeCount ++;
             break;
 
         case kShoot3:
