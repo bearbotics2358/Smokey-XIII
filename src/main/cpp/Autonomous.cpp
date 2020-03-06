@@ -403,7 +403,7 @@ void Autonomous::AutonomousPeriodic3(){
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
-            
+            break;
 
 
             /*
@@ -445,7 +445,7 @@ void Autonomous::AutonomousPeriodic3(){
 
         case kShoot3:
             // Shoot at same velocity as 3 ball, as we are in roughly same spot
-            if (RootyTootyShooty (3, 464.0)) // 3 Ball auto velocity
+            if (RootyTootyShooty (3, 462)) // 3 Ball auto velocity
             {
                 a_AutoState3 = kAutoIdle3;
                 a_Lime->ledOff();
