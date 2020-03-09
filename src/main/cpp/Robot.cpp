@@ -193,14 +193,17 @@ void Robot::TeleopPeriodic() // main loop
     {
         if(!inDeadzone) 
         {
-            if(joystickOne.GetRawButton(1)) 
+            angle_in = a_mqttHandler.angle;
+            angle_out = 0;
+            // Direction Changing Logic:
+            // angle_in < 0, go Right; angle_in > 0, go Left
+            if ((angle_in < 0 ? -angle_in : angle_in) > 5)
             {
-                a_swerveyDrive.swerveUpdate(x, y, 0.5 * z, gyro, false);
-            } 
-            else 
-            {
-                a_swerveyDrive.crabDriveUpdate(x, y, gyro);
+                angle_out = angle_in < 0 ? 0.2 : -0.2;
             }
+            // Update crab drive stafing and auto collect
+            a_swerveyDrive.swerveUpdate (x, y, angle_out, gyro, true);
+
         } 
         else 
         {

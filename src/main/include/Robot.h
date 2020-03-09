@@ -64,4 +64,6 @@ class Robot : public frc::TimedRobot
     #endif
 
     bool syncSafe;
+    float angle_in;
+    float angle_out;
 };
