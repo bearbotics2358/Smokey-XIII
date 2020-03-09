@@ -254,7 +254,7 @@ void Autonomous::AutonomousPeriodic1(){
 
     AutoState1 nextState = a_AutoState1;
 
-	switch(a_AutoState1){
+    switch(a_AutoState1){
 
 	    case kAutoIdle1:
 		    IDontLikeExercise();
@@ -262,50 +262,49 @@ void Autonomous::AutonomousPeriodic1(){
 		    break;
 
 	    case kArmMove1:
-	    	if(!MoveDaArm(ARM_DEFAULT_POSITION)){
-                // MoveDaArm(ARM_DEFAULT_POSITION);
+	        if(!MoveDaArm(AUTO_ARM_FINAL_POS)){
+
 
             } else {
 
-            nextState = kShoot1;
+            
+            nextState = kDriveBack1;
 
-           }
+            }
 
 
 		    break;
 
-
-        case kBallFind1:
-            if(CheckBallPos()){
-               a_CFS->Feed(AUTO_FEED_VAL);
-
-            } else {
-               nextState = kShoot1;
-
-            }
-
-            break;
-
-
-
-
-        case kShoot1:
-           if(!RootyTootyShooty(AUTO_START_BALL_NUM, AUTO_SHOOT_VELOCITY)){
-               // RootyTootyShooty(AUTO_START_BALL_NUM);
+        case kDriveBack1:
+           if(!IHaveAProposal(AUTO_DRIVE_SPEED, AUTO_ANGLE_DRIVESTRAIGHT, 50)){
+               // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
-
-            nextState = kDriveAway1;
+               
+            a_Lime->ledOn();
+            limeangle = a_Lime->getAngleX();
+            nextState = kTurntoShoot1;
 
            }
 
             break;
+      
+        case kTurntoShoot1:
+           if(!TurnLime(false)){
+            
 
+           } else {
 
-        case kDriveAway1:
-           if(!DriveDist(TO_TRENCH_FROM_LINE, 180.0)){
-               // DriveDist(ARBITRARY_DIST_BACKWARDS, 180.0);
+            nextState = kShootBalls1;
 
+           }
+
+            break;
+        
+
+        case kShootBalls1:
+           if(!RootyTootyShooty(AUTO_START_BALL_NUM, AUTO_SHOOT_VELOCITY)){
+               
            } else {
 
             nextState = kAutoIdle1;
@@ -313,10 +312,11 @@ void Autonomous::AutonomousPeriodic1(){
            }
 
             break;
+        
 	}
 
-    
 	a_AutoState1 = nextState;
+
 
 }
 
@@ -347,7 +347,7 @@ void Autonomous::AutonomousPeriodic3(){
     float angle_in;
     float angle_out;
     bool temp = false;
-    static unsigned char timeCount = 0;
+    static unsigned short timeCount = 0;
     switch (a_AutoState3)
     {
         case kAutoIdle3:
@@ -375,7 +375,7 @@ void Autonomous::AutonomousPeriodic3(){
             // Bring it back in later:
             // || !a_handler->noErrors ()
 
-            if (a_SwerveDrive->getAvgDistance () > 100) // Changed distance for 3 ball auto
+            if (a_SwerveDrive->getAvgDistance () > 95) // Changed distance for 3 ball auto
             {
                 // Change to remote viewing
                 a_SwerveDrive->resetDrive();
@@ -396,25 +396,25 @@ void Autonomous::AutonomousPeriodic3(){
             a_CFS->AutoCollect ();
             
             break;
+
         case kDriveBack3:
             // Drive back to original distance that we shot at during 3 ball auto
-            if (DriveDist(100, 0)) // Changed distance for 3 ball auto
+            /* if (DriveDist(100, 0)) // Changed distance for 3 ball auto
             {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
-            break;
-
-
-            /*
-            if (a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
+            */
+            a_CFS->AutoCollect();
+            if (a_SwerveDrive->getAvgDistance () > (85)) // Changed distance for 3 ball auto
             {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
+                a_CFS->Feed(0);
+                a_CFS->Collect(0);
             }
             a_SwerveDrive->crabDriveUpdate (0, AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
-            */
-
+            
             /*
             if(!IHaveAProposal(AUTO_DRIVE_SPEED, 0, 100)) { // Need to test distance
                 
@@ -423,27 +423,35 @@ void Autonomous::AutonomousPeriodic3(){
                 a_Lime->ledOn();
             }
             */
+            break;
+
         case kTurntoShoot3:
             // Turn to angle and face the target using limelight
             if (TurnLime (true))
             {   
-                a_AutoState3 = kprime3;
-                // a_AutoState3 = kprime3;
+                a_AutoState3 = kShoot3;
+               
             }
             break;
             // Skip because no work
         case kprime3:
             // DO NOT USE, BEAM BREAK NEEDS TO BE RECTIFIED
-            if (timeCount == 0)
+            if (timeCount >= 0 &&  timeCount < 100)
             {
-                a_CFS->FeedVelocity (-100);
+                a_CFS->FeedVelocity (250);
             }
-            if (timeCount >= 25)
+            else if (timeCount >= 100 && timeCount < 200)
+            {
+                a_CFS->FeedVelocity (-250);
+            
+            }
+            else
             {
                 a_CFS->FeedVelocity (0);
                 a_AutoState3 = kShoot3;
             }
-            timeCount ++;
+
+            timeCount += 20;
             break;
 
         case kShoot3:
@@ -590,7 +598,7 @@ void Autonomous::AutonomousPeriodic5(){
 		    break;
 
         case kDriveBack5:
-           if(!IHaveAProposal(AUTO_DRIVE_SPEED, AUTO_ANGLE_DRIVESTRAIGHT, TO_TRENCH_FROM_LINE)){
+           if(!IHaveAProposal(.70, AUTO_ANGLE_DRIVESTRAIGHT, TO_TRENCH_FROM_LINE)){
                // DriveDist(ARBITRARY_DIST_BACKWARDS, 0);
 
            } else {
@@ -711,7 +719,7 @@ bool Autonomous::RootyTootyShooty(int count, float velocity){
     currbeam = CheckBallPos();
     
     
-    if(BallsShot < ((2 * count)) + 1 && currbeam != prevbeam){
+    if(BallsShot < ((2 * count)) && currbeam != prevbeam){
         BallsShot++;
         prevbeam = currbeam;
         return false;
@@ -785,7 +793,7 @@ bool Autonomous::IHaveAProposal(float speed, float dir, float dist){ // true is 
 // Turn to target with limelight
 // False = CW, True = CCW
 bool Autonomous::TurnLime(bool dir){
-    
+    a_Lime->ledOn();
     if(a_Lime->isTarget()){
         if(fabs((a_Lime->getAngleX())) >= 1.5){
             a_SwerveDrive->makeShiftTurn(a_Lime->calcZAxis());

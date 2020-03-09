@@ -24,9 +24,9 @@ enum AutoState0 { // Encoders
 enum AutoState1 { // Encoders
 	kAutoIdle1 = 0,
 	kArmMove1,
-	kBallFind1,
-	kShoot1,
-    kDriveAway1
+	kDriveBack1,
+	kTurntoShoot1,
+    kShootBalls1
 };
 
 enum AutoState2 { // T.O.F and Encoders
