@@ -89,6 +89,7 @@ void Robot::DisabledInit()
 {
     #ifndef LAPTOP
     a_swerveyDrive.resetDrive();
+
     #endif
 }
 
@@ -191,16 +192,17 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(joystickOne.GetRawButton(3))
     {
-        if(!inDeadzone) 
+        angle_in = a_mqttHandler.angle;
+        angle_out = 0;
+        // Direction Changing Logic:
+        // angle_in < 0, go Right; angle_in > 0, go Left
+        if ((angle_in < 0 ? -angle_in : angle_in) > 5)
         {
-            angle_in = a_mqttHandler.angle;
-            angle_out = 0;
-            // Direction Changing Logic:
-            // angle_in < 0, go Right; angle_in > 0, go Left
-            if ((angle_in < 0 ? -angle_in : angle_in) > 5)
-            {
-                angle_out = angle_in < 0 ? 0.2 : -0.2;
-            }
+            angle_out = angle_in < 0 ? -0.15 : 0.15;
+        }
+        if(!inDeadzone || angle_out != 0) 
+        {
+            
             // Update crab drive stafing and auto collect
             a_swerveyDrive.swerveUpdate (x, y, angle_out, gyro, true);
 
