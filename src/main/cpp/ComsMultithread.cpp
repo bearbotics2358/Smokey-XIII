@@ -9,7 +9,7 @@ canMutex()
     std::thread (ComsMultithread);
 }
 
-float ComsMultithread::getVDist () const
+float ComsMultithread::getVDist () const // test
 {
     return a_mqttHandler->distance;
 }
