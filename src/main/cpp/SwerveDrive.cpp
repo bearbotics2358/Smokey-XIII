@@ -86,11 +86,7 @@ void SwerveDrive::swerveUpdate(float xIn, float yIn, float zIn, float gyroIn, bo
     	BR_Speed /= max;
     }
 
-<<<<<<< HEAD
 	float scalar = 0.99; // scalar to adjust if speed is too high
-=======
-	float scalar = 0.90; // scalar to adjust if speed is too high
->>>>>>> 4270d7f04eec10cb6d29e3ddf6cf4cca2ef9ae81
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;
@@ -237,11 +233,7 @@ void SwerveDrive::crabDriveUpdate(float xIn, float yIn, float gyroIn)
     	BR_Speed /= max;
     }
 
-<<<<<<< HEAD
 	float scalar = 0.99; // scalar to adjust if speed is too high
-=======
-	float scalar = 0.9; // scalar to adjust if speed is too high
->>>>>>> 4270d7f04eec10cb6d29e3ddf6cf4cca2ef9ae81
 	FL_Speed *= scalar;
     FR_Speed *= scalar;
     BL_Speed *= scalar;

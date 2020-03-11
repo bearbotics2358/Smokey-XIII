@@ -404,16 +404,9 @@ void Autonomous::AutonomousPeriodic3(){
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
             }
-<<<<<<< HEAD
             */
             a_CFS->AutoCollect();
             if (a_SwerveDrive->getAvgDistance () > (85)) // Changed distance for 3 ball auto
-=======
-            break;
-            */
-
-            if (a_SwerveDrive->getAvgDistance () > (100)) // Changed distance for 3 ball auto
->>>>>>> 4270d7f04eec10cb6d29e3ddf6cf4cca2ef9ae81
             {
                 a_AutoState3 = kTurntoShoot3;
                 a_Lime->ledOn();
@@ -422,10 +415,6 @@ void Autonomous::AutonomousPeriodic3(){
             }
             a_SwerveDrive->crabDriveUpdate (0, AUTO_DRIVE_SPEED, a_Gyro->GetAngle (0));
             
-<<<<<<< HEAD
-=======
-
->>>>>>> 4270d7f04eec10cb6d29e3ddf6cf4cca2ef9ae81
             /*
             if(!IHaveAProposal(AUTO_DRIVE_SPEED, 0, 100)) { // Need to test distance
                 
@@ -447,7 +436,6 @@ void Autonomous::AutonomousPeriodic3(){
             // Skip because no work
         case kprime3:
             // DO NOT USE, BEAM BREAK NEEDS TO BE RECTIFIED
-<<<<<<< HEAD
             if (timeCount >= 0 &&  timeCount < 100)
             {
                 a_CFS->FeedVelocity (250);
@@ -457,17 +445,6 @@ void Autonomous::AutonomousPeriodic3(){
                 a_CFS->FeedVelocity (-250);
             
             }
-=======
-            if (timeCount >= 0 &&  timeCount < 250)
-            {
-                a_CFS->FeedVelocity (100);
-            }
-            else if (timeCount >= 250 && timeCount < 500)
-            {
-                a_CFS->FeedVelocity (-100);
-            
-            }
->>>>>>> 4270d7f04eec10cb6d29e3ddf6cf4cca2ef9ae81
             else
             {
                 a_CFS->FeedVelocity (0);
