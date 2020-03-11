@@ -23,7 +23,8 @@ a_mqttHandler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
 #ifndef LAPTOP
 a_canHandler(canMakeIn2020()),
 // a_coms(&a_mqttHandler, &a_canHandler),
-a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight)
+a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight),
+a_visionPID(0.015, 0.0, 0.0)
 #endif
 {
     #ifndef LAPTOP
@@ -191,14 +192,9 @@ void Robot::TeleopPeriodic() // main loop
     }
     else if(joystickOne.GetRawButton(3))
     {
-        angle_in = a_mqttHandler.angle;
-        angle_out = 0;
         // Direction Changing Logic:
         // angle_in < 0, go Right; angle_in > 0, go Left
-        if ((angle_in < 0 ? -angle_in : angle_in) > 5)
-        {
-            angle_out = angle_in < 0 ? -0.15 : 0.15;
-        }
+        angle_out = a_visionPID.Calculate(0.0, a_mqttHandler.angle);
         if(!inDeadzone || angle_out != 0) 
         {
             

@@ -60,9 +60,10 @@ class Robot : public frc::TimedRobot
 
     #ifndef LAPTOP
     CANHandler a_canHandler;
+
+    frc2::PIDController a_visionPID;
     // ComsMultithread a_coms;
     #endif
 
-    float angle_in;
     float angle_out;
 };
