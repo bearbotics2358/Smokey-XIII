@@ -63,7 +63,6 @@ class Robot : public frc::TimedRobot
     // ComsMultithread a_coms;
     #endif
 
-    bool syncSafe;
     float angle_in;
     float angle_out;
 };

@@ -27,8 +27,8 @@ class MQTTHandler
 {
     public:
         MQTTHandler (); //unsafe, don't use
-        MQTTHandler (std::string addrin, std::string portin, std::string topicin);
-        int init (std::string addrin, std::string portin, std::string topicin);
+        MQTTHandler (const std::string addrin, const std::string portin, const std::string topicin);
+        int init (const std::string *addrin, const std::string *portin, const std::string *topicin);
         bool retrySignal ();
         bool update ();
         bool noErrors () const;

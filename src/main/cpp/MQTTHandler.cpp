@@ -77,20 +77,20 @@ MQTTHandler::MQTTHandler ()
     retrySignal ();
 }
 
-MQTTHandler::MQTTHandler (std::string addrin, std::string portin, std::string topicin)
+MQTTHandler::MQTTHandler (const std::string addrin, const std::string portin, const std::string topicin)
 {
-    init (addrin, portin, topicin);
+    init (&addrin, &portin, &topicin);
 }
 
-int MQTTHandler::init (std::string addrin, std::string portin, std::string topicin)
+int MQTTHandler::init (const std::string *addrin, const std::string *portin, const std::string *topicin)
 {
     errorF = false;
     syncSafe = false;
     retrySignal ();
 
-    strncpy ((char *) &rcdata.addres, addrin.c_str (), 15);
-    strncpy ((char *) &rcdata.port, portin.c_str (), 7);
-    strncpy ((char *) &rcdata.topic, topicin.c_str (), 1023);
+    strncpy ((char *) &rcdata.addres, addrin->c_str (), 15);
+    strncpy ((char *) &rcdata.port, portin->c_str (), 7);
+    strncpy ((char *) &rcdata.topic, topicin->c_str (), 1023);
     rcdata.sendbuf = sendbuf;
     rcdata.sendbuf_size = sizeof(sendbuf);
     rcdata.recvbuf = recvbuf;

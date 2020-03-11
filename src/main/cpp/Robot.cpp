@@ -23,9 +23,8 @@ a_mqttHandler("10.23.58.26", "1183", "PI/CV/SHOOT/DATA"),
 #ifndef LAPTOP
 a_canHandler(canMakeIn2020()),
 // a_coms(&a_mqttHandler, &a_canHandler),
-a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight),
+a_JAutonomous(&a_Gyro, &a_mqttHandler, &a_buttonbox, &a_swerveyDrive, &a_CFS, &a_LimeyLight)
 #endif
-syncSafe(true)
 {
     #ifndef LAPTOP
     a_FLModule.updateDrivePID(0.001, 0, 0);
