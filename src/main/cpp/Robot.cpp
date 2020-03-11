@@ -356,7 +356,7 @@ void Robot::TeleopPeriodic() // main loop
     {
         if(a_CFS.GetArmAngle() > 60)
         {
-            a_CFS.ClimbQuestionMark(a_xBoxController.GetRawAxis(1));
+            a_CFS.ClimbQuestionMark(-1 * fabs(a_xBoxController.GetRawAxis(1)));
         }
         else
         {
