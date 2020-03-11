@@ -417,7 +417,7 @@ void Robot::TestPeriodic()
 
 
     if(joystickOne.GetRawButton(3)) {
-        a_swerveyDrive.turnToAngle(gyro, 180.0);
+        // a_swerveyDrive.turnToAngle(gyro, 180.0);
     } else if(!inDeadzone) {
         if(joystickOne.GetRawButton(1)) 
         {
